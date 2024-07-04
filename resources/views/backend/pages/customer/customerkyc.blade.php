@@ -70,9 +70,9 @@
                 </tr>
             </thead>
             <tbody>
-                @foreach ($users as $user)
+                @foreach ($users as $index => $user)
                     <tr>
-                        <td>{{ $user->id }}</td>
+                        <td>{{ $index + 1 }}</td>
                         <td>{{ $user->name }}</td>
                         <td>{{ $user->email }}</td>
                         <td>{{ $user->phone_number ?: 'NA' }}</td>
@@ -91,7 +91,8 @@
                             @endif
                         </td>
                         <td>
-                            <form action="{{ route('user.kyc.CustomerKYCVerified', ['user' => $user->id]) }}" method="POST">
+                            <form action="{{ route('user.kyc.CustomerKYCVerified', ['user' => $user->id]) }}"
+                                method="POST">
                                 @csrf
                                 <div class="form-check form-check-inline">
                                     <input class="form-check-input" type="radio" name="is_verified"
@@ -100,7 +101,7 @@
                                     <label class="form-check-label" for="verified_{{ $user->id }}">Verified</label>
                                 </div>
                                 <div class="form-check form-check-inline">
-                                    <input  class="form-check-input" type="radio" name="is_verified"
+                                    <input class="form-check-input" type="radio" name="is_verified"
                                         id="unverified_{{ $user->id }}" value="0"
                                         {{ $user->kyc && !$user->kyc->is_verified ? 'checked' : '' }}>
                                     <label class="form-check-label" for="unverified_{{ $user->id }}">Unverified</label>

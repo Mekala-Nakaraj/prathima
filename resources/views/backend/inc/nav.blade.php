@@ -273,8 +273,12 @@
             <li class="nav-item dropdown user-profile-dropdown">
                 <a href="javascript:void(0);" class="nav-link dropdown-toggle user" id="userProfileDropdown"
                     data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-                    <img src="assets/img/profile-16.jpg" alt="avatar">
-                    <span class="text-primary font-12">Sara <i class="las la-angle-down"></i></span>
+                    {{-- <img src="assets/img/profile-16.jpg" alt="avatar"> --}}
+                    <i class="las la-user font-24 " style=" font-size: 20px;  color: #f12020de;"></i>
+                    @if (auth()->check())
+                        <span class="text-primary font-12">{{ auth()->user()->name }} <i
+                                class="las la-angle-down"></i></span>
+                    @endif
                 </a>
                 <div class="dropdown-menu position-absolute" aria-labelledby="userProfileDropdown">
                     <div class="nav-drop is-account-dropdown">
@@ -289,13 +293,16 @@
                                     <div class="media align-center">
                                         <div class="media-left">
                                             <div class="image">
-                                                <img class="rounded-circle avatar-xs" src="assets/img/profile-16.jpg"
-                                                    alt="">
+                                                {{-- <img class="rounded-circle avatar-xs" src="assets/img/profile-16.jpg"
+                                                    alt=""> --}}
+                                                <i class="las la-user font-20"></i>
                                             </div>
                                         </div>
                                         <div class="media-content ml-3">
-                                            <h6 class="font-13 mb-0 strong">Sara</h6>
-                                            <small>Britannia</small>
+                                            @if (auth()->check())
+                                                <h6 class="font-13 mb-0 strong">{{ auth()->user()->name }}</h6>
+                                                <small>{{ auth()->user()->name }}</small>
+                                            @endif
                                         </div>
                                         <div class="media-right">
                                             <i data-feather="check"></i>
@@ -308,7 +315,7 @@
                                             <i class="las la-user font-20"></i>
                                         </div>
                                         <div class="media-content ml-3">
-                                            <h6 class="font-13 mb-0 strong">My Account</h6>
+                                            <h6 class="font-13 mb-0 strong">My KYC</h6>
                                         </div>
                                     </div>
                                 </a>

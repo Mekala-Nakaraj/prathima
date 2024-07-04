@@ -86,69 +86,117 @@
                                                 <!-- Profile Form -->
                                                 <div class="tab-pane fade show active" id="v-border-pills-general"
                                                     role="tabpanel" aria-labelledby="v-border-pills-general-tab">
-                                                    <form action="{{ route('profileUpdate') }}" method="POST">
-                                                        @csrf
-                                                        <div class="form-row">
-                                                            <div class="form-group col-md-6">
-                                                                <label for="name">Full Name</label>
-                                                                <input type="text" name="name" class="form-control"
-                                                                    value="{{ old('name', $user->name) }}" disabled>
-                                                            </div>
-                                                            <div class="form-group col-md-6">
-                                                                <label for="email">Email Address</label>
-                                                                <input type="email" name="email" class="form-control"
-                                                                    value="{{ old('email', $user->email) }}" disabled>
-                                                            </div>
-                                                        </div>
-                                                        <div class="form-row">
-                                                            <div class="form-group col-md-6">
-                                                                <label for="phone">Phone Number</label>
-                                                                <input type="text" name="phone" class="form-control"
-                                                                    value="{{ old('phone', $user->phone) }}" disabled>
-                                                            </div>
-                                                            <div class="form-group col-md-6">
-                                                                <label for="role">Role</label>
-                                                                <input type="text" name="role" class="form-control"
-                                                                    value="{{ old('role', $user->role) }}" disabled>
-                                                            </div>
-                                                        </div>
-                                                        <div class="form-row">
-                                                            <div class="form-group col-md-6">
-                                                                <label for="pincode">Pincode</label>
-                                                                <input type="text" name="pincode" class="form-control"
-                                                                    value="{{ old('pincode', $user->pincode) }}" disabled>
-                                                            </div>
-                                                            <div class="form-group col-md-6">
-                                                                <label for="city">City</label>
-                                                                <input type="text" name="city" class="form-control"
-                                                                    value="{{ old('city', $user->city) }}" disabled>
-                                                            </div>
-                                                        </div>
-                                                        <div class="form-row">
-                                                            <div class="form-group col-md-6">
-                                                                <label for="state">State</label>
-                                                                <input type="text" name="state" class="form-control"
-                                                                    value="{{ old('state', $user->state) }}" disabled>
-                                                            </div>
-                                                            <div class="form-group col-md-6">
-                                                                <label for="country">Country</label>
-                                                                <input type="text" name="country" class="form-control"
-                                                                    value="{{ old('country', $user->country) }}" disabled>
-                                                            </div>
-                                                        </div>
-                                                        <button type="submit" class="btn btn-primary">Save
-                                                            Changes</button>
+                                                    <div
+                                                        class="col-xl-12 col-lg-12 col-md-8 col-sm-12 col-12 layout-spacing">
                                                         @if (session('success'))
                                                             <div class="alert alert-success mt-3">
                                                                 {{ session('success') }}
                                                             </div>
                                                         @endif
-                                                    </form>
+                                                        <div class="widget widget-chart-one">
+                                                            <div class="widget-content">
+                                                                <div class="agent-info text-center">
+                                                                    <div class="agent-img pb-3">
+                                                                        {{-- <img src="assets/img/profile-5.jpg"
+                                                                            class="img-thumbnail rounded-circle"
+                                                                            alt="image"> --}}
+                                                                        <style>
+                                                                            .user-profile-icon {
+                                                                                font-size: 8rem;
+                                                                            }
+                                                                        </style>
+                                                                        <i
+                                                                            class="las la-user user-profile-icon font-20 img-thumbnail rounded-circle"></i>
+                                                                    </div>
+                                                                    @if (auth()->check())
+                                                                        <h5 class="text-dark">{{ auth()->user()->name }}
+                                                                        </h5>
+                                                                        <p>{{ auth()->user()->email }}</p>
+                                                                        <h6 class="mb-3 mt-3"><span
+                                                                                class="text-primary pr-2"><i
+                                                                                    class="fa fa-phone"></i></span> (+91)
+                                                                            {{ auth()->user()->phone_number }}</h6>
+                                                                    @endif
+                                                                </div>
+                                                                <form action="{{ route('profileUpdate') }}"
+                                                                    method="POST">
+                                                                    @csrf
+                                                                    <div class="form-row">
+                                                                        <div class="form-group col-md-6">
+                                                                            <label for="name">Full Name</label>
+                                                                            <input type="text" name="name"
+                                                                                class="form-control"
+                                                                                value="{{ old('name', $user->name) }}">
+                                                                        </div>
+                                                                        <div class="form-group col-md-6">
+                                                                            <label for="email">Email Address</label>
+                                                                            <input type="email" name="email"
+                                                                                class="form-control"
+                                                                                value="{{ old('email', $user->email) }}"
+                                                                                disabled>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="form-row">
+                                                                        <div class="form-group col-md-6">
+                                                                            <label for="phone">Phone Number</label>
+                                                                            <input type="text" name="phone"
+                                                                                class="form-control"
+                                                                                value="{{ old('phone', $user->phone) }}"
+                                                                                disabled>
+                                                                        </div>
+                                                                        <div class="form-group col-md-6">
+                                                                            <label for="role">Role</label>
+                                                                            <input type="text" name="role"
+                                                                                class="form-control"
+                                                                                value="{{ old('role', $user->role) }}"
+                                                                                disabled>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="form-row">
+                                                                        <div class="form-group col-md-6">
+                                                                            <label for="pincode">Pincode</label>
+                                                                            <input type="text" name="pincode"
+                                                                                class="form-control"
+                                                                                value="{{ old('pincode', $user->pincode) }}"
+                                                                                disabled>
+                                                                        </div>
+                                                                        <div class="form-group col-md-6">
+                                                                            <label for="city">City</label>
+                                                                            <input type="text" name="city"
+                                                                                class="form-control"
+                                                                                value="{{ old('city', $user->city) }}"
+                                                                                disabled>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="form-row">
+                                                                        <div class="form-group col-md-6">
+                                                                            <label for="state">State</label>
+                                                                            <input type="text" name="state"
+                                                                                class="form-control"
+                                                                                value="{{ old('state', $user->state) }}"
+                                                                                disabled>
+                                                                        </div>
+                                                                        <div class="form-group col-md-6">
+                                                                            <label for="country">Country</label>
+                                                                            <input type="text" name="country"
+                                                                                class="form-control"
+                                                                                value="{{ old('country', $user->country) }}"
+                                                                                disabled>
+                                                                        </div>
+                                                                    </div>
+                                                                    <button type="submit" class="btn btn-primary">Update
+                                                                        profile</button>
+
+                                                                </form>
+                                                            </div>
+                                                        </div>
+                                                    </div>
                                                 </div>
                                                 <!-- KYC Form -->
                                                 <div class="tab-pane fade" id="v-border-pills-work" role="tabpanel"
                                                     aria-labelledby="v-border-pills-work-tab">
-                                                    <form action="{{ route('ProfileupdateKyc') }}" method="POST">
+                                                    <form action="{{ route('ProfileupdateKyc') }}" method="POST"
+                                                        id="ProfileupdateKyc" class="ProfileupdateKyc">
                                                         @csrf
                                                         <div class="row">
                                                             <div class="col-md-12">
@@ -160,9 +208,8 @@
                                                                                     Number</label>
                                                                                 <input type="number" name="aadhar_number"
                                                                                     class="form-control mb-4"
-                                                                                    placeholder="Aadhar Number"                                 
-                                                                                    maxlength="12"
-                                                                                    pattern="\d{12}" 
+                                                                                    placeholder="Aadhar Number"
+                                                                                    maxlength="12" pattern="\d{12}"
                                                                                     title="Aadhar number must be 12 digits"
                                                                                     required
                                                                                     value="{{ old('aadhar_number', $user->kyc->aadhar_number ?? '') }}">
@@ -173,8 +220,7 @@
                                                                                 <label for="pan_number">PAN Number</label>
                                                                                 <input type="text" name="pan_number"
                                                                                     class="form-control mb-4"
-                                                                                    placeholder="PAN Number"
-                                                                                    required
+                                                                                    placeholder="PAN Number" required
                                                                                     value="{{ old('pan_number', $user->kyc->pan_number ?? '') }}">
                                                                             </div>
                                                                         </div>
@@ -185,8 +231,7 @@
                                                                                 <input type="text"
                                                                                     name="account_number"
                                                                                     class="form-control mb-4"
-                                                                                    placeholder="Account Number"
-                                                                                    required
+                                                                                    placeholder="Account Number" required
                                                                                     value="{{ old('account_number', $user->kyc->account_number ?? '') }}">
                                                                             </div>
                                                                         </div>
@@ -195,8 +240,7 @@
                                                                                 <label for="ifsc_code">IFSC Code</label>
                                                                                 <input type="text" name="ifsc_code"
                                                                                     class="form-control mb-4"
-                                                                                    placeholder="IFSC Code"
-                                                                                    required
+                                                                                    placeholder="IFSC Code" required
                                                                                     value="{{ old('ifsc_code', $user->kyc->ifsc_code ?? '') }}">
                                                                             </div>
                                                                         </div>
@@ -219,9 +263,14 @@
                                                                 <!-- Disable form inputs when KYC is approved -->
                                                                 <script>
                                                                     // Disable form inputs
-                                                                    var formInputs = document.querySelectorAll('form input');
-                                                                    formInputs.forEach(function(input) {
-                                                                        input.setAttribute('disabled', 'disabled');
+                                                                    document.addEventListener('DOMContentLoaded', function() {
+                                                                        var form = document.getElementById('ProfileupdateKyc');
+                                                                        if (form) {
+                                                                            var formInputs = form.querySelectorAll('input');
+                                                                            formInputs.forEach(function(input) {
+                                                                                input.setAttribute('disabled', 'disabled');
+                                                                            });
+                                                                        }
                                                                     });
                                                                 </script>
                                                             @elseif ($user->kyc->status == 'pending')

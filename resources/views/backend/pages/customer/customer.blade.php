@@ -221,24 +221,25 @@
                             <th>Email</th>
                             <th>Phone Number</th>
                             <th>User Type</th>
-                            <th>Actions</th>
+                            <th>Actions</th> 
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach ($users as $user)
-                            <tr>
-                                <td>{{ $user->id }}</td>
-                                <td>{{ $user->name }}</td>
-                                <td>{{ $user->email }}</td>
-                                <td>{{ $user->phone_number }}</td>
-                                <td>{{ $user->user_type }}</td>
-                                <td>
-                                    <!-- Actions like Edit/Delete can be added here -->
-                                    <button class="btn btn-primary btn-sm">Edit</button>
-                                    <button class="btn btn-danger btn-sm">Delete</button>
-                                </td>
-                            </tr>
-                        @endforeach
+                        @foreach ($users as $index => $user)
+                        <tr>
+                            {{-- <td>{{ $user->id }}</td> --}}
+                            <td>{{ $index + 1 }}</td>
+                            <td>{{ $user->name }}</td>
+                            <td>{{ $user->email }}</td>
+                            <td>{{ $user->phone_number }}</td>
+                            <td>{{ $user->user_type }}</td>
+                            <td>
+                                <!-- Actions like Edit/Delete can be added here -->
+                                <button class="btn btn-primary btn-sm">Edit</button>
+                                <button class="btn btn-danger btn-sm">Delete</button>
+                            </td>
+                        </tr>
+                    @endforeach
                     </tbody>
                 </table>
             </div>

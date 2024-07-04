@@ -39,20 +39,6 @@ class UserManagementController extends Controller
     {
         $user = auth()->user();
 
-        $request->validate([
-            'aadhar_number' => 'required|digits:12|unique:user_kycs,aadhar_number,' . auth()->id() . ',user_id',
-            'pan_number' => 'required|string|max:10|unique:user_kycs,pan_number,' . auth()->id() . ',user_id',
-            'account_number' => 'required|string|max:20',
-            'ifsc_code' => 'required|string|max:11',
-        ],
-        [
-            'aadhar_number.unique' => 'give me correct aadhar number.',
-            'pan_number.unique' => 'give me correct pan number.',
-            'account_number.unique' => 'give me correct account number',
-            'ifsc_code.ifsc_code' => 'give me correct ifsc code',
-        ]);
-        
-        // Update or create KYC record
         $kycData = [
             // 'user_id' => $this->generateUserId(),
             'aadhar_number' => $request->input('aadhar_number'),
@@ -70,13 +56,7 @@ class UserManagementController extends Controller
 
         return redirect()->back()->with('success', 'KYC details updated successfully.');
     }
-    public function generateUserId()
-    {
-        $nextId = UserKyc::max('id') + 1;
-        // dd($nextId);
-        return 'LOAN001' . str_pad($nextId, 3, '0', STR_PAD_LEFT);
- 
-    }
+  
     public function CustomerManagement()
     {
         // $users = auth()->user();

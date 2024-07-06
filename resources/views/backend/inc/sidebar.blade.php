@@ -43,6 +43,15 @@
                         </div>
                     </a>
                 </li>
+                <li class="menu {{ request()->is('CustomerLoan*') ? 'active' : '' }}">
+                    <a href="{{ route('CustomerLoan') }}"
+                        data-active="{{ request()->is('CustomerLoan*') ? 'true' : 'false' }}" class="dropdown-toggle">
+                        <div class="">
+                            <i class="las la-user-plus"></i>
+                            <span>Customer Loan List</span>
+                        </div>
+                    </a>
+                </li>
             @endif
             {{-- User --}}
             @if (Auth::user()->user_type == 'user')

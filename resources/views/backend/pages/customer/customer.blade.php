@@ -103,21 +103,15 @@
                             </div>
                         </div>
                         <div class="widget-content widget-content-area">
-                            <form id="customerForm" action="{{ route('CustomerManagementStore') }}" method="POST">
+                            <form id="customerForm" action="{{ route('CustomerManagementStore') }}" method="POST"
+                                enctype="multipart/form-data">
                                 @csrf
                                 <div class="form-group row">
                                     <div class="col-lg-4">
                                         <label>Username:</label>
-                                        <div class="input-group">
-                                            <div class="input-group-prepend">
-                                                <span class="input-group-text">
-                                                    <i class="la la-user"></i>
-                                                </span>
-                                            </div>
-                                            <input type="text" class="form-control @error('name') is-invalid @enderror"
-                                                name="name" placeholder="Enter username" value="{{ old('name') }}"
-                                                required>
-                                        </div>
+                                        <input type="text" class="form-control @error('name') is-invalid @enderror"
+                                            name="name" placeholder="Enter username" value="{{ old('name') }}"
+                                            required>
                                         <span class="form-text text-muted">Please enter your username</span>
                                         @error('name')
                                             <div class="invalid-feedback">{{ $message }}</div>
@@ -125,16 +119,8 @@
                                     </div>
                                     <div class="col-lg-4">
                                         <label>Email:</label>
-                                        <div class="input-group">
-                                            <div class="input-group-prepend">
-                                                <span class="input-group-text">
-                                                    <i class="la la-envelope"></i>
-                                                </span>
-                                            </div>
-                                            <input type="email" class="form-control @error('email') is-invalid @enderror"
-                                                name="email" placeholder="Enter email" value="{{ old('email') }}"
-                                                required>
-                                        </div>
+                                        <input type="email" class="form-control @error('email') is-invalid @enderror"
+                                            name="email" placeholder="Enter email" value="{{ old('email') }}" required>
                                         <span class="form-text text-muted">Please enter your email</span>
                                         @error('email')
                                             <div class="invalid-feedback">{{ $message }}</div>
@@ -142,36 +128,22 @@
                                     </div>
                                     <div class="col-lg-4">
                                         <label>Contact:</label>
-                                        <div class="input-group">
-                                            <div class="input-group-prepend">
-                                                <span class="input-group-text">
-                                                    <i class="la la-phone"></i>
-                                                </span>
-                                            </div>
-                                            <input type="text"
-                                                class="form-control @error('phone_number') is-invalid @enderror"
-                                                name="phone_number" placeholder="Enter contact number"
-                                                value="{{ old('phone_number') }}" required>
-                                        </div>
+                                        <input type="text"
+                                            class="form-control @error('phone_number') is-invalid @enderror"
+                                            name="phone_number" placeholder="Enter contact number"
+                                            value="{{ old('phone_number') }}" required>
                                         <span class="form-text text-muted">Please enter your contact number</span>
                                         @error('phone_number')
                                             <div class="invalid-feedback">{{ $message }}</div>
                                         @enderror
                                     </div>
                                 </div>
-                                <div class="form-group row">
+                                {{-- <div class="form-group row">
                                     <div class="col-lg-4">
                                         <label>Password:</label>
-                                        <div class="input-group">
-                                            <div class="input-group-prepend">
-                                                <span class="input-group-text">
-                                                    <i class="la la-lock"></i>
-                                                </span>
-                                            </div>
-                                            <input type="password"
-                                                class="form-control @error('password') is-invalid @enderror"
-                                                name="password" id="password" placeholder="Enter password" required>
-                                        </div>
+                                        <input type="password"
+                                            class="form-control @error('password') is-invalid @enderror" name="password"
+                                            placeholder="Enter password" required>
                                         <span class="form-text text-muted">Please enter your password</span>
                                         @error('password')
                                             <div class="invalid-feedback">{{ $message }}</div>
@@ -179,19 +151,109 @@
                                     </div>
                                     <div class="col-lg-4">
                                         <label>Confirm Password:</label>
-                                        <div class="input-group">
-                                            <div class="input-group-prepend">
-                                                <span class="input-group-text">
-                                                    <i class="la la-lock"></i>
-                                                </span>
-                                            </div>
-                                            <input type="password"
-                                                class="form-control @error('password_confirmation') is-invalid @enderror"
-                                                name="password_confirmation" id="confirmPassword"
-                                                placeholder="Confirm password" required>
-                                        </div>
+                                        <input type="password"
+                                            class="form-control @error('password_confirmation') is-invalid @enderror"
+                                            name="password_confirmation" placeholder="Confirm password" required>
                                         <span class="form-text text-muted">Please confirm your password</span>
                                         @error('password_confirmation')
+                                            <div class="invalid-feedback">{{ $message }}</div>
+                                        @enderror
+                                    </div>
+                                </div> --}}
+                                <div class="form-group row">
+                                    <div class="col-lg-4">
+                                        <label>Pincode:</label>
+                                        <input type="text" class="form-control @error('pincode') is-invalid @enderror"
+                                            name="pincode" placeholder="Enter pincode" value="{{ old('pincode') }}"
+                                            required>
+                                        <span class="form-text text-muted">Please enter your pincode</span>
+                                        @error('pincode')
+                                            <div class="invalid-feedback">{{ $message }}</div>
+                                        @enderror
+                                    </div>
+                                    <div class="col-lg-4">
+                                        <label>City:</label>
+                                        <input type="text" class="form-control @error('city') is-invalid @enderror"
+                                            name="city" placeholder="Enter city" value="{{ old('city') }}"
+                                            required>
+                                        <span class="form-text text-muted">Please enter your city</span>
+                                        @error('city')
+                                            <div class="invalid-feedback">{{ $message }}</div>
+                                        @enderror
+                                    </div>
+                                    <div class="col-lg-4">
+                                        <label>District:</label>
+                                        <input type="text" class="form-control @error('district') is-invalid @enderror"
+                                            name="district" placeholder="Enter district" value="{{ old('district') }}"
+                                            required>
+                                        <span class="form-text text-muted">Please enter your district</span>
+                                        @error('district')
+                                            <div class="invalid-feedback">{{ $message }}</div>
+                                        @enderror
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <div class="col-lg-4">
+                                        <label>State:</label>
+                                        <input type="text" class="form-control @error('state') is-invalid @enderror"
+                                            name="state" placeholder="Enter state" value="{{ old('state') }}"
+                                            required>
+                                        <span class="form-text text-muted">Please enter your state</span>
+                                        @error('state')
+                                            <div class="invalid-feedback">{{ $message }}</div>
+                                        @enderror
+                                    </div>
+                                    <div class="col-lg-4">
+                                        <label>Country:</label>
+                                        <input type="text" class="form-control @error('country') is-invalid @enderror"
+                                            name="country" placeholder="Enter country" value="{{ old('country') }}"
+                                            required>
+                                        <span class="form-text text-muted">Please enter your country</span>
+                                        @error('country')
+                                            <div class="invalid-feedback">{{ $message }}</div>
+                                        @enderror
+                                    </div>
+                                    <div class="col-lg-4">
+                                        <label>Gas Bill:</label>
+                                        <input type="file"
+                                            class="form-control @error('gas_bill') is-invalid @enderror" name="gas_bill"
+                                            required>
+                                        <span class="form-text text-muted">Please upload your gas bill (PDF)</span>
+                                        @error('gas_bill')
+                                            <div class="invalid-feedback">{{ $message }}</div>
+                                        @enderror
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <div class="col-lg-4">
+                                        <label>Salary Slip:</label>
+                                        <input type="file"
+                                            class="form-control @error('salary_slip') is-invalid @enderror"
+                                            name="salary_slip" required>
+                                        <span class="form-text text-muted">Please upload your salary slip (PDF)</span>
+                                        @error('salary_slip')
+                                            <div class="invalid-feedback">{{ $message }}</div>
+                                        @enderror
+                                    </div>
+                                    <div class="col-lg-4">
+                                        <label>Gas Bill Number:</label>
+                                        <input type="text"
+                                            class="form-control @error('gas_bill_number') is-invalid @enderror"
+                                            name="gas_bill_number" placeholder="Enter gas bill number"
+                                            value="{{ old('gas_bill_number') }}" required>
+                                        <span class="form-text text-muted">Please enter your gas bill number</span>
+                                        @error('gas_bill_number')
+                                            <div class="invalid-feedback">{{ $message }}</div>
+                                        @enderror
+                                    </div>
+                                    <div class="col-lg-4">
+                                        <label>Salary Slip Number:</label>
+                                        <input type="text"
+                                            class="form-control @error('salary_slip_number') is-invalid @enderror"
+                                            name="salary_slip_number" placeholder="Enter salary slip number"
+                                            value="{{ old('salary_slip_number') }}" required>
+                                        <span class="form-text text-muted">Please enter your salary slip number</span>
+                                        @error('salary_slip_number')
                                             <div class="invalid-feedback">{{ $message }}</div>
                                         @enderror
                                     </div>
@@ -202,6 +264,8 @@
                                         onclick="hideCustomerForm()">Cancel</button>
                                 </div>
                             </form>
+
+
                         </div>
                     </div>
                 </div>
@@ -213,37 +277,66 @@
         {{-- Table --}}
         <div class="col-lg-12 layout-spacing">
             <div class="widget-content widget-content-area">
-                <table class="table table-bordered">
-                    <thead>
-                        <tr>
-                            <th>ID</th>
-                            <th>Name</th>
-                            <th>Email</th>
-                            <th>Phone Number</th>
-                            <th>User Type</th>
-                            <th>Actions</th> 
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @foreach ($users as $index => $user)
-                        <tr>
-                            {{-- <td>{{ $user->id }}</td> --}}
-                            <td>{{ $index + 1 }}</td>
-                            <td>{{ $user->name }}</td>
-                            <td>{{ $user->email }}</td>
-                            <td>{{ $user->phone_number }}</td>
-                            <td>{{ $user->user_type }}</td>
-                            <td>
-                                <!-- Actions like Edit/Delete can be added here -->
-                                <button class="btn btn-primary btn-sm">Edit</button>
-                                <button class="btn btn-danger btn-sm">Delete</button>
-                            </td>
-                        </tr>
-                    @endforeach
-                    </tbody>
-                </table>
+                <div class="table-responsive">
+                    <table class="table table-bordered">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Name</th>
+                                <th>Email</th>
+                                <th>Phone Number</th>
+                                <th>Pincode</th>
+                                <th>City</th>
+                                <th>District</th>
+                                <th>State</th>
+                                <th>Gas Bill</th>
+                                <th>Gas Bill Document</th>
+                                <th>Salary Slip</th>
+                                <th>Salary Slip Document</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach ($users as $index => $user)
+                                <tr>
+                                    <td>{{ $index + 1 }}</td>
+                                    <td>{{ $user->name }}</td>
+                                    <td>{{ $user->email }}</td>
+                                    <td>{{ $user->phone_number }}</td>
+                                    <td>{{ $user->pincode }}</td>
+                                    <td>{{ $user->city }}</td>
+                                    <td>{{ $user->district }}</td>
+                                    <td>{{ $user->state }}</td>
+                                    <td>{{ $user->gas_bill_number }}</td>
+                                    <td>
+                                        @if ($user->gas_bill_path)
+                                            <a href="{{ asset('public/' . $user->gas_bill_path) }}" target="_blank">View PDF</a>
+                                        @else
+                                            No Document
+                                        @endif
+                                    </td>
+                                    <td>{{ $user->salary_slip_number }}</td>
+                                    <td>
+                                        @if ($user->salary_slip_path)
+                                            <a href="{{ asset('public/' . $user->salary_slip_path) }}" target="_blank">View PDF</a>
+                                        @else
+                                            No Document
+                                        @endif
+                                    </td>
+                                    <td>
+                                        <button class="btn btn-primary btn-sm">Edit</button>
+                                        <button class="btn btn-danger btn-sm">Delete</button>
+                                    </td>
+                                </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
+                    {{-- {{ $users->links() }} --}}
+                </div>
             </div>
         </div>
+
+
     </div>
 
 @endsection

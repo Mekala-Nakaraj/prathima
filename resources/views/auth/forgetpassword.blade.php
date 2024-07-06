@@ -8,7 +8,7 @@
 
 @section('content')
     <div class="container-fluid login-two-container">
-        @if (session('success'))
+        {{-- @if (session('success'))
             <div class="alert alert-success mt-3">
                 {{ session('success') }}
             </div>
@@ -21,12 +21,19 @@
                     @endforeach
                 </ul>
             </div>
-        @endif
+        @endif --}}
 
         <div class="row main-login-two">
             <div class="col-md-12 p-0">
                 <div class="login-bg">
+                    <div class="d-flex justify-content-end" style="box-shadow:none;">
+                        <a href="{{ route('login') }}" class="w-30 mt-5 btn-login ml-3 mr-3  text-center justify-content-end " style="box-shadow:none;font-size:1.4rem;">
+                            Login
+                        </a>
+                    </div>
+                  
                     <div class="center-two-start">
+                       
                         <h6 class="right-bar-heading px-3 mt-2 text-dark text-center font-30 text-uppercase">Forgot Password?
                         </h6>
 
@@ -87,9 +94,14 @@
                             @endif
                             <form id="resetPasswordForm" method="POST" action="{{ route('verifyOtp') }}">
                                 @csrf
+                                <style>
+                                    .digit-group input {
+                                        margin-right: 30px;
+                                    }
+                                </style>
                                 <input type="hidden" name="email_or_phone" value="{{ session('input') }}">
-                                <div class="digit-group mt-5" data-group-name="digits" data-autosubmit="false"
-                                    autocomplete="off">
+                                <div class="digit-group mt-5 mr-5" data-group-name="digits" data-autosubmit="false"
+                                    autocomplete="on">
                                     <input type="text" id="digit-1" name="otp[]" class="digit" maxlength="1"
                                         required />
                                     <input type="text" id="digit-2" name="otp[]" class="digit" maxlength="1"
@@ -142,73 +154,6 @@
             </div>
         </div>
     </div>
-
-    <script>
-        document.getElementById('resetPasswordForm').addEventListener('submit', function(event) {
-            var newPassword = document.getElementById('newPassword').value;
-            var confirmPassword = document.getElementById('confirmPassword').value;
-            var passwordError = document.getElementById('passwordError');
-            var confirmPasswordError = document.getElementById('confirmPasswordError');
-
-            // Reset error messages
-            passwordError.style.display = 'none';
-            confirmPasswordError.style.display = 'none';
-
-            // Password validation regex (if needed)
-            // var passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&#])[A-Za-z\d@$!%*?&#]{8,}$/;
-
-            if (newPassword !== confirmPassword) {
-                event.preventDefault();
-                confirmPasswordError.style.display = 'block';
-                alert('Passwords do not match.');
-            } else {
-                // Passwords match, form will be submitted
-               
-            }
-        });
-        // document.getElementById('resetPasswordForm').addEventListener('submit', function(event) {
-        //     var newPassword = document.getElementById('newPassword').value;
-        //     var confirmPassword = document.getElementById('confirmPassword').value;
-        //     var passwordError = document.getElementById('passwordError');
-        //     var confirmPasswordError = document.getElementById('confirmPasswordError');
-
-        //     // Reset error messages
-        //     passwordError.style.display = 'none';
-        //     confirmPasswordError.style.display = 'none';
-        //     console.log('password')
-        //     // Password validation regex
-        //     // var passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&#])[A-Za-z\d@$!%*?&#]{8,}$/;
-
-        //     if (!passwordRegex.test(newPassword)) {
-        //         console.log('password match')
-        //         passwordError.style.display = 'block';
-        //         event.preventDefault();
-        //     } else if (newPassword !== confirmPassword) {
-        //         event.preventDefault();
-        //         console.log('password not match')
-        //         alert('Passwords do not match.');
-        //         confirmPasswordError.style.display = 'block';
-        //         event.preventDefault();
-        //     } else {
-        //         alert('Passwords match! Form will be submitted.');
-        //     }
-        // });
-
-        document.getElementById('getCodeButton').addEventListener('click', function(event) {
-            event.preventDefault();
-            var emailOrPhone = document.getElementById('emailOrPhoneInput').value;
-            if (emailOrPhone.length === 10 || emailOrPhone.includes('@')) {
-                document.getElementById('otpForm').submit();
-            } else {
-                document.getElementById('emailOrPhoneError').style.display = 'block';
-            }
-        });
-
-        document.getElementById('changeEmailOrPhone').addEventListener('click', function() {
-            document.getElementById('form-2').style.display = 'none';
-            document.getElementById('otpForm').style.display = 'block';
-        });
-    </script>
 @endsection
 
 
@@ -219,155 +164,47 @@
 @section('styles')
 <link href="{{ asset('assets/css/authentication/auth_2.css') }}" rel="stylesheet" type="text/css">
 <link href="{{ asset('assets/css/loader.css') }}" rel="stylesheet" type="text/css" />
-<!-- Any additional styles specific to this page -->
+
 @endsection
 
 @section('scripts')
-{{-- <script>
-    document.getElementById('getCodeButton').addEventListener('click', function() {
-        var phoneNumber = document.getElementById('phoneNumberInput').value;
-        if (phoneNumber.length === 10) {
-            // Send AJAX request to send OTP
-            fetch('/send-otp', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'X-CSRF-TOKEN': '{{ csrf_token() }}'
-                    },
-                    body: JSON.stringify({
-                        phone_number: phoneNumber
-                    })
-                })
-                .then(response => response.json())
-                .then(data => {
-                    if (data.success) {
-                        document.querySelector('.form-1').style.display = 'none';
-                        document.querySelector('.form-2').style.display = 'block';
-                        Swal.fire({
-                            icon: 'success',
-                            title: 'OTP Sent!',
-                            text: 'A verification code has been sent to your phone.'
-                        });
-                    } else {
-                        Swal.fire({
-                            icon: 'error',
-                            title: 'Failed to Send OTP',
-                            text: data.message || 'Please try again.'
-                        });
-                    }
-                })
-                .catch(error => {
-                    console.error('Error:', error);
-                    Swal.fire({
-                        icon: 'error',
-                        title: 'Failed to Send OTP',
-                        text: 'Please try again later.'
-                    });
-                });
-        } else {
-            document.getElementById('phoneError').style.display = 'block';
-        }
-    });
 
-    document.getElementById('changePasswordButton').addEventListener('click', function() {
-        var otp = [
-            document.getElementById('digit-1').value,
-            document.getElementById('digit-2').value,
-            document.getElementById('digit-3').value,
-            document.getElementById('digit-4').value,
-            document.getElementById('digit-5').value,
-            document.getElementById('digit-6').value
-        ].join('');
+<script>
+    document.getElementById('resetPasswordForm').addEventListener('submit', function(event) {
         var newPassword = document.getElementById('newPassword').value;
         var confirmPassword = document.getElementById('confirmPassword').value;
+        var passwordError = document.getElementById('passwordError');
+        var confirmPasswordError = document.getElementById('confirmPasswordError');
+
+        // Reset error messages
+        passwordError.style.display = 'none';
+        confirmPasswordError.style.display = 'none';
+
+        // Password validation regex (if needed)
+        // var passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&#])[A-Za-z\d@$!%*?&#]{8,}$/;
 
         if (newPassword !== confirmPassword) {
-            Swal.fire({
-                icon: 'error',
-                title: 'Passwords do not match!',
-                text: 'Please check your passwords.'
-            });
-            return;
+            event.preventDefault();
+            confirmPasswordError.style.display = 'block';
+            alert('Passwords do not match.');
+        } else {
+            // Passwords match, form will be submitted
+
         }
-
-        // Send AJAX request to verify OTP and change password
-        fetch('/verify-otp', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'X-CSRF-TOKEN': '{{ csrf_token() }}'
-                },
-                body: JSON.stringify({
-                    otp: otp,
-                    password: newPassword
-                })
-            })
-            .then(response => response.json())
-            .then(data => {
-                if (data.success) {
-                    Swal.fire({
-                        icon: 'success',
-                        title: 'Password Changed!',
-                        text: 'Your password has been changed successfully.'
-                    }).then(() => {
-                        window.location.href = '/login';
-                    });
-                } else {
-                    Swal.fire({
-                        icon: 'error',
-                        title: 'Failed to Change Password',
-                        text: data.message || 'Please verify your OTP and try again.'
-                    });
-                }
-            })
-            .catch(error => {
-                console.error('Error:', error);
-                Swal.fire({
-                    icon: 'error',
-                    title: 'Failed to Change Password',
-                    text: 'Please try again later.'
-                });
-            });
     });
-</script> --}}
-
-{{-- <script>
-    // resources/js/forget-password.js
-
-    // Function to show OTP form and hide phone number form
-    function showOtpForm() {
-        $('.form-2').hide();
-        $('#otpForm').hide();
-    }
-
-    // Function to handle digit inputs and auto-submit form
-    $(document).ready(function() {
-        $('.digit').keyup(function() {
-            if ($(this).val().length == $(this).attr('maxlength')) {
-                $(this).next('.digit').focus();
-            }
-
-            // Check if all digits are filled
-            var allFilled = true;
-            $('.digit').each(function() {
-                if ($(this).val().length != $(this).attr('maxlength')) {
-                    allFilled = false;
-                    return false;
-                }
-            });
-
-            if (allFilled) {
-                $('#resetPasswordForm').submit();
-            }
-        });
-
-        // Change phone number link click event
-        $('#changePhoneNumber').click(function() {
-            $('.form-2').hide();
-            $('#otpForm').show();
-        });
+    document.getElementById('getCodeButton').addEventListener('click', function(event) {
+        event.preventDefault();
+        var emailOrPhone = document.getElementById('emailOrPhoneInput').value;
+        if (emailOrPhone.length === 10 || emailOrPhone.includes('@')) {
+            document.getElementById('otpForm').submit();
+        } else {
+            document.getElementById('emailOrPhoneError').style.display = 'block';
+        }
     });
-</script> --}}
 
-
+    document.getElementById('changeEmailOrPhone').addEventListener('click', function() {
+        document.getElementById('form-2').style.display = 'none';
+        document.getElementById('otpForm').style.display = 'block';
+    });
+</script>
 @endsection

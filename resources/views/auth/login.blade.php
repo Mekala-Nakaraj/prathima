@@ -65,7 +65,7 @@
 
                     <!-- Forgot Password Link -->
                     <div class="mt-4 text-center font-12 strong">
-                        <a href="" class="text-primary">Forgot your Password?</a>
+                        <a href="{{ route('ForgetPassword') }}" class="text-primary">Forgot your Password?</a>
                     </div>
 
                     <!-- Social Logins Section - Modify as per your layout -->

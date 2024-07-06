@@ -95,18 +95,31 @@ CREATE TABLE IF NOT EXISTS `users` (
   `user_type` varchar(50) DEFAULT 'user',
   `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   `updated_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `pincode` varchar(20) DEFAULT NULL,
+  `city` varchar(255) DEFAULT NULL,
+  `district` varchar(255) DEFAULT NULL,
+  `state` varchar(255) DEFAULT NULL,
+  `country` varchar(255) DEFAULT NULL,
+  `gas_bill_path` varchar(255) DEFAULT NULL,
+  `salary_slip_path` varchar(255) DEFAULT NULL,
+  `gas_bill_number` varchar(255) DEFAULT NULL,
+  `salary_slip_number` varchar(255) DEFAULT NULL,
+  `gas_bill` varchar(255) DEFAULT NULL,
+  `salary_slip` varchar(255) DEFAULT NULL,
+  `otp` varchar(6) DEFAULT NULL,
+  `otp_expires_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `email` (`email`),
   UNIQUE KEY `phone_number` (`phone_number`)
-) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=17 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
--- Dumping data for table loan.users: ~3 rows (approximately)
+-- Dumping data for table loan.users: ~4 rows (approximately)
 DELETE FROM `users`;
-INSERT INTO `users` (`id`, `name`, `email`, `phone_number`, `email_verified_at`, `password`, `remember_token`, `user_type`, `created_at`, `updated_at`) VALUES
-	(1, 'admin', 'admin@gmail.com', '9876543210', NULL, '$2y$12$3G9.O76ll.boJISG9JlDwOx8XVr1ylWHEAmL9Eoi4wBPOh7OgrnHi', NULL, 'admin', '2024-07-02 09:28:56', '2024-07-04 05:02:43'),
-	(2, 'Dinesh', 'dinesh@gmail.com', '1234567890', NULL, '$2y$12$3G9.O76ll.boJISG9JlDwOx8XVr1ylWHEAmL9Eoi4wBPOh7OgrnHi', NULL, 'user', '2024-07-02 09:32:58', '2024-07-04 03:04:27'),
-	(6, 'logesh', 'logesh@gmail.com', '7373851234', NULL, '$2y$12$i4FBcXRYbh48IRatvgURRORSSqI3Aur9R.ZAQXJJg5LcMoJMkjdf6', NULL, 'user', '2024-07-03 05:23:39', '2024-07-04 04:56:21'),
-	(7, 'dinesh21', 'dinesh21@gmail.com', '123456789', NULL, '$2y$12$Y/Ex8m2oS7GLRUSoXUNW0u0LJiGOMJT.B4PL9vtjalMA0w0GybdBW', NULL, 'user', '2024-07-03 23:41:34', '2024-07-04 05:12:19');
+INSERT INTO `users` (`id`, `name`, `email`, `phone_number`, `email_verified_at`, `password`, `remember_token`, `user_type`, `created_at`, `updated_at`, `pincode`, `city`, `district`, `state`, `country`, `gas_bill_path`, `salary_slip_path`, `gas_bill_number`, `salary_slip_number`, `gas_bill`, `salary_slip`, `otp`, `otp_expires_at`) VALUES
+	(1, 'admin', 'admin@gmail.com', '9876543210', NULL, '$2y$12$3G9.O76ll.boJISG9JlDwOx8XVr1ylWHEAmL9Eoi4wBPOh7OgrnHi', NULL, 'admin', '2024-07-05 22:54:48', '2024-07-06 04:06:19', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '398152', '2024-07-06 04:16:19'),
+	(2, 'Dinesh', 'dinesh@gmail.com', '1234567890', NULL, '$2y$12$3G9.O76ll.boJISG9JlDwOx8XVr1ylWHEAmL9Eoi4wBPOh7OgrnHi', NULL, 'user', '2024-07-05 04:53:25', '2024-07-06 04:14:21', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '671187', '2024-07-06 04:24:21'),
+	(6, 'logesh', 'mpsdinesh1221@gmail.com', '7373851234', NULL, '$2y$12$FR3fHLRwEt0m25MjMIl7AOP5YWXo.E0Ue3Chv8dTpwzM8YtXaul72', NULL, 'user', '2024-07-05 04:56:05', '2024-07-06 05:41:28', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '759935', '2024-07-06 05:51:28'),
+	(7, 'dinesh21', 'dinesh21@gmail.com', '7373851852', NULL, '$2y$12$lBxBsHJphXQvoXgqjVkabOpUN0FUygoUQwiLn6/EoLYDz0P6mvokq', NULL, 'user', '2024-07-05 07:35:11', '2024-07-06 10:43:33', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2024-07-06 05:21:33');
 
 -- Dumping structure for table loan.user_kycs
 CREATE TABLE IF NOT EXISTS `user_kycs` (
@@ -123,12 +136,12 @@ CREATE TABLE IF NOT EXISTS `user_kycs` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Dumping data for table loan.user_kycs: ~3 rows (approximately)
+-- Dumping data for table loan.user_kycs: ~2 rows (approximately)
 DELETE FROM `user_kycs`;
 INSERT INTO `user_kycs` (`id`, `user_id`, `status`, `aadhar_number`, `pan_number`, `account_number`, `ifsc_code`, `is_verified`, `created_at`, `updated_at`) VALUES
 	(1, 2, 'Verified', '484846876768', 'CIGPV2696K', '536876878878678', '686767', 1, '2024-07-04 04:42:30', '2024-07-04 05:58:40'),
 	(2, 6, 'Verified', '484846876768', 'CIGPV2696K', '536876878878678', '68676', 1, '2024-07-04 04:57:30', '2024-07-04 05:58:53'),
-	(3, 1, 'Verified', '484846876768', 'CIGPV2696K', '536876878878678', '686767', 1, '2024-07-04 05:02:20', '2024-07-04 05:58:52');
+	(3, 1, 'Verified', '484846876768', 'CIGPV2696K', '536876878878678', '686767', 1, '2024-07-04 05:02:20', '2024-07-05 00:19:06');
 
 /*!40103 SET TIME_ZONE=IFNULL(@OLD_TIME_ZONE, 'system') */;
 /*!40101 SET SQL_MODE=IFNULL(@OLD_SQL_MODE, '') */;

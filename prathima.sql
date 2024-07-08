@@ -15,11 +15,11 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 
--- Dumping database structure for loan
-CREATE DATABASE IF NOT EXISTS `loan` /*!40100 DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci */ /*!80016 DEFAULT ENCRYPTION='N' */;
-USE `loan`;
+-- Dumping database structure for prathima
+CREATE DATABASE IF NOT EXISTS `prathima` /*!40100 DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci */ /*!80016 DEFAULT ENCRYPTION='N' */;
+USE `prathima`;
 
--- Dumping structure for table loan.failed_jobs
+-- Dumping structure for table prathima.failed_jobs
 CREATE TABLE IF NOT EXISTS `failed_jobs` (
   `id` bigint unsigned NOT NULL AUTO_INCREMENT,
   `uuid` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
@@ -32,10 +32,10 @@ CREATE TABLE IF NOT EXISTS `failed_jobs` (
   UNIQUE KEY `failed_jobs_uuid_unique` (`uuid`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Dumping data for table loan.failed_jobs: ~0 rows (approximately)
+-- Dumping data for table prathima.failed_jobs: ~0 rows (approximately)
 DELETE FROM `failed_jobs`;
 
--- Dumping structure for table loan.migrations
+-- Dumping structure for table prathima.migrations
 CREATE TABLE IF NOT EXISTS `migrations` (
   `id` int unsigned NOT NULL AUTO_INCREMENT,
   `migration` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
@@ -43,7 +43,7 @@ CREATE TABLE IF NOT EXISTS `migrations` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Dumping data for table loan.migrations: ~0 rows (approximately)
+-- Dumping data for table prathima.migrations: ~0 rows (approximately)
 DELETE FROM `migrations`;
 INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
 	(1, '2014_10_12_000000_create_users_table', 1),
@@ -52,7 +52,7 @@ INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
 	(4, '2019_12_14_000001_create_personal_access_tokens_table', 1),
 	(5, '2024_07_03_094726_create_user_kycs_table', 2);
 
--- Dumping structure for table loan.password_reset_tokens
+-- Dumping structure for table prathima.password_reset_tokens
 CREATE TABLE IF NOT EXISTS `password_reset_tokens` (
   `email` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `token` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
@@ -60,10 +60,10 @@ CREATE TABLE IF NOT EXISTS `password_reset_tokens` (
   PRIMARY KEY (`email`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Dumping data for table loan.password_reset_tokens: ~0 rows (approximately)
+-- Dumping data for table prathima.password_reset_tokens: ~0 rows (approximately)
 DELETE FROM `password_reset_tokens`;
 
--- Dumping structure for table loan.personal_access_tokens
+-- Dumping structure for table prathima.personal_access_tokens
 CREATE TABLE IF NOT EXISTS `personal_access_tokens` (
   `id` bigint unsigned NOT NULL AUTO_INCREMENT,
   `tokenable_type` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
@@ -80,10 +80,10 @@ CREATE TABLE IF NOT EXISTS `personal_access_tokens` (
   KEY `personal_access_tokens_tokenable_type_tokenable_id_index` (`tokenable_type`,`tokenable_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Dumping data for table loan.personal_access_tokens: ~0 rows (approximately)
+-- Dumping data for table prathima.personal_access_tokens: ~0 rows (approximately)
 DELETE FROM `personal_access_tokens`;
 
--- Dumping structure for table loan.users
+-- Dumping structure for table prathima.users
 CREATE TABLE IF NOT EXISTS `users` (
   `id` int NOT NULL AUTO_INCREMENT,
   `name` varchar(255) NOT NULL,
@@ -111,17 +111,18 @@ CREATE TABLE IF NOT EXISTS `users` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `email` (`email`),
   UNIQUE KEY `phone_number` (`phone_number`)
-) ENGINE=InnoDB AUTO_INCREMENT=17 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=18 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
--- Dumping data for table loan.users: ~4 rows (approximately)
+-- Dumping data for table prathima.users: ~5 rows (approximately)
 DELETE FROM `users`;
 INSERT INTO `users` (`id`, `name`, `email`, `phone_number`, `email_verified_at`, `password`, `remember_token`, `user_type`, `created_at`, `updated_at`, `pincode`, `city`, `district`, `state`, `country`, `gas_bill_path`, `salary_slip_path`, `gas_bill_number`, `salary_slip_number`, `gas_bill`, `salary_slip`, `otp`, `otp_expires_at`) VALUES
 	(1, 'admin', 'admin@gmail.com', '9876543210', NULL, '$2y$12$3G9.O76ll.boJISG9JlDwOx8XVr1ylWHEAmL9Eoi4wBPOh7OgrnHi', NULL, 'admin', '2024-07-05 22:54:48', '2024-07-06 04:06:19', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '398152', '2024-07-06 04:16:19'),
 	(2, 'Dinesh', 'dinesh@gmail.com', '1234567890', NULL, '$2y$12$3G9.O76ll.boJISG9JlDwOx8XVr1ylWHEAmL9Eoi4wBPOh7OgrnHi', NULL, 'user', '2024-07-05 04:53:25', '2024-07-06 04:14:21', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '671187', '2024-07-06 04:24:21'),
 	(6, 'logesh', 'mpsdinesh1221@gmail.com', '7373851234', NULL, '$2y$12$FR3fHLRwEt0m25MjMIl7AOP5YWXo.E0Ue3Chv8dTpwzM8YtXaul72', NULL, 'user', '2024-07-05 04:56:05', '2024-07-06 05:41:28', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '759935', '2024-07-06 05:51:28'),
-	(7, 'dinesh21', 'dinesh21@gmail.com', '7373851852', NULL, '$2y$12$lBxBsHJphXQvoXgqjVkabOpUN0FUygoUQwiLn6/EoLYDz0P6mvokq', NULL, 'user', '2024-07-05 07:35:11', '2024-07-06 10:43:33', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2024-07-06 05:21:33');
+	(7, 'dinesh21', 'dinesh21@gmail.com', '7373851852', NULL, '$2y$12$BgUxffKq0MMnNG6BMS2AQuSXjZ1Cg82QGIZcinkW1ICJRyqxu/.Oa', NULL, 'user', '2024-07-05 07:35:11', '2024-07-06 06:41:06', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2024-07-06 06:50:20'),
+	(17, 'Nandhanas', 'nandhanag99@gmail.com', '9876512340', NULL, '$2y$12$b0mU0Bge6dmaUK7QWWZFouY3Hpvs0Ii2BFAioPlPGgg9Zlgejo.kO', NULL, 'user', '2024-07-07 22:54:01', '2024-07-07 23:01:02', '625521', 'Theni', 'Theni', 'Tamil Nadu', 'Inida', 'gas_bills/of4zfl9kG3bSYwP4p6nfexPI0qndGlpXwekEqmoC.pdf', 'salary_slips/eYkth0K6zsK7VRDI2AbTN5qn1xKXmpxkiyqQud1O.pdf', 'HJFFSDERT67', 'ZDFXGCH2345678', NULL, NULL, NULL, '2024-07-07 23:08:32');
 
--- Dumping structure for table loan.user_kycs
+-- Dumping structure for table prathima.user_kycs
 CREATE TABLE IF NOT EXISTS `user_kycs` (
   `id` bigint unsigned NOT NULL AUTO_INCREMENT,
   `user_id` bigint unsigned NOT NULL,
@@ -134,14 +135,15 @@ CREATE TABLE IF NOT EXISTS `user_kycs` (
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Dumping data for table loan.user_kycs: ~2 rows (approximately)
+-- Dumping data for table prathima.user_kycs: ~2 rows (approximately)
 DELETE FROM `user_kycs`;
 INSERT INTO `user_kycs` (`id`, `user_id`, `status`, `aadhar_number`, `pan_number`, `account_number`, `ifsc_code`, `is_verified`, `created_at`, `updated_at`) VALUES
 	(1, 2, 'Verified', '484846876768', 'CIGPV2696K', '536876878878678', '686767', 1, '2024-07-04 04:42:30', '2024-07-04 05:58:40'),
 	(2, 6, 'Verified', '484846876768', 'CIGPV2696K', '536876878878678', '68676', 1, '2024-07-04 04:57:30', '2024-07-04 05:58:53'),
-	(3, 1, 'Verified', '484846876768', 'CIGPV2696K', '536876878878678', '686767', 1, '2024-07-04 05:02:20', '2024-07-05 00:19:06');
+	(3, 1, 'Verified', '484846876768', 'CIGPV2696K', '536876878878678', '686767', 1, '2024-07-04 05:02:20', '2024-07-05 00:19:06'),
+	(4, 17, 'Rejected', '484846876768', 'CIGPV2696K', '536876878878678', '686767', 1, '2024-07-07 22:57:07', '2024-07-08 01:21:05');
 
 /*!40103 SET TIME_ZONE=IFNULL(@OLD_TIME_ZONE, 'system') */;
 /*!40101 SET SQL_MODE=IFNULL(@OLD_SQL_MODE, '') */;

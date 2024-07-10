@@ -4,8 +4,6 @@
     <link href="{{ asset('backend/assets/css/loader.css') }}" rel="stylesheet" type="text/css" />
     <link rel="stylesheet" type="text/css" href="{{ asset('backend/plugins/dropify/dropify.min.css') }}">
     <link href="{{ asset('backend/assets/css/pages/profile_edit.css" rel="stylesheet" type="text/css') }}" />
-    <link href="{{ asset('backend/assets/css/loader.css" rel="stylesheet" type="text/css') }}" />
-    <link rel="stylesheet" type="text/css" href="{{ asset('backend/assets/css/ui-elements/alert.css') }}">
 @endsection
 
 @section('navbar')
@@ -13,10 +11,6 @@
         .nav-pills .nav-link.active,
         .nav-pills .show>.nav-link {
             background: #ac0d0d;
-        }
-
-        .text-muted {
-            color: red !important;
         }
     </style>
     <div class="sub-header-container">
@@ -69,30 +63,6 @@
 @endsection
 
 @section('content')
-    {{-- <div class="layout-px-spacing">
-        <div class="layout-top-spacing mb-2">
-            <div class="container">
-                <div class="row">
-                    <div class="col-lg-4"> <!-- Alerts on the right side -->
-                        <div class="alert alert-primary bg-gradient-primary mb-4" role="alert">
-                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                                <i class="las la-times"></i>
-                            </button>
-                            <strong>Primary!</strong> Lorem Ipsum is simply dummy text of the.
-                        </div>
-                        <div class="alert alert-success bg-gradient-success mb-4" role="alert">
-                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                                <i class="las la-times"></i>
-                            </button>
-                            <strong>Success!</strong> Lorem Ipsum is simply dummy text of the.
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div> --}}
-
-
     <div class="layout-px-spacing ">
         <div class="account-settings-container layout-top-spacing">
             <div class="account-content">
@@ -235,43 +205,6 @@
                                                         @csrf
                                                         <div class="row">
                                                             <div class="col-md-12">
-                                                                <!-- Success and Error Messages (Top-right corner) -->
-                                                                <div class="position-fixed top-0 end-0 p-3"
-                                                                    style="z-index: 5; margin-left: 500px; margin-top: 0 !important;">
-                                                                    <style>
-                                                                        .bg-gradient-danger {
-                                                                            background: linear-gradient(to right, #ac0d0d 0%, #550505c7 100%) !important;
-                                                                        }
-
-                                                                        .alert-primary {
-                                                                            color: #fff !important;
-                                                                        }
-                                                                    </style>
-                                                                    @if (session('success'))
-                                                                        <div class="alert alert-success bg-gradient-success"
-                                                                            role="alert">
-                                                                            <button type="button" class="close"
-                                                                                data-dismiss="alert" aria-label="Close">
-                                                                                <i class="las la-times"></i>
-                                                                            </button>
-                                                                            <strong>Success!</strong>
-                                                                            {{ session('success') }}
-                                                                        </div>
-                                                                    @endif
-
-                                                                    @if (session('error'))
-                                                                        <div class="alert alert-primary bg-gradient-danger"
-                                                                            role="alert">
-                                                                            <button type="button" class="close"
-                                                                                data-dismiss="alert" aria-label="Close">
-                                                                                <i class="las la-times"></i>
-                                                                            </button>
-                                                                            <strong>Error!</strong> {{ session('error') }}
-                                                                        </div>
-                                                                    @endif
-                                                                </div>
-
-                                                                <!-- KYC Form Section -->
                                                                 <div class="work-section">
                                                                     <div class="row">
                                                                         <div class="col-lg-6 col-md-12">
@@ -279,46 +212,41 @@
                                                                                 <label for="aadhar_number">Aadhar
                                                                                     Number</label>
                                                                                 <input type="number" name="aadhar_number"
-                                                                                    class="form-control mb-4 @error('aadhar_number') is-invalid @enderror"
+                                                                                    class="form-control mb-4"
                                                                                     placeholder="Aadhar Number"
-                                                                                    inputmode="numeric" pattern="\d{12}"
+                                                                                    maxlength="12" pattern="\d{12}"
                                                                                     title="Aadhar number must be 12 digits"
-                                                                                    maxlength="12" required
+                                                                                    required
                                                                                     value="{{ old('aadhar_number', $user->kyc->aadhar_number ?? '') }}">
-                                                                                @error('aadhar_number')
-                                                                                    <div class="invalid-feedback">
-                                                                                        {{ $message }}</div>
-                                                                                @enderror
                                                                             </div>
                                                                         </div>
-
                                                                         <div class="col-lg-6 col-md-12">
                                                                             <div class="form-group">
                                                                                 <label for="pan_number">PAN Number</label>
                                                                                 <input type="text" name="pan_number"
                                                                                     id="pan_number"
                                                                                     class="form-control mb-4 @error('pan_number') is-invalid @enderror"
-                                                                                    placeholder="Example: ABCDE1234F"
+                                                                                    placeholder="PAN Number"
                                                                                     pattern="[A-Z0-9]{10}"
                                                                                     title="Please enter a 10-character PAN number with capital letters only"
                                                                                     maxlength="10" required
-                                                                                    value="{{ old('pan_number', $user->kyc->pan_number ?? '') }}"
-                                                                                    {{ $user->kyc && $user->kyc->is_verified ? 'disabled' : '' }}>
+                                                                                    value="{{ old('pan_number', $user->kyc->pan_number ?? '') }}">
+                                                                                <small class="text-muted">Example:
+                                                                                    ABCDE1234F</small>
 
-                                                                                @error('pan_number')
-                                                                                    <div class="invalid-feedback">
-                                                                                        {{ $message }}</div>
-                                                                                @enderror
-                                                                                @if (session('error') == 'PAN verification failed.')
-                                                                                    <small
-                                                                                        class="text-muted  alert alert-danger"
-                                                                                        role="alert">
-                                                                                        {{ session('error') }}
-                                                                                    </small>
+                                                                                @if (session('success'))
+                                                                                    <div class="alert alert-success">
+                                                                                        {{ session('success') }}
+                                                                                    </div>
                                                                                 @endif
-
+                                                                                @if (session('error'))
+                                                                                    <div class="alert alert-danger">
+                                                                                        {{ session('error') }}
+                                                                                    </div>
+                                                                                @endif
                                                                             </div>
                                                                         </div>
+
 
                                                                         <div class="col-lg-6 col-md-12">
                                                                             <div class="form-group">
@@ -326,56 +254,40 @@
                                                                                     Number</label>
                                                                                 <input type="text"
                                                                                     name="account_number"
-                                                                                    input="validateAadharNumber(this)"
-                                                                                    class="form-control mb-4 @error('account_number') is-invalid @enderror"
+                                                                                    pattern="[0-9]{15}"
+                                                                                    title="Please enter Valid Account Number"
+                                                                                    class="form-control mb-4"
+                                                                                    class="form-control mb-4 @error('pan_number') is-invalid @enderror"
+                                                                                    maxlength="15"
                                                                                     placeholder="Account Number" required
-                                                                                    value="{{ old('account_number', $user->kyc->account_number ?? '') }}"
-                                                                                    {{ $user->kyc && $user->kyc->is_verified ? 'disabled' : '' }}>
-                                                                                @error('account_number')
-                                                                                    <div class="invalid-feedback">
-                                                                                        {{ $message }}</div>
-                                                                                @enderror
-                                                                                @if (session('error') == 'Bank account verification failed.')
-                                                                                    <small
-                                                                                        class="text-muted  alert alert-danger"
-                                                                                        role="alert">
+                                                                                    value="{{ old('account_number', $user->kyc->account_number ?? '') }}">
+
+                                                                                @if (session('success'))
+                                                                                    <div class="alert alert-success">
+                                                                                        {{ session('success') }}
+                                                                                    </div>
+                                                                                @endif
+                                                                                @if (session('error'))
+                                                                                    <div class="alert alert-danger">
                                                                                         {{ session('error') }}
-                                                                                    </small>
+                                                                                    </div>
                                                                                 @endif
                                                                             </div>
                                                                         </div>
-                                                           
                                                                         <div class="col-lg-6 col-md-12">
                                                                             <div class="form-group">
                                                                                 <label for="ifsc_code">IFSC Code</label>
                                                                                 <input type="text" name="ifsc_code"
-                                                                                    id="ifsc_code"
-                                                                                    class="form-control mb-4 @error('ifsc_code') is-invalid @enderror"
-                                                                                    maxlength="11" pattern="[A-Z0-9]{11}"
-                                                                                    title="Please enter a Valid IFSC Code"
+                                                                                    class="form-control mb-4"
                                                                                     placeholder="IFSC Code" required
-                                                                                    value="{{ old('ifsc_code', $user->kyc->ifsc_code ?? '') }}"
-                                                                                    {{ $user->kyc && $user->kyc->is_verified ? 'disabled' : '' }}>
-                                                                                @error('ifsc_code')
-                                                                                    <div class="invalid-feedback">
-                                                                                        {{ $message }}</div>
-                                                                                @enderror
-                                                                                @if (session('error') == 'Bank account verification failed.')
-                                                                                    <small
-                                                                                        class="text-muted  alert alert-danger"
-                                                                                        role="alert">
-                                                                                        {{ session('error') }}
-                                                                                    </small>
-                                                                                @endif
+                                                                                    value="{{ old('ifsc_code', $user->kyc->ifsc_code ?? '') }}">
                                                                             </div>
                                                                         </div>
                                                                     </div>
                                                                 </div>
-
                                                             </div>
                                                         </div>
 
-                                                        <!-- KYC Status Messages -->
                                                         @if ($user->kyc)
                                                             @if ($user->kyc->is_verified == 0)
                                                                 <div class="alert alert-danger mt-3">
@@ -389,10 +301,11 @@
                                                                 </div>
                                                                 <!-- Disable form inputs when KYC is approved -->
                                                                 <script>
+                                                                    // Disable form inputs
                                                                     document.addEventListener('DOMContentLoaded', function() {
                                                                         var form = document.getElementById('ProfileupdateKyc');
                                                                         if (form) {
-                                                                            var formInputs = form.querySelectorAll('input:not([disabled])');
+                                                                            var formInputs = form.querySelectorAll('input');
                                                                             formInputs.forEach(function(input) {
                                                                                 input.setAttribute('disabled', 'disabled');
                                                                             });
@@ -405,25 +318,19 @@
                                                                 </div>
                                                             @else
                                                                 <div class="alert alert-warning mt-3">
-                                                                    Your KYC details have not been submitted. Once the form is submitted, it will be disabled.
+                                                                    Your KYC details are not submitted.
                                                                 </div>
                                                             @endif
                                                         @else
                                                             <div class="alert alert-warning mt-3">
-                                                                
-                                                                Your KYC details have not been submitted. Once the form is submitted, it will be disabled.
+                                                                Your KYC details are not submitted.
                                                             </div>
                                                         @endif
 
-                                                        <!-- Save Button -->
-                                                        <button type="submit" class="btn btn-primary mt-4"
-                                                            {{ $user->kyc && $user->kyc->is_verified ? 'disabled' : '' }}>
-                                                            Save KYC Details
-                                                        </button>
+                                                        <button type="submit" class="btn btn-primary mt-4">Save KYC
+                                                            Details</button>
                                                     </form>
                                                 </div>
-
-
 
                                             </div>
                                         </div>
@@ -445,30 +352,8 @@
 
 @section('script')
     <script>
-        function validateAadharNumber(input) {
-            input.value = input.value.replace(/\D/g, '');
-            if (input.value.length > 12) {
-                input.value = input.value.slice(0, 12);
-            }
-        }
-    </script>
-    <script>
         document.addEventListener('DOMContentLoaded', function() {
-            var panInput = document.getElementById('#pan_number');
-
-            panInput.addEventListener('input', function() {
-                var currentValue = this.value;
-                var newValue = currentValue.toUpperCase();
-
-                if (currentValue !== newValue) {
-                    this.value = newValue;
-                }
-            });
-        });
-    </script>
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            var panInput = document.getElementById('#ifsc_code');
+            var panInput = document.getElementById('pan_number');
 
             panInput.addEventListener('input', function() {
                 var currentValue = this.value;

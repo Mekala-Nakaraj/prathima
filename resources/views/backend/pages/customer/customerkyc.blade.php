@@ -54,66 +54,84 @@
 @endsection
 
 @section('content')
-    <div class="layout-top-spacing mb-2">
-        <table class="table">
-            <thead>
-                <tr>
-                    <th>ID</th>
-                    <th>Name</th>
-                    <th>Email</th>
-                    <th>Phone</th>
-                    <th>Aadhar No</th>
-                    <th>Pan No</th>
-                    <th>Account No</th>
-                    <th>Status</th>
-                    <th>KYC Verified</th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach ($users as $index => $user)
-                    <tr>
-                        <td>{{ $index + 1 }}</td>
-                        <td>{{ $user->name }}</td>
-                        <td>{{ $user->email }}</td>
-                        <td>{{ $user->phone_number ?: 'NA' }}</td>
-                        <td>{{ $user->kyc->aadhar_number ?? 'NA' }}</td>
-                        <td>{{ $user->kyc->pan_number ?? 'NA' }}</td>
-                        <td>{{ $user->kyc->account_number ?? 'NA' }}</td>
-                        <td>
-                            @if ($user->kyc)
-                                @if ($user->kyc->is_verified)
-                                    <span class="badge badge-success">Approved</span>
-                                @else
-                                    <span class="badge badge-danger">Rejected</span>
-                                @endif
-                            @else
-                                <span class="badge badge-warning">Not Submitted</span>
-                            @endif
-                        </td>
-                        <td>
-                            <form action="{{ route('user.kyc.CustomerKYCVerified', ['user' => $user->id]) }}"
-                                method="POST">
-                                @csrf
-                                <div class="form-check form-check-inline">
-                                    <input class="form-check-input" type="radio" name="is_verified"
-                                        id="verified_{{ $user->id }}" value="1"
-                                        {{ $user->kyc && $user->kyc->is_verified ? 'checked' : '' }}>
-                                    <label class="form-check-label" for="verified_{{ $user->id }}">Verified</label>
+    <div class="layout-px-spacing">
+        <div class="layout-top-spacing mb-2">
+            <div class="col-md-12">
+                <div class="row">
+                    <div class="container p-0">
+                        <div class="row layout-top-spacing date-table-container">
+                            <!-- Datatable with export options -->
+                             <div class="col-xl-12 col-lg-12 col-sm-12  layout-spacing">
+                                <div class="widget-content widget-content-area br-6">
+                                    {{-- <h4 class="table-header">Export Datatable</h4> --}}
+                                    <div class="table-responsive mb-4">
+                                        <table id="export-dt" class="table table-hover" style="width:100%">
+                                            <thead>
+                                                <tr>
+                                                    <th>ID</th>
+                                                    <th>Name</th>
+                                                    <th>Email</th>
+                                                    <th>Phone</th>
+                                                    <th>Aadhar No</th>
+                                                    <th>Pan No</th>
+                                                    {{-- <th>Account No</th> --}}
+                                                    <th>Status</th>
+                                                    <th>KYC Verified</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                @foreach ($users as $index => $user)
+                                                    <tr>
+                                                        <td>{{ $index + 1 }}</td>
+                                                        <td>{{ $user->name }}</td>
+                                                        <td>{{ $user->email }}</td>
+                                                        <td>{{ $user->phone_number ?: 'NA' }}</td>
+                                                        <td>{{ $user->kyc->aadhar_number ?? 'NA' }}</td>
+                                                        <td>{{ $user->kyc->pan_number ?? 'NA' }}</td>
+                                                        {{-- <td>{{ $user->kyc->account_number ?? 'NA' }}</td> --}}
+                                                        <td>
+                                                            @if ($user->kyc)
+                                                                @if ($user->kyc->is_verified)
+                                                                    <span class="badge badge-success">Approved</span>
+                                                                @else
+                                                                    <span class="badge badge-danger">Rejected</span>
+                                                                @endif
+                                                            @else
+                                                                <span class="badge badge-warning">Not Submitted</span>
+                                                            @endif
+                                                        </td>
+                                                        <td>
+                                                            <form action="{{ route('user.kyc.CustomerKYCVerified', ['user' => $user->id]) }}"
+                                                                method="POST">
+                                                                @csrf
+                                                                <div class="form-check form-check-inline">
+                                                                    <input class="form-check-input" type="radio" name="is_verified"
+                                                                        id="verified_{{ $user->id }}" value="1"
+                                                                        {{ $user->kyc && $user->kyc->is_verified ? 'checked' : '' }}>
+                                                                    <label class="form-check-label" for="verified_{{ $user->id }}">Verified</label>
+                                                                </div>
+                                                                <div class="form-check form-check-inline">
+                                                                    <input class="form-check-input" type="radio" name="is_verified"
+                                                                        id="unverified_{{ $user->id }}" value="0"
+                                                                        {{ $user->kyc && !$user->kyc->is_verified ? 'checked' : '' }}>
+                                                                    <label class="form-check-label" for="unverified_{{ $user->id }}">Unverified</label>
+                                                                </div>
+                                                                <button type="submit" class="btn btn-primary">Update</button>
+                                                            </form>
+                                                        </td>
+                                
+                                                    </tr>
+                                                @endforeach
+                                            </tbody>
+                                        </table>
+                                    </div>
                                 </div>
-                                <div class="form-check form-check-inline">
-                                    <input class="form-check-input" type="radio" name="is_verified"
-                                        id="unverified_{{ $user->id }}" value="0"
-                                        {{ $user->kyc && !$user->kyc->is_verified ? 'checked' : '' }}>
-                                    <label class="form-check-label" for="unverified_{{ $user->id }}">Unverified</label>
-                                </div>
-                                <button type="submit" class="btn btn-primary">Update</button>
-                            </form>
-                        </td>
-
-                    </tr>
-                @endforeach
-            </tbody>
-        </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 @endsection
 

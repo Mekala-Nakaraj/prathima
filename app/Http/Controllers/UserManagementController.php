@@ -35,27 +35,180 @@ class UserManagementController extends Controller
         return back()->with('success', 'Profile updated successfully!');
 
     }
+    //KYC WithoutAPI
+    // public function ProfileupdateKyc(Request $request)
+    // {
+    //     $request->validate([
+    //         'aadhar_number' => 'required|digits:12',
+    //         'pan_number' => 'required|regex:/^[A-Z0-9]{10}$/',
+    //         'account_number' => 'required|regex:/^\d{11,16}$/',
+    //         'ifsc_code' => 'required|regex:/^[A-Z0-9]{11}$/',
+    //     ]);
+    //     $user = auth()->user();
+
+    //     $kycData = [
+    //         // 'user_id' => $this->generateUserId(),
+    //         'aadhar_number' => $request->input('aadhar_number'),
+    //         'pan_number' => $request->input('pan_number'),
+    //         'account_number' => $request->input('account_number'),
+    //         'ifsc_code' => $request->input('ifsc_code'),
+    //         'is_verified' => true, 
+    //     ];
+
+    //     // $verifyPanCard = new \App\Services\VerifyPanCard();
+    //     // $panVerificationResponse = $verifyPanCard->verifyPAN($kycData['pan_number'], $user->phone_number);
+    //     // // dd($panVerificationResponse);
+    //     // if ($panVerificationResponse['status'] !== 'success') {
+    //     //         return redirect()->back()->with('error', 'PAN verification failed.');
+    //     // }
+        
+    //     // // Bank Account Verification
+    //     // $verifyBankAccount = new \App\Services\VerifyBankAccount();
+    //     // $bankAccountResponse = $verifyBankAccount->verifyBankDetails($kycData['account_number'], $kycData['ifsc_code'], $user->phone_number);
+        
+    //     // if ($bankAccountResponse['status'] !== 'success') {
+    //     //     return redirect()->back()->with('error', 'Bank account verification failed.');
+    //     // }
+
+          
+    //     if ($user->kyc) {
+    //         dd($kycData);
+    //         $user->kyc->update($kycData); 
+    //     } else {
+    //         dd($kycData);
+    //         $user->kyc()->create($kycData); 
+    //     }
+
+    //     return redirect()->back()->with('success', 'KYC details updated successfully.');
+
+    //     //API Intragtion//
+    //     // $verifyPanCard = new \App\Services\VerifyPanCard();
+    //     // $panVerificationResponse = $verifyPanCard->verifyPAN($kycData['pan_number'], $user->phone_number);
+
+    //     // if ($panVerificationResponse['status'] === 'success') {
+    //     //     // PAN verification successful
+    //     //     if ($user->kyc) {
+    //     //         dd("success");
+    //     //         $user->kyc->update($kycData);
+    //     //     } else {
+    //     //         $user->kyc()->create($kycData);
+    //     //     }
+    
+    //     //     return redirect()->back()->with('success', 'KYC details updated successfully.');
+    //     // } else {
+    //     //     dd("faill");
+    //     //     // PAN verification failed
+    //     //     return redirect()->back()->with('error', 'PAN verification failed.');
+    //     // }
+    // }
+
+    //API
     public function ProfileupdateKyc(Request $request)
     {
+        $request->validate([
+            'aadhar_number' => 'required|digits:12|unique:user_kycs,aadhar_number,' . auth()->id() . ',user_id',
+            'pan_number' => 'required|regex:/^[A-Z0-9]{10}$/|unique:user_kycs,pan_number,' . auth()->id() . ',user_id',
+            'account_number' => 'required|regex:/^\d{11,16}$/',
+            'ifsc_code' => 'required|regex:/^[A-Z0-9]{11}$/',
+        ]);
+        
         $user = auth()->user();
-
+    
         $kycData = [
-            // 'user_id' => $this->generateUserId(),
             'aadhar_number' => $request->input('aadhar_number'),
             'pan_number' => $request->input('pan_number'),
             'account_number' => $request->input('account_number'),
             'ifsc_code' => $request->input('ifsc_code'),
-            'is_verified' => true, 
+            'is_verified' => false, 
         ];
-
-        if ($user->kyc) {
-            $user->kyc->update($kycData); 
-        } else {
-            $user->kyc()->create($kycData); 
+    
+        // PAN Verification
+        // $verifyPanCard = new \App\Services\VerifyPanCard();
+        // $panVerificationResponse = $verifyPanCard->verifyPAN($kycData['pan_number'], $user->phone_number);
+        // // dd($panVerificationResponse);
+        // if ($panVerificationResponse['status'] !== 'success') {
+        //     return redirect()->back()->with('error', 'PAN verification failed.');
+        // }
+    
+        // Bank Account Verification
+        $verifyBankAccount = new \App\Services\VerifyBankAccount();
+        $bankAccountResponse = $verifyBankAccount->verifyBankDetails($kycData['account_number'], $kycData['ifsc_code'], $user->phone_number);
+    
+        if ($bankAccountResponse['status'] !== 'success') {
+            return redirect()->back()->with('error', 'Bank account verification failed.');
         }
-
+        
+        // dd($bankAccountResponse,$panVerificationResponse);
+        // If both verifications are successful
+        $kycData['is_verified'] = true;
+        
+        if ($user->kyc) {
+            // dd('suceess',$kycData);
+            $user->kyc->update($kycData);
+        } else {
+            // dd('suceess',$kycData);
+            $user->kyc()->create($kycData);
+        }
+    
         return redirect()->back()->with('success', 'KYC details updated successfully.');
     }
+    
+
+    // public function ProfileupdateKyc(Request $request)
+    // {
+    //     $user = auth()->user();
+    //     $userId = $user->id;
+    //     // $userId = $user->kyc->user_id;
+    //     $kycData = [
+    //         'user_id' => $userId,
+    //         'aadhar_number' => $request->input('aadhar_number'),
+    //         'pan_number' => $request->input('pan_number'),
+    //         'account_number' => $request->input('account_number'),
+    //         'ifsc_code' => $request->input('ifsc_code'),
+    //         'is_verified' => true, 
+    //     ];   
+    //     // API Integration
+    //     //PanCard
+    //     $verifyPanCard = new \App\Services\VerifyPanCard();
+    //     $panVerificationResponse = $verifyPanCard->verifyPAN($kycData['pan_number'], $user->phone_number);
+    //        //PAN CARD
+    //        if($panVerificationResponse['status'] === 'success') {
+    //         if ($user->kyc) {
+    //             // dd('success');
+    //             $user->kyc->update($kycData);
+    //         } else {
+    //             $user->kyc()->create($kycData);
+    //         }
+            
+    //         return redirect()->back()->with('panVerificationsuccess', $panVerificationResponse['message']);
+    //     } else {
+    //         // dd('faill');
+    //         // dd($panVerificationResponse);
+    //         return redirect()->back()->with('panVerificationerror',$panVerificationResponse['message']);
+    //     }
+
+    //     //BankAccount API
+    //     $verifyBankAccount = new \App\Services\VerifyBankAccount();
+    //     $BankAccountResponse = $verifyBankAccount->verifyBankDetails($kycData['account_number'],$kycData['ifsc_code'], $user->phone_number,$userId);
+    //     //BANK ACCOUNT
+    //     if($BankAccountResponse['status'] === 'success') {
+    //         dd('hi');
+    //         if ($user->kyc) {
+    //             dd('success');
+    //             $user->kyc->update($kycData);
+    //         } else {
+    //             $user->kyc()->create($kycData);
+    //         }
+            
+    //         return redirect()->back()->with('BankAccountsuccess', $panVerificationResponse['message']);
+    //     } else {
+    //         // dd('faill');
+    //         // dd($panVerificationResponse);
+    //         return redirect()->back()->with('BankAccounterror',$panVerificationResponse['message']);
+    //     }
+    // }
+    
+
   
     public function CustomerManagement()
     {

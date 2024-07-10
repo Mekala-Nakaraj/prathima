@@ -275,10 +275,11 @@
             </div>
         </div>
         {{-- Table --}}
-        <div class="col-lg-12 layout-spacing">
-            <div class="widget-content widget-content-area">
-                <div class="table-responsive">
-                    <table class="table table-bordered">
+        <div class="col-xl-12 col-lg-12 col-sm-12  layout-spacing">
+            <div class="widget-content widget-content-area br-6">
+                {{-- <h4 class="table-header">Export Datatable</h4> --}}
+                <div class="table-responsive mb-4">
+                    <table id="export-dt" class="table table-hover" style="width:100%">
                         <thead>
                             <tr>
                                 <th>ID</th>
@@ -331,7 +332,6 @@
                             @endforeach
                         </tbody>
                     </table>
-                    {{-- {{ $users->links() }} --}}
                 </div>
             </div>
         </div>

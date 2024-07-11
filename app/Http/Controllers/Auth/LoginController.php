@@ -109,12 +109,20 @@ class LoginController extends Controller
                 // dd('admin');
                 return redirect('/dashboard');
             }
-            if ($user->user_type == 'user') {
+            if ($user->user_type == 'field_manager') {
                 // dd('user');
-                return redirect('/dashboard');
+                return redirect('/field-manager-dashboard');
             }
+            if ($user->user_type == 'relation_manager') {
+                // dd('user');
+                return redirect('/relation-manager-dashboard');
+            }
+            // if ($user->user_type == 'user') {
+            //     // dd('user');
+            //     return redirect('/dashboard');
+            // }
     
-            return view('auth.hello');
+            return view('auth.login');
         }
         // dd($credentials);
 

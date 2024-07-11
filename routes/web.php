@@ -4,6 +4,8 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\ForgotPasswordController;
 use App\Http\Controllers\UserManagementController;
+use App\Http\Controllers\FieldManagerController;
+use App\Http\Controllers\RelationManagerController;
 
 /*
 |--------------------------------------------------------------------------
@@ -48,6 +50,19 @@ Route::controller(LoginController::class)->group(function () {
    
 });
 
+//FieldManagerController
+Route::controller(FieldManagerController::class)->group(function () {
+    Route::middleware('auth')->group(function () {
+        Route::get('/field-manager-dashboard', 'FieldManagerShow')->name('FieldManagerShow');
+    });   
+});
+
+//RelationManagerController
+Route::controller(RelationManagerController::class)->group(function () {
+    Route::middleware('auth')->group(function () {
+        Route::get('/relation-manager-dashboard', 'RelationManagerShow')->name('RelationManagerShow');
+    });   
+});
 
 Route::controller(ForgotPasswordController::class)->group(function () {
     Route::get('/forget-password', [ForgotPasswordController::class, 'ForgetPassword'])->name('ForgetPassword');
@@ -76,6 +91,11 @@ Route::controller(UserManagementController::class)->group(function () {
 
         /* customer loan */
         Route::get('/admin/customer/loan-list', 'CustomerLoan')->name('CustomerLoan');
+
+        //Manager
+        Route::get('/admin/manager/manager-create', 'ManagerCreateShow')->name('ManagerCreateShow');
+        Route::post('/admin/manager/manager-create', 'ManagerCreateStore')->name('ManagerCreateStore');
+        
     });
    
     // Route::post('/admin/customer-kyc', 'CustomerKYCVerified')->name('CustomerKYCVerified');

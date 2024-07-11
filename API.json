@@ -1,0 +1,741 @@
+{
+	"info": {
+		"_postman_id": "741a71c4-dfab-4ada-a6a5-06acc1237b19",
+		"name": "EKO",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "27169232"
+	},
+	"item": [
+		{
+			"name": "AADHAR",
+			"item": [
+				{
+					"name": "GET Aadhaar Consent",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "developer_key",
+								"value": "793db230ef4ac2eb691e3087f73fe749"
+							},
+							{
+								"key": "secret-key",
+								"value": "y4k0KzCD1cCfUNnOqz7WsshrduUZC51YH61sxj8zxdM="
+							},
+							{
+								"key": "secret-key-timestamp",
+								"value": "1704791808198"
+							}
+						],
+						"url": {
+							"raw": "https://api.eko.in:25002/ekoicici/v2/external/getAdhaarConsent?source=NEWCONNECT&initiator_id=7708080885&is_consent=Y&consent_text=285143408285&user_code=34870001&realsourceip=49.37.192.48",
+							"protocol": "https",
+							"host": [
+								"api",
+								"eko",
+								"in"
+							],
+							"port": "25002",
+							"path": [
+								"ekoicici",
+								"v2",
+								"external",
+								"getAdhaarConsent"
+							],
+							"query": [
+								{
+									"key": "source",
+									"value": "NEWCONNECT"
+								},
+								{
+									"key": "initiator_id",
+									"value": "7708080885"
+								},
+								{
+									"key": "is_consent",
+									"value": "Y"
+								},
+								{
+									"key": "consent_text",
+									"value": "285143408285"
+								},
+								{
+									"key": "user_code",
+									"value": "34870001"
+								},
+								{
+									"key": "realsourceip",
+									"value": "49.37.192.48"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GET Aadhaar OTP",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "developer_key",
+								"value": "793db230ef4ac2eb691e3087f73fe749"
+							},
+							{
+								"key": "secret-key",
+								"value": "y4k0KzCD1cCfUNnOqz7WsshrduUZC51YH61sxj8zxdM="
+							},
+							{
+								"key": "secret-key-timestamp",
+								"value": "1704791808198"
+							}
+						],
+						"url": {
+							"raw": "https://api.eko.in:25002/ekoicici/v2/external/getAdhaarOTP?source=NEWCONNECT&initiator_id=7708080885&aadhar=285143408285&is_consent=Y&access_key=1cf37d7a-b476-4d51-8a6d-d5a550662b8e&caseId=285143408285&user_code=34870001&realsourceip=49.37.192.48",
+							"protocol": "https",
+							"host": [
+								"api",
+								"eko",
+								"in"
+							],
+							"port": "25002",
+							"path": [
+								"ekoicici",
+								"v2",
+								"external",
+								"getAdhaarOTP"
+							],
+							"query": [
+								{
+									"key": "source",
+									"value": "NEWCONNECT"
+								},
+								{
+									"key": "initiator_id",
+									"value": "7708080885"
+								},
+								{
+									"key": "aadhar",
+									"value": "285143408285"
+								},
+								{
+									"key": "is_consent",
+									"value": "Y"
+								},
+								{
+									"key": "access_key",
+									"value": "1cf37d7a-b476-4d51-8a6d-d5a550662b8e"
+								},
+								{
+									"key": "caseId",
+									"value": "285143408285"
+								},
+								{
+									"key": "user_code",
+									"value": "34870001"
+								},
+								{
+									"key": "realsourceip",
+									"value": "49.37.192.48"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GET Aadhaar File",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "developer_key",
+								"value": "793db230ef4ac2eb691e3087f73fe749"
+							},
+							{
+								"key": "secret-key",
+								"value": "y4k0KzCD1cCfUNnOqz7WsshrduUZC51YH61sxj8zxdM="
+							},
+							{
+								"key": "secret-key-timestamp",
+								"value": "1704791808198"
+							}
+						],
+						"url": {
+							"raw": "https://api.eko.in:25002/ekoicici/v1/external/getAdhaarFile?initiator_id=7708080885&otp=441427&is_consent=Y&share_code=1238&access_key=1cf37d7a-b476-4d51-8a6d-d5a550662b8e&caseId=285143408285&aadhar=285143408285&user_code=34870001&realsourceip=49.37.192.48",
+							"protocol": "https",
+							"host": [
+								"api",
+								"eko",
+								"in"
+							],
+							"port": "25002",
+							"path": [
+								"ekoicici",
+								"v1",
+								"external",
+								"getAdhaarFile"
+							],
+							"query": [
+								{
+									"key": "initiator_id",
+									"value": "7708080885"
+								},
+								{
+									"key": "otp",
+									"value": "441427"
+								},
+								{
+									"key": "is_consent",
+									"value": "Y"
+								},
+								{
+									"key": "share_code",
+									"value": "1238"
+								},
+								{
+									"key": "access_key",
+									"value": "1cf37d7a-b476-4d51-8a6d-d5a550662b8e"
+								},
+								{
+									"key": "caseId",
+									"value": "285143408285"
+								},
+								{
+									"key": "aadhar",
+									"value": "285143408285"
+								},
+								{
+									"key": "user_code",
+									"value": "34870001"
+								},
+								{
+									"key": "realsourceip",
+									"value": "49.37.192.48"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "BBPS",
+			"item": [
+				{
+					"name": "Activate BBPS",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "developer_key",
+								"value": "793db230ef4ac2eb691e3087f73fe749"
+							},
+							{
+								"key": "secret-key",
+								"value": "y4k0KzCD1cCfUNnOqz7WsshrduUZC51YH61sxj8zxdM="
+							},
+							{
+								"key": "secret-key-timestamp",
+								"value": "1704791808198"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/x-www-form-urlencoded"
+							},
+							{
+								"key": "Cookie",
+								"value": "JSESSIONID=DDFE0149A107950E9591820607D6A9F8"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "service_code",
+									"value": "53",
+									"type": "text"
+								},
+								{
+									"key": "initiator_id",
+									"value": "7708080885",
+									"type": "text"
+								},
+								{
+									"key": "user_code",
+									"value": "34870001",
+									"type": "text"
+								},
+								{
+									"key": "latlong",
+									"value": "77.06794760,77.06794760",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "https://api.eko.in:25002/ekoicici/v1/user/service/activate",
+							"protocol": "https",
+							"host": [
+								"api",
+								"eko",
+								"in"
+							],
+							"port": "25002",
+							"path": [
+								"ekoicici",
+								"v1",
+								"user",
+								"service",
+								"activate"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Operator Category List",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "developer_key",
+								"value": "793db230ef4ac2eb691e3087f73fe749"
+							},
+							{
+								"key": "secret-key",
+								"value": "y4k0KzCD1cCfUNnOqz7WsshrduUZC51YH61sxj8zxdM="
+							},
+							{
+								"key": "secret-key-timestamp",
+								"value": "1704791808198"
+							}
+						],
+						"url": {
+							"raw": "https://api.eko.in:25002/ekoicici/v2/billpayments/operators_category",
+							"protocol": "https",
+							"host": [
+								"api",
+								"eko",
+								"in"
+							],
+							"port": "25002",
+							"path": [
+								"ekoicici",
+								"v2",
+								"billpayments",
+								"operators_category"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Operator Location List",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "developer_key",
+								"value": "793db230ef4ac2eb691e3087f73fe749"
+							},
+							{
+								"key": "secret-key",
+								"value": "y4k0KzCD1cCfUNnOqz7WsshrduUZC51YH61sxj8zxdM="
+							},
+							{
+								"key": "secret-key-timestamp",
+								"value": "1704791808198"
+							}
+						],
+						"url": {
+							"raw": "https://api.eko.in:25002/ekoicici/v2/billpayments/operators_location",
+							"protocol": "https",
+							"host": [
+								"api",
+								"eko",
+								"in"
+							],
+							"port": "25002",
+							"path": [
+								"ekoicici",
+								"v2",
+								"billpayments",
+								"operators_location"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Operator List API",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "developer_key",
+								"value": "793db230ef4ac2eb691e3087f73fe749"
+							},
+							{
+								"key": "secret-key",
+								"value": "y4k0KzCD1cCfUNnOqz7WsshrduUZC51YH61sxj8zxdM="
+							},
+							{
+								"key": "secret-key-timestamp",
+								"value": "1704791808198"
+							}
+						],
+						"url": {
+							"raw": "https://api.eko.in:25002/ekoicici/v2/billpayments/operators?category=5",
+							"protocol": "https",
+							"host": [
+								"api",
+								"eko",
+								"in"
+							],
+							"port": "25002",
+							"path": [
+								"ekoicici",
+								"v2",
+								"billpayments",
+								"operators"
+							],
+							"query": [
+								{
+									"key": "category",
+									"value": "5"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Operator Parameters API",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "developer_key",
+								"value": "793db230ef4ac2eb691e3087f73fe749"
+							},
+							{
+								"key": "secret-key",
+								"value": "y4k0KzCD1cCfUNnOqz7WsshrduUZC51YH61sxj8zxdM="
+							},
+							{
+								"key": "secret-key-timestamp",
+								"value": "1704791808198"
+							}
+						],
+						"url": {
+							"raw": "https://api.eko.in:25002/ekoicici/v2/billpayments/operators/1",
+							"protocol": "https",
+							"host": [
+								"api",
+								"eko",
+								"in"
+							],
+							"port": "25002",
+							"path": [
+								"ekoicici",
+								"v2",
+								"billpayments",
+								"operators",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Fetch Bills API",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "developer_key",
+								"value": "793db230ef4ac2eb691e3087f73fe749"
+							},
+							{
+								"key": "secret-key-timestamp",
+								"value": "1711971561095"
+							},
+							{
+								"key": "secret-key",
+								"value": "z2nqWwpTFHq2BxvHwcrlnsv4QXeyRZ9Hqt0y1BcNWCs="
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Connection",
+								"value": "Keep-Alive"
+							},
+							{
+								"key": "Accept-Encoding",
+								"value": "gzip"
+							},
+							{
+								"key": "User-Agent",
+								"value": "okhttp/3.9.0"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"source_ip\":\"165.232.180.139\",\n    \"user_code\":\"34870001\",\n    \"client_ref_id\":\"202105313525123456\",\n    \"utility_acc_no\":\"9597622769\",\n    \"confirmation_mobile_no\":\"9597622769\",\n    \"sender_name\":\"Gowtham\",\n    \"operator_id\":\"1\",\n    \"latlong\":\"77.06794760,77.06794760\",\n     \"hc_channel\" : 1 \n}\n"
+						},
+						"url": {
+							"raw": "https://api.eko.in:25002/ekoicici/v2/billpayments/fetchbill?initiator_id=7708080885",
+							"protocol": "https",
+							"host": [
+								"api",
+								"eko",
+								"in"
+							],
+							"port": "25002",
+							"path": [
+								"ekoicici",
+								"v2",
+								"billpayments",
+								"fetchbill"
+							],
+							"query": [
+								{
+									"key": "initiator_id",
+									"value": "7708080885"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "BANK",
+			"item": [
+				{
+					"name": "TEST 1",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "developer_key",
+								"value": "793db230ef4ac2eb691e3087f73fe749"
+							},
+							{
+								"key": "secret-key",
+								"value": "y4k0KzCD1cCfUNnOqz7WsshrduUZC51YH61sxj8zxdM="
+							},
+							{
+								"key": "secret-key-timestamp",
+								"value": "1704791808198"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/x-www-form-urlencoded"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "initiator_id",
+									"value": "7708080885",
+									"type": "text"
+								},
+								{
+									"key": "customer_id",
+									"value": "7708325543",
+									"type": "text"
+								},
+								{
+									"key": "client_ref_id",
+									"value": "AVS20181123194719311",
+									"type": "text"
+								},
+								{
+									"key": "user_code",
+									"value": "34870001",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "https://api.eko.in:25002/ekoicici/v2/banks/ifsc:CNRB0003527/accounts/3527101004123",
+							"protocol": "https",
+							"host": [
+								"api",
+								"eko",
+								"in"
+							],
+							"port": "25002",
+							"path": [
+								"ekoicici",
+								"v2",
+								"banks",
+								"ifsc:CNRB0003527",
+								"accounts",
+								"3527101004123"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "TEST 2",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "developer_key",
+								"value": "793db230ef4ac2eb691e3087f73fe749"
+							},
+							{
+								"key": "secret-key",
+								"value": "cZT/TD0abdRVyPOAe2YD8jhrCWa76nlwm0g1WrLb87U="
+							},
+							{
+								"key": "secret-key-timestamp",
+								"value": "1704792442381"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/x-www-form-urlencoded"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "initiator_id",
+									"value": "7708080885",
+									"type": "text"
+								},
+								{
+									"key": "customer_id",
+									"value": "7708325543",
+									"type": "text"
+								},
+								{
+									"key": "client_ref_id",
+									"value": "AVS20181123194719311",
+									"type": "text"
+								},
+								{
+									"key": "user_code",
+									"value": "34870001",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "https://api.eko.in:25002/ekoicici/v2/banks/ifsc:CNRB0003527/accounts/3527101004123",
+							"protocol": "https",
+							"host": [
+								"api",
+								"eko",
+								"in"
+							],
+							"port": "25002",
+							"path": [
+								"ekoicici",
+								"v2",
+								"banks",
+								"ifsc:CNRB0003527",
+								"accounts",
+								"3527101004123"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "PAN",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/x-www-form-urlencoded"
+					},
+					{
+						"key": "developer_key",
+						"value": "793db230ef4ac2eb691e3087f73fe749"
+					},
+					{
+						"key": "secret-key",
+						"value": "y4k0KzCD1cCfUNnOqz7WsshrduUZC51YH61sxj8zxdM="
+					},
+					{
+						"key": "secret-key-timestamp",
+						"value": "1704791808198"
+					}
+				],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "pan_number",
+							"value": "CNZPS1277D",
+							"type": "text"
+						},
+						{
+							"key": "purpose",
+							"value": "1",
+							"type": "text"
+						},
+						{
+							"key": "initiator_id",
+							"value": "7708080885",
+							"type": "text"
+						},
+						{
+							"key": "purpose_desc",
+							"value": "onboarding",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "https://api.eko.in:25002/ekoicici/v1/pan/verify",
+					"protocol": "https",
+					"host": [
+						"api",
+						"eko",
+						"in"
+					],
+					"port": "25002",
+					"path": [
+						"ekoicici",
+						"v1",
+						"pan",
+						"verify"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

@@ -123,12 +123,12 @@ class UserManagementController extends Controller
         ];
     
         // PAN Verification
-        // $verifyPanCard = new \App\Services\VerifyPanCard();
-        // $panVerificationResponse = $verifyPanCard->verifyPAN($kycData['pan_number'], $user->phone_number);
-        // // dd($panVerificationResponse);
-        // if ($panVerificationResponse['status'] !== 'success') {
-        //     return redirect()->back()->with('error', 'PAN verification failed.');
-        // }
+        $verifyPanCard = new \App\Services\VerifyPanCard();
+        $panVerificationResponse = $verifyPanCard->verifyPAN($kycData['pan_number'], $user->phone_number);
+        // dd($panVerificationResponse);
+        if ($panVerificationResponse['status'] !== 'success') {
+            return redirect()->back()->with('error', 'PAN verification failed.');
+        }
     
         // Bank Account Verification
         $verifyBankAccount = new \App\Services\VerifyBankAccount();
@@ -303,7 +303,7 @@ class UserManagementController extends Controller
             'password' => Hash::make($validatedData['password']),
             'user_type' => $validatedData['role']
         ]);
-        dd($user);
+        // dd($user);
 
         return redirect()->back()->with('success', 'Manager created successfully!');
     }

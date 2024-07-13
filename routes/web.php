@@ -54,6 +54,8 @@ Route::controller(LoginController::class)->group(function () {
 Route::controller(FieldManagerController::class)->group(function () {
     Route::middleware('auth')->group(function () {
         Route::get('/field-manager-dashboard', 'FieldManagerShow')->name('FieldManagerShow');
+        Route::get('/field-manager/customer', 'FiledManagerCustomerKycShow')->name('field.FiledManagerCustomerKycShow');
+        Route::post('/field-manager/customer-approve/{user}', 'updateFieldManagerVerification')->name('filed.kyc.CustomerKYCVerified');
     });   
 });
 
@@ -61,6 +63,8 @@ Route::controller(FieldManagerController::class)->group(function () {
 Route::controller(RelationManagerController::class)->group(function () {
     Route::middleware('auth')->group(function () {
         Route::get('/relation-manager-dashboard', 'RelationManagerShow')->name('RelationManagerShow');
+        Route::get('/relation-manager/customer', 'RelationManagerCustomerKycShow')->name('Relation.RelationManagerCustomerKycShow');
+        Route::post('/relation-manager/customer/{user}', 'updateRelationManagerVerification')->name('Relation.kyc.CustomerKYCVerified');
     });   
 });
 
@@ -101,3 +105,17 @@ Route::controller(UserManagementController::class)->group(function () {
     // Route::post('/admin/customer-kyc', 'CustomerKYCVerified')->name('CustomerKYCVerified');
     
 });
+
+//CustomerKYCController
+// Route::controller(CustomerKYCController::class)->group(function () {
+//     Route::middleware('auth')->group(function () {
+//         // Route::get('/admin/customer', 'CustomerManagement')->name('CustomerManagement');
+//         // Route::post('/admin/customer', 'CustomerManagementStore')->name('CustomerManagementStore');
+//         Route::get('/admin/customer-kyc', 'CustomerKYC')->name('CustomerKYC');
+     
+//     });
+   
+    
+// });
+
+

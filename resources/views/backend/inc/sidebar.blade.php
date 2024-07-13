@@ -128,8 +128,33 @@
                     </a>
                 </li>
             @endif
-            {{-- User --}}
-            @if (Auth::user()->user_type == 'user')
+            {{-- relation_manager --}}
+            @if (Auth::user()->user_type == 'relation_manager')
+            <li class="menu-title">Customer Management</li>
+            <li class="menu {{ request()->is('Relation.RelationManagerCustomerKycShow*') ? 'active' : '' }}">
+                <a href="{{ route('Relation.RelationManagerCustomerKycShow') }}"
+                    data-active="{{ request()->is('Relation.RelationManagerCustomerKycShow*') ? 'true' : 'false' }}"
+                    class="dropdown-toggle">
+                    <div class="">
+                        <i class="las la-user-plus"></i>
+                        <span>Customer Kyc</span>
+                    </div>
+                </a>
+            </li>
+            @endif
+            {{-- field_manager --}}
+            @if (Auth::user()->user_type == 'field_manager')
+            <li class="menu-title">Customer Management</li>
+            <li class="menu {{ request()->is('field.FiledManagerCustomerKycShow*') ? 'active' : '' }}">
+                <a href="{{ route('field.FiledManagerCustomerKycShow') }}"
+                    data-active="{{ request()->is('field.FiledManagerCustomerKycShow*') ? 'true' : 'false' }}"
+                    class="dropdown-toggle">
+                    <div class="">
+                        <i class="las la-user-plus"></i>
+                        <span>Customer Kyc</span>
+                    </div>
+                </a>
+            </li>
             @endif
         </ul>
     </nav>

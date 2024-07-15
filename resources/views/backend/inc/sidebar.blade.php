@@ -52,6 +52,16 @@
                         </div>
                     </a>
                 </li>
+                <li class="menu-title">Settings</li>
+                <li class="menu {{ request()->is('settings.PaymentConf*') ? 'active' : '' }}">
+                    <a href="{{ route('settings.PaymentConf') }}"
+                        data-active="{{ request()->is('settings.PaymentConf*') ? 'true' : 'false' }}" class="dropdown-toggle">
+                        <div class="">
+                            <i class="las la-money-check"></i>
+                            <span>Payment Setting</span>
+                        </div>
+                    </a>
+                </li>
                 <li class="menu-title">Manager Management</li>
                 <li class="menu {{ request()->is('ManagerCreateShow*') ? 'active' : '' }}">
                     <a href="{{ route('ManagerCreateShow') }}"

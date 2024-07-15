@@ -71,18 +71,14 @@
                                                     <th>ID</th>
                                                     <th>Name</th>
                                                     <th>Email</th>
-                                                    <th>Phone</th>
+                                                    {{-- <th>Phone</th> --}}
                                                     <th>Loan Amount</th>
                                                     <th>Relationship Manager Verified</th>
                                                     <th>Field Manager Verified</th>
-
                                                     <th>Loan Approved</th>
                                                     <th>Status</th>
                                                     <th>Reason</th>
-                                                    <th>Aadhar No</th>
-                                                    <th>Pan No</th>
-                                                    <th>Account No</th>
-                                                    <th>IFSC No</th>
+                                                    <th>Action</th> <!-- Added new column for Action -->
                                                 </tr>
                                             </thead>
                                             <tbody>
@@ -91,7 +87,7 @@
                                                         <td>{{ $index + 1 }}</td>
                                                         <td>{{ $user->name }}</td>
                                                         <td>{{ $user->email }}</td>
-                                                        <td>{{ $user->phone_number ?: 'NA' }}</td>
+                                                        {{-- <td>{{ $user->phone_number ?: 'NA' }}</td> --}}
                                                         <td>{{ $user->loan_amount ?: 'NA' }}</td>
 
                                                         <td>
@@ -168,8 +164,8 @@
                                                                     </div>
                                                                 </div>
                                                                 <div class="loading-spinner"
-                                                                    id="spinner-{{ $user->id }}"
-                                                                    style="display: none;"></div>
+                                                                    id="spinner-{{ $user->id }}" style="display: none;">
+                                                                </div>
                                                             </form>
                                                         </td>
 
@@ -180,10 +176,18 @@
                                                                 <textarea class="form-control" id="reason" name="reason">{{ $user->kyc->reason ?? '' }}</textarea>
                                                             </div>
                                                         </td>
-                                                        <td>{{ $user->kyc->aadhar_number ?? 'NA' }}</td>
-                                                        <td>{{ $user->kyc->pan_number ?? 'NA' }}</td>
-                                                        <td>{{ $user->kyc->account_number ?? 'NA' }}</td>
-                                                        <td>{{ $user->kyc->ifsc_code ?? 'NA' }}</td>
+
+                                                        <td>
+                                                            <a href="{{ route('admin.LoanDeatilsShow', ['id' => $user->id]) }}"
+                                                                class="btn btn-primary btn-sm">
+                                                                <i class="las la-eye" style="font-size: 24px;"></i>
+                                                            </a>
+                                                        </td>
+                                                        {{-- <td>
+                                                           
+                                                            <i class="las la-eye" style="font-size: 24px; color:green;"></i>
+                                                           
+                                                        </td> --}}
                                                     </tr>
                                                 @endforeach
                                             </tbody>

@@ -65,4 +65,8 @@ class User extends Authenticatable
     {
         return $this->hasOne(UserKyc::class);
     }
+    public function loan()
+    {
+        return $this->hasOne(Loan::class, 'loan_id', 'id');
+    }
 }

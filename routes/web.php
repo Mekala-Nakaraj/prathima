@@ -6,6 +6,8 @@ use App\Http\Controllers\Auth\ForgotPasswordController;
 use App\Http\Controllers\UserManagementController;
 use App\Http\Controllers\FieldManagerController;
 use App\Http\Controllers\RelationManagerController;
+use App\Http\Controllers\LoanController;
+use App\Http\Controllers\SettingsController;
 
 /*
 |--------------------------------------------------------------------------
@@ -65,6 +67,22 @@ Route::controller(RelationManagerController::class)->group(function () {
         Route::get('/relation-manager-dashboard', 'RelationManagerShow')->name('RelationManagerShow');
         Route::get('/relation-manager/customer', 'RelationManagerCustomerKycShow')->name('Relation.RelationManagerCustomerKycShow');
         Route::post('/relation-manager/customer/{user}', 'updateRelationManagerVerification')->name('Relation.kyc.CustomerKYCVerified');
+    });   
+});
+
+// LoanController
+Route::controller(LoanController::class)->group(function () {
+    Route::middleware('auth')->group(function () {
+        Route::get('/admin/loan-details/{id}', 'LoanDeatilsShow')->name('admin.LoanDeatilsShow');
+        Route::put('/admin/loan-details/{user}', 'LoanDeatilsstore')->name('admin.store.LoanDeatilsstore');
+    });   
+});
+
+// SettingsController
+Route::controller(SettingsController::class)->group(function () {
+    Route::middleware('auth')->group(function () {
+        Route::get('/admin/settings/payment-conf', 'PaymentConf')->name('settings.PaymentConf');
+        Route::post('/admin/settings/payment-conf/update', 'PaymentConfStore')->name('settings.PaymentConfStore');
     });   
 });
 

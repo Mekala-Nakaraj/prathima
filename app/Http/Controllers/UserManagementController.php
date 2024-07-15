@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\User;
 use App\Models\UserKyc;
+use App\Models\UsersLoan;
+use App\Models\Loan;
 use Illuminate\Support\Facades\Hash;
 
 class UserManagementController extends Controller
@@ -336,8 +338,11 @@ class UserManagementController extends Controller
     public function CustomerLoan()
     {
         // $users = auth()->user();
-        $users = \App\Models\User::all();
         // $users = \App\Models\User::all();
-        return view('backend.pages.customer.customerloan', compact('users'));
+        // $loan = Loan::all(); 
+        // $users = UsersLoan::all(); 
+        $usersLoans = UsersLoan::with('user', 'Loan')->get();
+        // dd($usersLoans);
+        return view('backend.pages.customer.customerloan', compact('usersLoans'));
     }
 }

@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\User;
 use App\Models\UserKyc;
 use App\Models\Loan;
+use App\Models\UsersLoan;
 
 class LoanController extends Controller
 {
@@ -44,6 +45,12 @@ class LoanController extends Controller
         $user->loan()->updateOrCreate([], $loanData);
     
         return redirect()->back()->with('success', 'Loan details updated successfully.');
+    }
+    public function ProfileDeatilsShow($id)
+    {
+        $userLoan = UsersLoan::with('user', 'loan', 'UserKyc')->where('user_id', $id)->firstOrFail();
+        // $user = User::findOrFail($id);
+        return view('backend.pages.customer.alldetailsshow', compact('userLoan'));
     }
     
 }

@@ -22,6 +22,7 @@ class User extends Authenticatable
         'email',
         'alternative_email',
         'phone_number',
+        'user_type',
         'otp_phone',
         'pincode',
         'city',
@@ -63,5 +64,13 @@ class User extends Authenticatable
     public function kyc()
     {
         return $this->hasOne(UserKyc::class);
+    }
+    public function loan()
+    {
+        return $this->hasOne(Loan::class, 'loan_id', 'id');
+    }
+    public function userloans()
+    {
+        return $this->hasOne(UsersLoan::class);
     }
 }

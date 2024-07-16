@@ -30,7 +30,7 @@ class VerifyPanCard
         ]);
 
         $responseBody = $response->json();
-        dd($responseBody);
+        // dd($responseBody);
 
         if ($response->successful() && $responseBody['status'] == 0) {
             return [

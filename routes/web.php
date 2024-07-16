@@ -4,6 +4,10 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\ForgotPasswordController;
 use App\Http\Controllers\UserManagementController;
+use App\Http\Controllers\FieldManagerController;
+use App\Http\Controllers\RelationManagerController;
+use App\Http\Controllers\LoanController;
+use App\Http\Controllers\SettingsController;
 
 /*
 |--------------------------------------------------------------------------
@@ -48,6 +52,44 @@ Route::controller(LoginController::class)->group(function () {
    
 });
 
+//FieldManagerController
+Route::controller(FieldManagerController::class)->group(function () {
+    Route::middleware('auth')->group(function () {
+        Route::get('/field-manager-dashboard', 'FieldManagerShow')->name('FieldManagerShow');
+        Route::get('/field-manager/customer', 'FiledManagerCustomerKycShow')->name('field.FiledManagerCustomerKycShow');
+        Route::post('/field-manager/customer-approve/{user}', 'updateFieldManagerVerification')->name('filed.kyc.CustomerKYCVerified');
+    });   
+});
+
+//RelationManagerController
+Route::controller(RelationManagerController::class)->group(function () {
+    Route::middleware('auth')->group(function () {
+        Route::get('/relation-manager-dashboard', 'RelationManagerShow')->name('RelationManagerShow');
+        Route::get('/relation-manager/customer', 'RelationManagerCustomerKycShow')->name('Relation.RelationManagerCustomerKycShow');
+        Route::post('/relation-manager/customer/{user}', 'updateRelationManagerVerification')->name('Relation.kyc.CustomerKYCVerified');
+    });   
+});
+
+// LoanController
+Route::controller(LoanController::class)->group(function () {
+    Route::middleware('auth')->group(function () {
+        Route::get('/admin/loan-details/{id}', 'LoanDeatilsShow')->name('admin.LoanDeatilsShow');
+        Route::put('/admin/loan-details/{user}', 'LoanDeatilsstore')->name('admin.store.LoanDeatilsstore');
+        Route::get('/admin/customer/profile-list/{id}', 'ProfileDeatilsShow')->name('admin.ProfileDeatilsShow');
+    });   
+});
+
+// SettingsController
+Route::controller(SettingsController::class)->group(function () {
+    Route::middleware('auth')->group(function () {
+        Route::get('/admin/settings/payment-conf', 'PaymentConf')->name('settings.PaymentConf');
+        Route::post('/admin/settings/payment-conf/update', 'PaymentConfStore')->name('settings.PaymentConfStore');
+        Route::get('/admin/settings/loan-conf/initial-loan', 'InitialLoanConfShow')->name('settings.InitialLoanConfShow');
+        Route::post('/admin/settings/loan-conf/initial-loan/update', 'InitialLoanConf')->name('settings.InitialLoanConf');
+        Route::get('/admin/settings/mail-conf', 'EmailConfShow')->name('settings.EmailConfShow');
+        Route::post('/admin/settings/mail-conf/update', 'EmailConfStore')->name('settings.EmailConfStore');
+    });   
+});
 
 Route::controller(ForgotPasswordController::class)->group(function () {
     Route::get('/forget-password', [ForgotPasswordController::class, 'ForgetPassword'])->name('ForgetPassword');
@@ -76,8 +118,27 @@ Route::controller(UserManagementController::class)->group(function () {
 
         /* customer loan */
         Route::get('/admin/customer/loan-list', 'CustomerLoan')->name('CustomerLoan');
+
+        //Manager
+        Route::get('/admin/manager/manager-create', 'ManagerCreateShow')->name('ManagerCreateShow');
+        Route::post('/admin/manager/manager-create', 'ManagerCreateStore')->name('ManagerCreateStore');
+        
     });
    
     // Route::post('/admin/customer-kyc', 'CustomerKYCVerified')->name('CustomerKYCVerified');
     
 });
+
+//CustomerKYCController
+// Route::controller(CustomerKYCController::class)->group(function () {
+//     Route::middleware('auth')->group(function () {
+//         // Route::get('/admin/customer', 'CustomerManagement')->name('CustomerManagement');
+//         // Route::post('/admin/customer', 'CustomerManagementStore')->name('CustomerManagementStore');
+//         Route::get('/admin/customer-kyc', 'CustomerKYC')->name('CustomerKYC');
+     
+//     });
+   
+    
+// });
+
+

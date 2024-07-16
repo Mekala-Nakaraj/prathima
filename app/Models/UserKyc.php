@@ -16,7 +16,11 @@ class UserKyc extends Model
         'pan_number',
         'account_number',
         'ifsc_code',
-        'is_verified'
+        'is_verified',
+        'relationship_manager_verified',//
+        'field_manager_verified',
+        'loan_amount',
+        'reason',
     ];
 
     public function user()

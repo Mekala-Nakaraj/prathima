@@ -1,5 +1,5 @@
 @extends('backend.layout.app')
-@section('title', 'admin')
+@section('title', 'Relation Manager Verification')
 @section('css')
 @endsection
 
@@ -73,10 +73,8 @@
                                                     <th>Email</th>
                                                     <th>Phone</th>
                                                     <th>Loan Amount</th>
-                                                    <th>Status</th>
-                                                    <th>Relationship Manager Verified</th>
                                                     <th>Field Manager Verified</th>
-                                                    <th>KYC Verified</th>
+                                                    <th>Loan Approved</th>
                                                     <th>Reason</th>
                                                     <th>Aadhar No</th>
                                                     <th>Pan No</th>
@@ -86,6 +84,7 @@
                                             </thead>
                                             <tbody>
                                                 @foreach ($users as $index => $user)
+                                             
                                                     <tr>
                                                         <td>{{ $index + 1 }}</td>
                                                         <td>{{ $user->name }}</td>
@@ -93,92 +92,43 @@
                                                         <td>{{ $user->phone_number ?: 'NA' }}</td>
                                                         <td>{{ $user->loan_amount ?: 'NA' }}</td>
                                                         <td>
-                                                            <form
-                                                                action="{{ route('user.kyc.CustomerKYCVerified', ['user' => $user->id]) }}"
-                                                                method="POST" id="kyc-form-{{ $user->id }}">
-                                                                @csrf
-                                                                <div class="form-group">
-                                                                    <div class="custom-control custom-switch">
-                                                                        <input type="hidden" name="is_verified"
-                                                                            value="0">
-                                                                        <!-- Hidden input for unchecked state -->
-                                                                        <input type="checkbox"
-                                                                            class="custom-control-input kyc-switch"
-                                                                            id="verified_{{ $user->id }}"
-                                                                            name="is_verified" value="1"
-                                                                            {{ $user->kyc && $user->kyc->is_verified ? 'checked' : '' }}>
-                                                                        <label class="custom-control-label"
-                                                                            for="verified_{{ $user->id }}">Verified</label>
-                                                                    </div>
-                                                                </div>
-                                                                <div class="loading-spinner"
-                                                                    id="spinner-{{ $user->id }}"
-                                                                    style="display: none;"></div>
-                                                            </form>
-                                                        </td>
-                                                        <td>
-                                                            <form
-                                                                action="{{ route('user.kyc.CustomerKYCVerified', ['user' => $user->id]) }}"
-                                                                method="POST" id="kyc-form-{{ $user->id }}">
-                                                                @csrf
-                                                                <div class="form-group">
-                                                                    <div class="custom-control custom-switch">
-                                                                        <input type="hidden" name="is_verified"
-                                                                            value="0">
-                                                                        <!-- Hidden input for unchecked state -->
-                                                                        <input type="checkbox"
-                                                                            class="custom-control-input kyc-switch"
-                                                                            id="verified_{{ $user->id }}"
-                                                                            name="is_verified" value="1"
-                                                                            {{ $user->kyc && $user->kyc->is_verified ? 'checked' : '' }}>
-                                                                        <label class="custom-control-label"
-                                                                            for="verified_{{ $user->id }}">Verified</label>
-                                                                    </div>
-                                                                </div>
-                                                                <div class="loading-spinner"
-                                                                    id="spinner-{{ $user->id }}"
-                                                                    style="display: none;"></div>
-                                                            </form>
-                                                        </td>
-                                                        <td>
-                                                            <form
-                                                                action="{{ route('user.kyc.CustomerKYCVerified', ['user' => $user->id]) }}"
-                                                                method="POST" id="kyc-form-{{ $user->id }}">
-                                                                @csrf
-                                                                <div class="form-group">
-                                                                    <div class="custom-control custom-switch">
-                                                                        <input type="hidden" name="is_verified"
-                                                                            value="0">
-                                                                        <!-- Hidden input for unchecked state -->
-                                                                        <input type="checkbox"
-                                                                            class="custom-control-input kyc-switch"
-                                                                            id="verified_{{ $user->id }}"
-                                                                            name="is_verified" value="1"
-                                                                            {{ $user->kyc && $user->kyc->is_verified ? 'checked' : '' }}>
-                                                                        <label class="custom-control-label"
-                                                                            for="verified_{{ $user->id }}">Verified</label>
-                                                                    </div>
-                                                                </div>
-                                                                <div class="loading-spinner"
-                                                                    id="spinner-{{ $user->id }}"
-                                                                    style="display: none;"></div>
-                                                            </form>
-                                                        </td>
-                                                        <td>
                                                             @if ($user->kyc)
-                                                                @if ($user->kyc->is_verified)
+                                                                @if ($user->kyc->relationship_manager_verified)
                                                                     <span class="badge badge-success">Approved</span>
                                                                 @else
                                                                     <span class="badge badge-danger">Rejected</span>
                                                                 @endif
                                                             @else
-                                                                <span class="badge badge-warning">Not Submitted</span>
+                                                                <span class="badge badge-warning">Processing...</span>
                                                             @endif
                                                         </td>
                                                         <td>
+                                                            <form
+                                                                action="{{ route('Relation.kyc.CustomerKYCVerified', ['user' => $user->id]) }}"
+                                                                method="POST" id="kyc-form-{{ $user->id }}">
+                                                                @csrf
+                                                                <div class="form-group">
+                                                                    <div class="custom-control custom-switch">
+                                                                        <input type="hidden" name="relationship_manager_verified"
+                                                                            value="0">
+                                                                        <input type="checkbox"
+                                                                            class="custom-control-input kyc-switch"
+                                                                            id="verified_{{ $user->id }}"
+                                                                            name="relationship_manager_verified" value="1"
+                                                                            {{ $user->kyc && $user->kyc->relationship_manager_verified ? 'checked' : '' }}>
+                                                                        <label class="custom-control-label"
+                                                                            for="verified_{{ $user->id }}">Verified</label>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="loading-spinner"
+                                                                    id="spinner-{{ $user->id }}"
+                                                                    style="display: none;"></div>
+                                                            </form>
+                                                        </td>
+                                                        <td>
                                                             <div class="form-group">
-                                                                <label for="reason">Reason</label>
-                                                                <textarea class="form-control" id="reason" name="reason">{{ $user->kyc->reason ?? '' }}</textarea>
+                                                                <label for="reason_{{ $user->id }}">Reason</label>
+                                                                <textarea class="form-control" id="reason_{{ $user->id }}" name="reason" rows="3" cols="50">{{ $user->kyc->reason ?? '' }}</textarea>
                                                             </div>
                                                         </td>
                                                         <td>{{ $user->kyc->aadhar_number ?? 'NA' }}</td>
@@ -235,11 +185,8 @@
     });
 </script>
 
-
-
 @section('modal')
 @endsection
-
 
 @section('script')
 @endsection

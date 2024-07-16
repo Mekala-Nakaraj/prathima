@@ -77,12 +77,8 @@
                                                 @php
                                                     $userType = auth()->user()->user_type;
 
-                                                    if ($userType == 'admin') {
-                                                        $userType = 'Admin';
-                                                    } elseif ($userType == 'relation_manager') {
-                                                        $userType = 'Relation Manager';
-                                                    } elseif ($userType == 'field_manager') {
-                                                        $userType = 'Field Manager';
+                                                    if ($userType == 'field_manager') {
+                                                        $userType = 'Filed Manager';
                                                     }
                                                 @endphp
 

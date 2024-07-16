@@ -59,47 +59,69 @@
             <thead>
                 <tr>
                     <th>ID</th>
+                    <th>Loan ID</th>
                     <th>Name</th>
-                    <th>Email</th>
                     <th>Phone</th>
-                    {{-- <th>Aadhar No</th> --}}
-                    {{-- <th>Pan No</th> --}}
-                    {{-- <th>Account No</th> --}}
-                    <th>KYC Status</th>
-                    <th>Amount</th>
-                    {{-- <th>KYC Verified</th> --}}
+                    <th>Loan Amount</th>
+                    <th>Interest Rate</th>
+                    <th>Agreed Status</th>
+                    <th>Agreed Date</th>
+                    <th>Payment Status</th>
+                    <th>Actions</th>
                 </tr>
             </thead>
             <tbody>
-                @foreach ($users as $index => $user)
+                @foreach ($usersLoans as $index => $userLoan)
                     <tr>
                         <td>{{ $index + 1 }}</td>
-                        <td>{{ $user->name }}</td>
-                        <td>{{ $user->email }}</td>
-                        <td>{{ $user->phone_number ?: 'NA' }}</td>
-                        {{-- <td>{{ $user->kyc->aadhar_number ?? 'NA' }}</td>
-                        <td>{{ $user->kyc->pan_number ?? 'NA' }}</td>
-                        <td>{{ $user->kyc->account_number ?? 'NA' }}</td> --}}
+                        {{-- <td>{{ $userLoan->loan_id ?: 'NA' }}</td> --}}
+                        <td>{{ $userLoan->loan ? $userLoan->loan->loan_id : 'NA' }}</td>
+                        <td>{{ $userLoan->loan ? $userLoan->user->name : 'NA' }}</td>
+                        <td>{{ $userLoan->loan ? $userLoan->user->email : 'NA' }}</td>
+                        <td>{{ $userLoan->loan ? $userLoan->loan->approved_loan_amount : 'NA' }}</td>
+                        <td>{{ $userLoan->loan ? $userLoan->loan->interest_rate : 'NA' }}</td>
                         <td>
-                            @if ($user->kyc)
-                                @if ($user->kyc->is_verified)
-                                    <span class="badge badge-success">Approved</span>
-                                @else
-                                    <span class="badge badge-danger">Rejected</span>
-                                @endif
+                            @if ($userLoan->agreed)
+                                <span class="badge badge-success">Agreed</span>
                             @else
-                                <span class="badge badge-warning">Not Submitted</span>
+                                <span class="badge badge-danger">Not Agreed</span>
                             @endif
                         </td>
-                        <td>{{ $user->kyc->amout ?? 'NA' }}</td>
-                     
-
+                        <td>
+                            @if ($userLoan->agreed_date)
+                                <span
+                                    style="color: #336699;">{{ \Carbon\Carbon::parse($userLoan->agreed_date)->format('Y-m-d h:i:s A') }}</span>
+                            @else
+                                <span style="color: #999999;">NA</span>
+                            @endif
+                        </td>
+                        <td>
+                            @if ($userLoan->payment_transaction)
+                                @if ($userLoan->payment_transaction === 'pending')
+                                    <span class="badge badge-warning">Pending</span>
+                                @elseif ($userLoan->payment_transaction === 'processing')
+                                    <span class="badge badge-info">Processing</span>
+                                @elseif ($userLoan->payment_transaction === 'deposit')
+                                    <span class="badge badge-success">Deposited</span>
+                                @endif
+                            @else
+                                <span class="badge badge-secondary">No Loan</span>
+                            @endif
+                        </td>
+                        <td>
+                            <a href="{{ route('admin.ProfileDeatilsShow', ['id' => $userLoan->id]) }}"
+                                class="btn btn-primary btn-sm">
+                                <i class="las la-eye" style="font-size: 24px;"></i>
+                            </a>
+                        </td>
                     </tr>
                 @endforeach
             </tbody>
         </table>
     </div>
 @endsection
+
+
 
 @section('modal')
 @endsection

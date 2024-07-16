@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\User;
 use App\Models\UserKyc;
+use App\Models\UsersLoan;
+use App\Models\Loan;
 use Illuminate\Support\Facades\Hash;
 
 class UserManagementController extends Controller
@@ -123,12 +125,12 @@ class UserManagementController extends Controller
         ];
     
         // PAN Verification
-        // $verifyPanCard = new \App\Services\VerifyPanCard();
-        // $panVerificationResponse = $verifyPanCard->verifyPAN($kycData['pan_number'], $user->phone_number);
-        // // dd($panVerificationResponse);
-        // if ($panVerificationResponse['status'] !== 'success') {
-        //     return redirect()->back()->with('error', 'PAN verification failed.');
-        // }
+        $verifyPanCard = new \App\Services\VerifyPanCard();
+        $panVerificationResponse = $verifyPanCard->verifyPAN($kycData['pan_number'], $user->phone_number);
+        // dd($panVerificationResponse);
+        if ($panVerificationResponse['status'] !== 'success') {
+            return redirect()->back()->with('error', 'PAN verification failed.');
+        }
     
         // Bank Account Verification
         $verifyBankAccount = new \App\Services\VerifyBankAccount();
@@ -209,7 +211,6 @@ class UserManagementController extends Controller
     // }
     
 
-  
     public function CustomerManagement()
     {
         // $users = auth()->user();
@@ -271,6 +272,43 @@ class UserManagementController extends Controller
         // dd($user);
         return redirect()->back()->with('success', 'Customer created successfully!');
     }
+
+    public function ManagerCreateShow(Request $request)
+    {
+        $user = auth()->user();
+        // $userKyc = auth()->userKyc();
+        return view('backend.pages.Manager.managercreate', compact('user'));
+       
+    }
+    public function ManagerCreateStore(Request $request)
+    {
+        // Validate the incoming request data
+        $validatedData = $request->validate([
+            'name' => 'required|string|max:255',
+            'email' => 'required|email|unique:users,email',
+            'phone_number' => 'required|string|unique:users,phone_number',
+            'password' => 'required|string|min:8|confirmed',
+            'role' => 'required|string|in:field_manager,relation_manager' 
+        ], [
+            'email.unique' => 'The email address is already taken.',
+            'phone_number.unique' => 'The phone number is already taken.',
+            'password.confirmed' => 'Password confirmation does not match.',
+            'role.required' => 'Please select a role.',
+            'role.in' => 'Please select a valid role.'
+        ]);
+
+        // Create user record in database
+        $user = User::create([
+            'name' => $validatedData['name'],
+            'email' => $validatedData['email'],
+            'phone_number' => $validatedData['phone_number'],
+            'password' => Hash::make($validatedData['password']),
+            'user_type' => $validatedData['role']
+        ]);
+        // dd($user);
+
+        return redirect()->back()->with('success', 'Manager created successfully!');
+    }
     public function CustomerKYC()
     {
         $users = User::with('kyc')->get(); 
@@ -300,8 +338,11 @@ class UserManagementController extends Controller
     public function CustomerLoan()
     {
         // $users = auth()->user();
-        $users = \App\Models\User::all();
         // $users = \App\Models\User::all();
-        return view('backend.pages.customer.customerloan', compact('users'));
+        // $loan = Loan::all(); 
+        // $users = UsersLoan::all(); 
+        $usersLoans = UsersLoan::with('user', 'Loan')->get();
+        // dd($usersLoans);
+        return view('backend.pages.customer.customerloan', compact('usersLoans'));
     }
 }

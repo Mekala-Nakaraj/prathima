@@ -88,6 +88,8 @@ Route::controller(SettingsController::class)->group(function () {
         Route::post('/admin/settings/loan-conf/initial-loan/update', 'InitialLoanConf')->name('settings.InitialLoanConf');
         Route::get('/admin/settings/mail-conf', 'EmailConfShow')->name('settings.EmailConfShow');
         Route::post('/admin/settings/mail-conf/update', 'EmailConfStore')->name('settings.EmailConfStore');
+        Route::get('/admin/settings/sms-conf', 'SMSConfShow')->name('settings.SMSConfShow');
+        Route::post('/admin/settings/sms-conf/update', 'SMSConfStore')->name('settings.SMSConfStore');
     });   
 });
 

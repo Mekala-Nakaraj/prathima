@@ -1,5 +1,5 @@
 @extends('backend.layout.app')
-@section('title', 'Mail Conf')
+@section('title', 'SMS Conf')
 @section('css')
     <link href="{{ asset('backend/assets/css/loader.css') }}" rel="stylesheet" type="text/css" />
     <link rel="stylesheet" type="text/css" href="{{ asset('backend/plugins/dropify/dropify.min.css') }}">
@@ -28,7 +28,7 @@
                         <nav class="breadcrumb-one" aria-label="breadcrumb">
                             <ol class="breadcrumb">
                                 <li class="breadcrumb-item"><a href="javascript:void(0);">Settings</a></li>
-                                <li class="breadcrumb-item active" aria-current="page"><span>Mail Conf</span></li>
+                                <li class="breadcrumb-item active" aria-current="page"><span>SMS Conf</span></li>
                             </ol>
                         </nav>
                     </div>
@@ -69,6 +69,7 @@
     </div>
 @endsection
 
+
 @section('content')
     <div class="layout-px-spacing">
         <div class="layout-top-spacing mb-2">
@@ -81,7 +82,7 @@
                                     <div class="widget-header">
                                         <div class="row">
                                             <div class="col-xl-12 col-md-12 col-sm-12 col-12">
-                                                <h4>Mail Configuration</h4>
+                                                <h4>SMS Configuration</h4>
                                             </div>
                                         </div>
                                     </div>
@@ -92,77 +93,37 @@
                                                 {{ session('success') }}
                                             </div>
                                         @endif
-                                        <form action="{{ route('settings.EmailConfStore') }}" method="POST">
+
+                                        <form action="{{ route('settings.SMSConfStore') }}" method="POST">
                                             @csrf
                                             <div class="row">
                                                 <div class="col-lg-6 mb-4">
-                                                    <label class="col-form-label">Mailer</label>
-                                                    <input type="text" class="form-control" id="MAIL_MAILER"
-                                                        name="MAIL_MAILER"
-                                                        value="{{ old('MAIL_MAILER', $settings->where('key', 'MAIL_MAILER')->first()->value ?? '') }}"
-                                                        placeholder="Enter Mail Mailer" required>
+                                                    <label class="col-form-label">SMS Gateway URL</label>
+                                                    <input type="text" class="form-control" id="SMS_GATEWAY_URL"
+                                                        name="SMS_GATEWAY_URL"
+                                                        value="{{ old('SMS_GATEWAY_URL', $settings->where('key', 'SMS_GATEWAY_URL')->first()->value ?? '') }}"
+                                                        placeholder="Enter SMS Gateway URL" required>
                                                 </div>
                                                 <div class="col-lg-6 mb-4">
-                                                    <label class="col-form-label">Host</label>
-                                                    <input type="text" class="form-control" id="MAIL_HOST"
-                                                        name="MAIL_HOST"
-                                                        value="{{ old('MAIL_HOST', $settings->where('key', 'MAIL_HOST')->first()->value ?? '') }}"
-                                                        placeholder="Enter Mail Host" required>
+                                                    <label class="col-form-label">API Key</label>
+                                                    <input type="text" class="form-control" id="SMS_API_KEY"
+                                                        name="SMS_API_KEY"
+                                                        value="{{ old('SMS_API_KEY', $settings->where('key', 'SMS_API_KEY')->first()->value ?? '') }}"
+                                                        placeholder="Enter SMS API Key" required>
                                                 </div>
                                                 <div class="col-lg-6 mb-4">
-                                                    <label class="col-form-label">Port</label>
-                                                    <input type="text" class="form-control" id="MAIL_PORT"
-                                                        name="MAIL_PORT"
-                                                        value="{{ old('MAIL_PORT', $settings->where('key', 'MAIL_PORT')->first()->value ?? '') }}"
-                                                        placeholder="Enter Mail Port" required>
+                                                    <label class="col-form-label">Sender ID</label>
+                                                    <input type="text" class="form-control" id="SMS_SENDER_ID"
+                                                        name="SMS_SENDER_ID"
+                                                        value="{{ old('SMS_SENDER_ID', $settings->where('key', 'SMS_SENDER_ID')->first()->value ?? '') }}"
+                                                        placeholder="Enter SMS Sender ID" required>
                                                 </div>
                                                 <div class="col-lg-6 mb-4">
-                                                    <label class="col-form-label">Username</label>
-                                                    <input type="text" class="form-control" id="MAIL_USERNAME"
-                                                        name="MAIL_USERNAME"
-                                                        value="{{ old('MAIL_USERNAME', $settings->where('key', 'MAIL_USERNAME')->first()->value ?? '') }}"
-                                                        placeholder="Enter Mail Username" required>
-                                                </div>
-                                                <div class="col-lg-6 mb-4">
-                                                    <label class="col-form-label">Password</label>
-                                                    <div class="input-group">
-                                                        <input type="password" class="form-control" id="MAIL_PASSWORD"
-                                                            name="MAIL_PASSWORD"
-                                                            value="{{ old('MAIL_PASSWORD', $settings->where('key', 'MAIL_PASSWORD')->first()->value ?? '') }}"
-                                                            placeholder="Enter Mail Password" required>
-                                                        <div class="input-group-append">
-                                                            <span class="input-group-text" id="togglePassword">
-                                                                <i class="las la-eye"></i>
-                                                            </span>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="col-lg-6 mb-4">
-                                                    <label class="col-form-label">Encryption</label>
-                                                    <input type="text" class="form-control" id="MAIL_ENCRYPTION"
-                                                        name="MAIL_ENCRYPTION"
-                                                        value="{{ old('MAIL_ENCRYPTION', $settings->where('key', 'MAIL_ENCRYPTION')->first()->value ?? '') }}"
-                                                        placeholder="Enter Mail Encryption" required>
-                                                </div>
-                                                <div class="col-lg-6 mb-4">
-                                                    <label class="col-form-label">From Address</label>
-                                                    <input type="email" class="form-control" id="MAIL_FROM_ADDRESS"
-                                                        name="MAIL_FROM_ADDRESS"
-                                                        value="{{ old('MAIL_FROM_ADDRESS', $settings->where('key', 'MAIL_FROM_ADDRESS')->first()->value ?? '') }}"
-                                                        placeholder="Enter Mail From Address" required>
-                                                </div>
-                                                <div class="col-lg-6 mb-4">
-                                                    <label class="col-form-label">From Name</label>
-                                                    <input type="text" class="form-control" id="MAIL_FROM_NAME"
-                                                        name="MAIL_FROM_NAME"
-                                                        value="{{ old('MAIL_FROM_NAME', $settings->where('key', 'MAIL_FROM_NAME')->first()->value ?? '') }}"
-                                                        placeholder="Enter Mail From Name" required>
-                                                </div>
-                                                <div class="col-lg-6 mb-4">
-                                                    <label class="col-form-label">Test Email Address</label>
-                                                    <input type="email" class="form-control" id="TEST_EMAIL"
-                                                        name="TEST_EMAIL" value="{{ old('TEST_EMAIL') }}"
-                                                        placeholder="Enter Test Email Address" required>
+                                                    <label class="col-form-label">Test Phone Number</label>
+                                                    <input type="text" class="form-control" id="TEST_PHONE_NUMBER"
+                                                        name="TEST_PHONE_NUMBER"
+                                                        value="{{ old('TEST_PHONE_NUMBER', $settings->where('key', 'TEST_PHONE_NUMBER')->first()->value ?? '') }}"
+                                                        placeholder="Enter Test Phone Number" required>
                                                 </div>
                                             </div>
                                             <div class="widget-footer text-right">
@@ -180,6 +141,7 @@
         </div>
     </div>
 @endsection
+
 
 <script>
     document.addEventListener("DOMContentLoaded", function() {

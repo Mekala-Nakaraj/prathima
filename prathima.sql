@@ -22,11 +22,11 @@ USE `prathima`;
 -- Dumping structure for table prathima.failed_jobs
 CREATE TABLE IF NOT EXISTS `failed_jobs` (
   `id` bigint unsigned NOT NULL AUTO_INCREMENT,
-  `uuid` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `connection` text COLLATE utf8mb4_unicode_ci NOT NULL,
-  `queue` text COLLATE utf8mb4_unicode_ci NOT NULL,
-  `payload` longtext COLLATE utf8mb4_unicode_ci NOT NULL,
-  `exception` longtext COLLATE utf8mb4_unicode_ci NOT NULL,
+  `uuid` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `connection` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `queue` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `payload` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `exception` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   `failed_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`),
   UNIQUE KEY `failed_jobs_uuid_unique` (`uuid`)
@@ -35,10 +35,31 @@ CREATE TABLE IF NOT EXISTS `failed_jobs` (
 -- Dumping data for table prathima.failed_jobs: ~0 rows (approximately)
 DELETE FROM `failed_jobs`;
 
+-- Dumping structure for table prathima.loans
+CREATE TABLE IF NOT EXISTS `loans` (
+  `id` bigint unsigned NOT NULL AUTO_INCREMENT,
+  `loan_id` bigint unsigned NOT NULL,
+  `interest_rate` decimal(8,2) NOT NULL,
+  `approved_loan_amount` decimal(12,2) NOT NULL,
+  `start_date` date NOT NULL,
+  `due_date` date NOT NULL,
+  `agreement` text COLLATE utf8mb4_unicode_ci,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- Dumping data for table prathima.loans: ~3 rows (approximately)
+DELETE FROM `loans`;
+INSERT INTO `loans` (`id`, `loan_id`, `interest_rate`, `approved_loan_amount`, `start_date`, `due_date`, `agreement`, `created_at`, `updated_at`) VALUES
+	(1, 2, 12.00, 10000.00, '2024-07-12', '2024-07-21', 'test2', '2024-07-13 04:14:37', '2024-07-13 05:17:29'),
+	(2, 1, 21.00, 25.00, '2024-07-07', '2024-07-26', 'Test 2', '2024-07-15 01:40:21', '2024-07-15 03:11:47'),
+	(3, 27, 10.00, 2000.00, '2024-07-16', '2024-07-31', 'test', '2024-07-15 02:02:33', '2024-07-15 02:02:33');
+
 -- Dumping structure for table prathima.migrations
 CREATE TABLE IF NOT EXISTS `migrations` (
   `id` int unsigned NOT NULL AUTO_INCREMENT,
-  `migration` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `migration` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   `batch` int NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -54,8 +75,8 @@ INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
 
 -- Dumping structure for table prathima.password_reset_tokens
 CREATE TABLE IF NOT EXISTS `password_reset_tokens` (
-  `email` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `token` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `email` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `token` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`email`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -66,11 +87,11 @@ DELETE FROM `password_reset_tokens`;
 -- Dumping structure for table prathima.personal_access_tokens
 CREATE TABLE IF NOT EXISTS `personal_access_tokens` (
   `id` bigint unsigned NOT NULL AUTO_INCREMENT,
-  `tokenable_type` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `tokenable_type` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   `tokenable_id` bigint unsigned NOT NULL,
-  `name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `token` varchar(64) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `abilities` text COLLATE utf8mb4_unicode_ci,
+  `name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `token` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `abilities` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci,
   `last_used_at` timestamp NULL DEFAULT NULL,
   `expires_at` timestamp NULL DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
@@ -83,6 +104,29 @@ CREATE TABLE IF NOT EXISTS `personal_access_tokens` (
 -- Dumping data for table prathima.personal_access_tokens: ~0 rows (approximately)
 DELETE FROM `personal_access_tokens`;
 
+-- Dumping structure for table prathima.settings
+CREATE TABLE IF NOT EXISTS `settings` (
+  `id` bigint unsigned NOT NULL AUTO_INCREMENT,
+  `key` varchar(255) NOT NULL,
+  `value` text,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `key` (`key`)
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+-- Dumping data for table prathima.settings: ~8 rows (approximately)
+DELETE FROM `settings`;
+INSERT INTO `settings` (`id`, `key`, `value`, `created_at`, `updated_at`) VALUES
+	(1, 'MAIL_MAILER', 'smtp', '2024-07-15 04:49:21', '2024-07-15 05:09:44'),
+	(2, 'MAIL_HOST', 'smtp.gmail.com', '2024-07-15 04:49:21', '2024-07-15 05:09:44'),
+	(3, 'MAIL_PORT', '465', '2024-07-15 04:49:21', '2024-07-15 05:09:45'),
+	(4, 'MAIL_USERNAME', 'v4inspire.official@gmail.com', '2024-07-15 04:49:21', '2024-07-15 05:09:45'),
+	(5, 'MAIL_PASSWORD', 'rriq hhkv bzhe mosk', '2024-07-15 04:49:21', '2024-07-15 05:09:45'),
+	(6, 'MAIL_ENCRYPTION', 'ssl', '2024-07-15 04:49:21', '2024-07-15 05:09:45'),
+	(7, 'MAIL_FROM_ADDRESS', 'v4inspire.official@gmail.com', '2024-07-15 04:49:21', '2024-07-15 05:09:45'),
+	(8, 'MAIL_FROM_NAME', 'Prathima', '2024-07-15 04:49:21', '2024-07-15 05:49:49');
+
 -- Dumping structure for table prathima.users
 CREATE TABLE IF NOT EXISTS `users` (
   `id` int NOT NULL AUTO_INCREMENT,
@@ -92,7 +136,7 @@ CREATE TABLE IF NOT EXISTS `users` (
   `email_verified_at` timestamp NULL DEFAULT NULL,
   `password` varchar(255) DEFAULT NULL,
   `remember_token` varchar(100) DEFAULT NULL,
-  `user_type` varchar(50) DEFAULT 'user',
+  `user_type` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT 'user',
   `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   `updated_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `pincode` varchar(20) DEFAULT NULL,
@@ -100,48 +144,87 @@ CREATE TABLE IF NOT EXISTS `users` (
   `district` varchar(255) DEFAULT NULL,
   `state` varchar(255) DEFAULT NULL,
   `country` varchar(255) DEFAULT NULL,
-  `gas_bill_path` varchar(255) DEFAULT NULL,
-  `salary_slip_path` varchar(255) DEFAULT NULL,
-  `gas_bill_number` varchar(255) DEFAULT NULL,
-  `salary_slip_number` varchar(255) DEFAULT NULL,
-  `gas_bill` varchar(255) DEFAULT NULL,
-  `salary_slip` varchar(255) DEFAULT NULL,
   `otp` varchar(6) DEFAULT NULL,
+  `gender` enum('male','female','other') DEFAULT NULL,
+  `dob` date DEFAULT NULL,
+  `address` varchar(255) DEFAULT NULL,
+  `house_type` varchar(50) DEFAULT NULL,
+  `company_name` varchar(255) DEFAULT NULL,
+  `company_email` varchar(255) DEFAULT NULL,
+  `company_location` varchar(255) DEFAULT NULL,
   `otp_expires_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `email` (`email`),
   UNIQUE KEY `phone_number` (`phone_number`)
-) ENGINE=InnoDB AUTO_INCREMENT=18 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=28 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
--- Dumping data for table prathima.users: ~5 rows (approximately)
+-- Dumping data for table prathima.users: ~3 rows (approximately)
 DELETE FROM `users`;
-INSERT INTO `users` (`id`, `name`, `email`, `phone_number`, `email_verified_at`, `password`, `remember_token`, `user_type`, `created_at`, `updated_at`, `pincode`, `city`, `district`, `state`, `country`, `gas_bill_path`, `salary_slip_path`, `gas_bill_number`, `salary_slip_number`, `gas_bill`, `salary_slip`, `otp`, `otp_expires_at`) VALUES
-	(1, 'admin', 'admin@gmail.com', '9789325262', NULL, '$2y$12$3G9.O76ll.boJISG9JlDwOx8XVr1ylWHEAmL9Eoi4wBPOh7OgrnHi', NULL, 'admin', '2024-07-05 22:54:48', '2024-07-10 06:16:48', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '398152', '2024-07-06 04:16:19'),
-	(2, 'Dinesh', 'dinesh@gmail.com', '1234567890', NULL, '$2y$12$3G9.O76ll.boJISG9JlDwOx8XVr1ylWHEAmL9Eoi4wBPOh7OgrnHi', NULL, 'user', '2024-07-05 04:53:25', '2024-07-06 04:14:21', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '671187', '2024-07-06 04:24:21'),
-	(6, 'logesh', 'logesh@gmail.com', '7708080885', NULL, '$2y$12$FR3fHLRwEt0m25MjMIl7AOP5YWXo.E0Ue3Chv8dTpwzM8YtXaul72', NULL, 'user', '2024-07-05 04:56:05', '2024-07-09 09:55:00', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '759935', '2024-07-06 05:51:28'),
-	(7, 'dinesh21', 'dinesh21@gmail.com', '7708080882', NULL, '$2y$12$BgUxffKq0MMnNG6BMS2AQuSXjZ1Cg82QGIZcinkW1ICJRyqxu/.Oa', NULL, 'user', '2024-07-05 07:35:11', '2024-07-09 09:54:57', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2024-07-06 06:50:20'),
-	(17, 'Nandhanas', 'nandhanag99@gmail.com', '9876512340', NULL, '$2y$12$b0mU0Bge6dmaUK7QWWZFouY3Hpvs0Ii2BFAioPlPGgg9Zlgejo.kO', NULL, 'user', '2024-07-07 22:54:01', '2024-07-07 23:01:02', '625521', 'Theni', 'Theni', 'Tamil Nadu', 'Inida', 'gas_bills/of4zfl9kG3bSYwP4p6nfexPI0qndGlpXwekEqmoC.pdf', 'salary_slips/eYkth0K6zsK7VRDI2AbTN5qn1xKXmpxkiyqQud1O.pdf', 'HJFFSDERT67', 'ZDFXGCH2345678', NULL, NULL, NULL, '2024-07-07 23:08:32');
+INSERT INTO `users` (`id`, `name`, `email`, `phone_number`, `email_verified_at`, `password`, `remember_token`, `user_type`, `created_at`, `updated_at`, `pincode`, `city`, `district`, `state`, `country`, `otp`, `gender`, `dob`, `address`, `house_type`, `company_name`, `company_email`, `company_location`, `otp_expires_at`) VALUES
+	(1, 'admin', 'admin@gmail.com', '9789325262', NULL, '$2y$12$3G9.O76ll.boJISG9JlDwOx8XVr1ylWHEAmL9Eoi4wBPOh7OgrnHi', NULL, 'admin', '2024-07-05 22:54:48', '2024-07-10 06:16:48', NULL, NULL, NULL, NULL, NULL, '398152', NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2024-07-06 04:16:19'),
+	(2, 'Dinesh', 'dinesh@gmail.com', '1234567890', NULL, '$2y$12$3G9.O76ll.boJISG9JlDwOx8XVr1ylWHEAmL9Eoi4wBPOh7OgrnHi', NULL, 'field_manager', '2024-07-05 04:53:25', '2024-07-12 12:59:14', NULL, NULL, NULL, NULL, NULL, '671187', NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2024-07-06 04:24:21'),
+	(27, 'dinesh12', 'mpsdinesh1221@gmail.com', '987612340', NULL, '$2y$12$YP0Xk8TQ9OLWqSiaPP/ekO1LqS6wAKRXULsbl.xF45CQkQGNI2/Uy', NULL, 'relation_manager', '2024-07-15 01:53:47', '2024-07-15 07:24:13', NULL, NULL, NULL, NULL, NULL, '805158', NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2024-07-15 07:34:13');
+
+-- Dumping structure for table prathima.users_loans
+CREATE TABLE IF NOT EXISTS `users_loans` (
+  `id` bigint unsigned NOT NULL AUTO_INCREMENT,
+  `user_id` bigint unsigned NOT NULL,
+  `loan_id` bigint unsigned NOT NULL,
+  `agreed` tinyint(1) DEFAULT '0',
+  `agreed_date` timestamp NULL DEFAULT NULL,
+  `payment_transaction` enum('pending','processing','deposit') DEFAULT 'processing',
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+-- Dumping data for table prathima.users_loans: ~5 rows (approximately)
+DELETE FROM `users_loans`;
+INSERT INTO `users_loans` (`id`, `user_id`, `loan_id`, `agreed`, `agreed_date`, `payment_transaction`, `created_at`, `updated_at`) VALUES
+	(1, 1, 101, 1, '2024-07-15 04:30:00', 'pending', '2024-07-15 05:55:18', '2024-07-15 05:55:18'),
+	(2, 2, 102, 1, '2024-07-15 07:11:29', 'deposit', '2024-07-15 05:55:18', '2024-07-15 05:55:18'),
+	(3, 3, 103, 1, '2024-07-15 06:30:00', 'processing', '2024-07-15 05:55:18', '2024-07-15 05:55:18'),
+	(4, 4, 104, 0, NULL, 'processing', '2024-07-15 05:55:18', '2024-07-15 05:55:18'),
+	(5, 5, 105, 0, '2024-07-15 08:30:00', 'processing', '2024-07-15 05:55:18', '2024-07-15 05:55:18');
 
 -- Dumping structure for table prathima.user_kycs
 CREATE TABLE IF NOT EXISTS `user_kycs` (
   `id` bigint unsigned NOT NULL AUTO_INCREMENT,
   `user_id` bigint unsigned NOT NULL,
-  `status` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT 'success',
-  `aadhar_number` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `pan_number` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `account_number` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `ifsc_code` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `status` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT 'success',
+  `aadhar_number` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `pan_number` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `pan_file` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `aadhar_file` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `account_number` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `ifsc_code` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `bank_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `property_tax_receipt` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `rental_agreements` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `smart_card` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `smart_card_file` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `driving_license_file` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `recent_gas_slip` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `recent_broadband_bill` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `pay_slip` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `id_card` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `pf_member_passbook` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `account_holder_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `is_verified` tinyint(1) NOT NULL DEFAULT '0',
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
+  `relationship_manager_verified` tinyint(1) DEFAULT '0',
+  `field_manager_verified` tinyint(1) DEFAULT '0',
+  `loan_amount` decimal(10,2) DEFAULT NULL,
+  `reason` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- Dumping data for table prathima.user_kycs: ~2 rows (approximately)
 DELETE FROM `user_kycs`;
-INSERT INTO `user_kycs` (`id`, `user_id`, `status`, `aadhar_number`, `pan_number`, `account_number`, `ifsc_code`, `is_verified`, `created_at`, `updated_at`) VALUES
-	(1, 1, 'success', '547575707305', 'GLQPD4636C', '4016108004294', 'CNRB0004016', 1, '2024-07-10 03:23:25', '2024-07-10 03:23:25'),
-	(2, 6, 'Rejected', '547575707350', 'GLQPD463C6', '3527101004123', 'CNRB0003527', 1, '2024-07-10 03:39:32', '2024-07-10 03:48:16');
+INSERT INTO `user_kycs` (`id`, `user_id`, `status`, `aadhar_number`, `pan_number`, `pan_file`, `aadhar_file`, `account_number`, `ifsc_code`, `bank_name`, `property_tax_receipt`, `rental_agreements`, `smart_card`, `smart_card_file`, `driving_license_file`, `recent_gas_slip`, `recent_broadband_bill`, `pay_slip`, `id_card`, `pf_member_passbook`, `account_holder_name`, `is_verified`, `created_at`, `updated_at`, `relationship_manager_verified`, `field_manager_verified`, `loan_amount`, `reason`) VALUES
+	(1, 2, 'Verified', '484846876768', 'CIGPV2696K', NULL, NULL, '4016108004292', 'CNRB0004016', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1, '2024-07-12 06:52:19', '2024-07-15 03:46:17', 1, 1, 5000.00, NULL),
+	(2, 1, 'Verified', '484846876728', 'GLQPD4636C', NULL, NULL, '4016108004292', 'CNRB0004016', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1, '2024-07-15 01:56:26', '2024-07-15 01:56:26', 1, 1, 700.00, NULL);
 
 /*!40103 SET TIME_ZONE=IFNULL(@OLD_TIME_ZONE, 'system') */;
 /*!40101 SET SQL_MODE=IFNULL(@OLD_SQL_MODE, '') */;

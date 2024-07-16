@@ -80,7 +80,17 @@
                         class="dropdown-toggle">
                         <div class="">
                             <i class="las la-money-check"></i>
-                            <span>Mobile OTP Conf</span>
+                            <span>Maill Conf</span>
+                        </div>
+                    </a>
+                </li>
+                <li class="menu {{ request()->is('settings.SMSConfShow*') ? 'active' : '' }}">
+                    <a href="{{ route('settings.SMSConfShow') }}"
+                        data-active="{{ request()->is('settings.SMSConfShow*') ? 'true' : 'false' }}"
+                        class="dropdown-toggle">
+                        <div class="">
+                            <i class="las la-money-check"></i>
+                            <span>SMS Conf</span>
                         </div>
                     </a>
                 </li>
@@ -95,7 +105,7 @@
                         </div>
                     </a>
                 </li>
-                <li class="menu {{ request()->is('CustomerLoan*') ? 'active' : '' }}">
+                {{-- <li class="menu {{ request()->is('CustomerLoan*') ? 'active' : '' }}">
                     <a href="{{ route('CustomerLoan') }}"
                         data-active="{{ request()->is('CustomerLoan*') ? 'true' : 'false' }}" class="dropdown-toggle">
                         <div class="">
@@ -163,7 +173,7 @@
                             <span>Customer Loan List</span>
                         </div>
                     </a>
-                </li>
+                </li> --}}
             @endif
             {{-- relation_manager --}}
             @if (Auth::user()->user_type == 'relation_manager')

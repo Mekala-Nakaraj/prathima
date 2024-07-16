@@ -118,6 +118,19 @@
                                                         value="{{ old('initial_interest_rate', $settings->where('key', 'initial_interest_rate')->first()->value ?? '') }}"
                                                         placeholder="Enter initial interest rate" required>
                                                 </div>
+                                                <div class="col-lg-6 mb-4">
+                                                    <label class="col-form-label">Loan Paid Date (Day of the Month)</label>
+                                                    <select class="form-control" id="loan_paid_date" name="loan_paid_date"
+                                                        required>
+                                                        <option value="">Select day of the month</option>
+                                                        @for ($i = 0; $i <= 30; $i++)
+                                                            <option value="{{ $i }}"
+                                                                @if (old('loan_paid_date', $settings->where('key', 'loan_paid_date')->first()->value ?? '') == $i) selected @endif>
+                                                                {{ $i }}</option>
+                                                        @endfor
+                                                    </select>
+                                                </div>
+
                                             </div>
                                             <div class="widget-footer text-right">
                                                 <button type="submit" class="btn btn-primary mr-2">Submit</button>

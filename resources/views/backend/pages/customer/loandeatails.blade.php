@@ -128,23 +128,23 @@
                                                 {{ $user->kyc ? $user->kyc->pan_number ?? 'NA' : '-' }}</p>
                                             <p><strong>Relationship Manager Verified:</strong>
                                                 @if ($user->kyc && $user->kyc->relationship_manager_verified)
-                                                    <span class="text-success">Approved</span>
+                                                    <span class="badge badge-success">Approved</span>
                                                 @else
-                                                    <span class="text-warning">Pending</span>
+                                                    <span class="badge badge-warning">Pending</span>
                                                 @endif
                                             </p>
                                             <p><strong>Field Manager Verified:</strong>
                                                 @if ($user->kyc && $user->kyc->field_manager_verified)
-                                                    <span class="text-success">Approved</span>
+                                                    <span class="badge badge-success">Approved</span>
                                                 @else
-                                                    <span class="text-warning">Pending</span>
+                                                    <span class="badge badge-warning">Pending</span>
                                                 @endif
                                             </p>
                                             <p><strong>KYC Status:</strong>
                                                 @if ($user->kyc && $user->kyc->is_verified)
-                                                    <span class="text-success">Verified</span>
+                                                    <span class="badge badge-success">Verified</span>
                                                 @else
-                                                    <span class="text-warning">Pending</span>
+                                                    <span class="badge badge-warning">Pending</span>
                                                 @endif
                                             </p>
                                             <p><strong>KYC Reject Reason:</strong>

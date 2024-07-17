@@ -39,10 +39,10 @@ DELETE FROM `failed_jobs`;
 CREATE TABLE IF NOT EXISTS `loans` (
   `id` bigint unsigned NOT NULL AUTO_INCREMENT,
   `loan_id` bigint unsigned NOT NULL,
-  `interest_rate` decimal(8,2) NOT NULL,
+  `interest_rate` text COLLATE utf8mb4_unicode_ci NOT NULL,
   `approved_loan_amount` decimal(12,2) NOT NULL,
   `start_date` date NOT NULL,
-  `due_date` date NOT NULL,
+  `due_date` text COLLATE utf8mb4_unicode_ci NOT NULL,
   `agreement` text COLLATE utf8mb4_unicode_ci,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
@@ -52,9 +52,9 @@ CREATE TABLE IF NOT EXISTS `loans` (
 -- Dumping data for table prathima.loans: ~3 rows (approximately)
 DELETE FROM `loans`;
 INSERT INTO `loans` (`id`, `loan_id`, `interest_rate`, `approved_loan_amount`, `start_date`, `due_date`, `agreement`, `created_at`, `updated_at`) VALUES
-	(1, 2, 12.00, 10000.00, '2024-07-12', '2024-07-21', 'test2', '2024-07-13 04:14:37', '2024-07-13 05:17:29'),
-	(2, 1, 21.00, 25.00, '2024-07-07', '2024-07-26', 'Test 2', '2024-07-15 01:40:21', '2024-07-15 03:11:47'),
-	(3, 27, 10.00, 2000.00, '2024-07-16', '2024-07-31', 'test', '2024-07-15 02:02:33', '2024-07-15 02:02:33');
+	(1, 2, '12.00', 10000.00, '2024-07-12', '2024-07-21', 'test2', '2024-07-13 04:14:37', '2024-07-13 05:17:29'),
+	(2, 1, '"[\\"1\\",\\"2\\",\\"3\\",\\"4\\"]"', 10000.00, '2024-07-07', '"[\\"15\\",\\"30\\",\\"90\\",\\"120\\"]"', 'Test 2', '2024-07-15 01:40:21', '2024-07-17 01:07:00'),
+	(3, 27, '10.00', 2000.00, '2024-07-16', '2024-07-31', 'test', '2024-07-15 02:02:33', '2024-07-15 02:02:33');
 
 -- Dumping structure for table prathima.migrations
 CREATE TABLE IF NOT EXISTS `migrations` (
@@ -113,9 +113,9 @@ CREATE TABLE IF NOT EXISTS `settings` (
   `updated_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `key` (`key`)
-) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=17 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
--- Dumping data for table prathima.settings: ~8 rows (approximately)
+-- Dumping data for table prathima.settings: ~15 rows (approximately)
 DELETE FROM `settings`;
 INSERT INTO `settings` (`id`, `key`, `value`, `created_at`, `updated_at`) VALUES
 	(1, 'MAIL_MAILER', 'smtp', '2024-07-15 04:49:21', '2024-07-15 05:09:44'),
@@ -125,7 +125,14 @@ INSERT INTO `settings` (`id`, `key`, `value`, `created_at`, `updated_at`) VALUES
 	(5, 'MAIL_PASSWORD', 'rriq hhkv bzhe mosk', '2024-07-15 04:49:21', '2024-07-15 05:09:45'),
 	(6, 'MAIL_ENCRYPTION', 'ssl', '2024-07-15 04:49:21', '2024-07-15 05:09:45'),
 	(7, 'MAIL_FROM_ADDRESS', 'v4inspire.official@gmail.com', '2024-07-15 04:49:21', '2024-07-15 05:09:45'),
-	(8, 'MAIL_FROM_NAME', 'Prathima', '2024-07-15 04:49:21', '2024-07-15 05:49:49');
+	(8, 'MAIL_FROM_NAME', 'Prathima', '2024-07-15 04:49:21', '2024-07-15 05:49:49'),
+	(10, 'SMS_GATEWAY_URL', 'HJGJFJFTHR', '2024-07-16 00:06:36', '2024-07-16 00:06:36'),
+	(11, 'SMS_API_KEY', 'HGFTRHTR', '2024-07-16 00:06:37', '2024-07-16 00:06:37'),
+	(12, 'SMS_SENDER_ID', 'GFDHUK', '2024-07-16 00:06:38', '2024-07-16 00:06:38'),
+	(13, 'TEST_PHONE_NUMBER', '9876543210', '2024-07-16 00:06:38', '2024-07-16 00:15:51'),
+	(14, 'initial_loan_amount', '10000', '2024-07-16 00:24:02', '2024-07-16 00:24:02'),
+	(15, 'initial_interest_rate', '21', '2024-07-16 00:24:03', '2024-07-16 00:24:03'),
+	(16, 'loan_paid_date', '21', '2024-07-16 00:24:03', '2024-07-16 00:34:55');
 
 -- Dumping structure for table prathima.users
 CREATE TABLE IF NOT EXISTS `users` (
@@ -156,14 +163,15 @@ CREATE TABLE IF NOT EXISTS `users` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `email` (`email`),
   UNIQUE KEY `phone_number` (`phone_number`)
-) ENGINE=InnoDB AUTO_INCREMENT=28 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=29 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 -- Dumping data for table prathima.users: ~3 rows (approximately)
 DELETE FROM `users`;
 INSERT INTO `users` (`id`, `name`, `email`, `phone_number`, `email_verified_at`, `password`, `remember_token`, `user_type`, `created_at`, `updated_at`, `pincode`, `city`, `district`, `state`, `country`, `otp`, `gender`, `dob`, `address`, `house_type`, `company_name`, `company_email`, `company_location`, `otp_expires_at`) VALUES
 	(1, 'admin', 'admin@gmail.com', '9789325262', NULL, '$2y$12$3G9.O76ll.boJISG9JlDwOx8XVr1ylWHEAmL9Eoi4wBPOh7OgrnHi', NULL, 'admin', '2024-07-05 22:54:48', '2024-07-10 06:16:48', NULL, NULL, NULL, NULL, NULL, '398152', NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2024-07-06 04:16:19'),
 	(2, 'Dinesh', 'dinesh@gmail.com', '1234567890', NULL, '$2y$12$3G9.O76ll.boJISG9JlDwOx8XVr1ylWHEAmL9Eoi4wBPOh7OgrnHi', NULL, 'field_manager', '2024-07-05 04:53:25', '2024-07-12 12:59:14', NULL, NULL, NULL, NULL, NULL, '671187', NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2024-07-06 04:24:21'),
-	(27, 'dinesh12', 'mpsdinesh1221@gmail.com', '987612340', NULL, '$2y$12$YP0Xk8TQ9OLWqSiaPP/ekO1LqS6wAKRXULsbl.xF45CQkQGNI2/Uy', NULL, 'relation_manager', '2024-07-15 01:53:47', '2024-07-15 07:24:13', NULL, NULL, NULL, NULL, NULL, '805158', NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2024-07-15 07:34:13');
+	(27, 'dinesh12', 'mpsdinesh1221@gmail.com', '987612340', NULL, '$2y$12$YP0Xk8TQ9OLWqSiaPP/ekO1LqS6wAKRXULsbl.xF45CQkQGNI2/Uy', NULL, 'relation_manager', '2024-07-15 01:53:47', '2024-07-15 07:24:13', NULL, NULL, NULL, NULL, NULL, '805158', NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2024-07-15 07:34:13'),
+	(28, 'logesh', 'logesh@gmail.com', '9876543210', NULL, '$2y$12$0UXYYwyVEs6UmknSFQgLNeiiqiYvugWz82vEBKNBPxA175zGaQ/iq', NULL, 'relation_manager', '2024-07-16 01:48:30', '2024-07-16 01:48:30', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 
 -- Dumping structure for table prathima.users_loans
 CREATE TABLE IF NOT EXISTS `users_loans` (
@@ -220,11 +228,11 @@ CREATE TABLE IF NOT EXISTS `user_kycs` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Dumping data for table prathima.user_kycs: ~2 rows (approximately)
+-- Dumping data for table prathima.user_kycs: ~0 rows (approximately)
 DELETE FROM `user_kycs`;
 INSERT INTO `user_kycs` (`id`, `user_id`, `status`, `aadhar_number`, `pan_number`, `pan_file`, `aadhar_file`, `account_number`, `ifsc_code`, `bank_name`, `property_tax_receipt`, `rental_agreements`, `smart_card`, `smart_card_file`, `driving_license_file`, `recent_gas_slip`, `recent_broadband_bill`, `pay_slip`, `id_card`, `pf_member_passbook`, `account_holder_name`, `is_verified`, `created_at`, `updated_at`, `relationship_manager_verified`, `field_manager_verified`, `loan_amount`, `reason`) VALUES
-	(1, 2, 'Verified', '484846876768', 'CIGPV2696K', NULL, NULL, '4016108004292', 'CNRB0004016', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1, '2024-07-12 06:52:19', '2024-07-15 03:46:17', 1, 1, 5000.00, NULL),
-	(2, 1, 'Verified', '484846876728', 'GLQPD4636C', NULL, NULL, '4016108004292', 'CNRB0004016', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1, '2024-07-15 01:56:26', '2024-07-15 01:56:26', 1, 1, 700.00, NULL);
+	(1, 2, 'Verified', '484846876768', 'CIGPV2696K', NULL, NULL, '4016108004292', 'CNRB0004016', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1, '2024-07-12 06:52:19', '2024-07-16 03:57:02', 1, 1, 5000.00, NULL),
+	(2, 1, 'Verified', '484846876728', 'GLQPD4636C', NULL, NULL, '4016108004292', 'CNRB0004016', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1, '2024-07-15 01:56:26', '2024-07-16 03:56:35', 1, 1, 700.00, NULL);
 
 /*!40103 SET TIME_ZONE=IFNULL(@OLD_TIME_ZONE, 'system') */;
 /*!40101 SET SQL_MODE=IFNULL(@OLD_SQL_MODE, '') */;

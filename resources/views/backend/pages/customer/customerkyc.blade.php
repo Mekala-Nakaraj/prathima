@@ -53,17 +53,32 @@
     </div>
 @endsection
 
+
 @section('content')
     <div class="layout-px-spacing">
         <div class="layout-top-spacing mb-2">
             <div class="col-md-12">
                 <div class="row">
                     <div class="container p-0">
+                        @if (session('success'))
+                            <div class="alert alert-success">
+                                {{ session('success') }}
+                            </div>
+                        @endif
+
+                        @if ($errors->any())
+                            <div class="alert alert-danger">
+                                <ul>
+                                    @foreach ($errors->all() as $error)
+                                        <li>{{ $error }}</li>
+                                    @endforeach
+                                </ul>
+                            </div>
+                        @endif
+
                         <div class="row layout-top-spacing date-table-container">
-                            <!-- Datatable with export options -->
                             <div class="col-xl-12 col-lg-12 col-sm-12 layout-spacing">
                                 <div class="widget-content widget-content-area br-6">
-                                    {{-- <h4 class="table-header">Export Datatable</h4> --}}
                                     <div class="table-responsive mb-4">
                                         <table id="export-dt" class="table table-hover" style="width:100%">
                                             <thead>
@@ -71,14 +86,13 @@
                                                     <th>ID</th>
                                                     <th>Name</th>
                                                     <th>Email</th>
-                                                    {{-- <th>Phone</th> --}}
                                                     <th>Loan Amount</th>
                                                     <th>Relationship Manager Verified</th>
                                                     <th>Field Manager Verified</th>
                                                     <th>Loan Approved</th>
                                                     <th>Status</th>
                                                     <th>Reason</th>
-                                                    <th>Action</th> <!-- Added new column for Action -->
+                                                    <th>Action</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
@@ -87,9 +101,7 @@
                                                         <td>{{ $index + 1 }}</td>
                                                         <td>{{ $user->name }}</td>
                                                         <td>{{ $user->email }}</td>
-                                                        {{-- <td>{{ $user->phone_number ?: 'NA' }}</td> --}}
-                                                        <td>{{ $user->loan_amount ?: 'NA' }}</td>
-
+                                                        <td>{{ $user->kyc->loan_amount ?? 'NA' }}</td>
                                                         <td>
                                                             @if ($user->kyc)
                                                                 @if ($user->kyc->relationship_manager_verified)
@@ -98,7 +110,7 @@
                                                                     <span class="badge badge-danger">Rejected</span>
                                                                 @endif
                                                             @else
-                                                                <span class="badge badge-warning">Proccing...</span>
+                                                                <span class="badge badge-warning">Processing...</span>
                                                             @endif
                                                         </td>
                                                         <td>
@@ -109,7 +121,7 @@
                                                                     <span class="badge badge-danger">Rejected</span>
                                                                 @endif
                                                             @else
-                                                                <span class="badge badge-warning">Proccing...</span>
+                                                                <span class="badge badge-warning">Processing...</span>
                                                             @endif
                                                         </td>
                                                         <td>
@@ -118,7 +130,7 @@
                                                                     <span class="badge badge-warning">Relationship Manager
                                                                         Processing</span>
                                                                 @elseif ($user->kyc->relationship_manager_verified == 0)
-                                                                    <span class="badge badge-warning">Filed Manager
+                                                                    <span class="badge badge-warning">Field Manager
                                                                         Processing</span>
                                                                 @elseif ($user->kyc->relationship_manager_verified == 1 && $user->kyc->field_manager_verified == 1)
                                                                     <span class="badge badge-success">Approved</span>
@@ -126,13 +138,11 @@
                                                                     $user->kyc->is_verified == 1 &&
                                                                         $user->kyc->relationship_manager_verified == 1 &&
                                                                         $user->kyc->field_manager_verified == 1)
-                                                                    <span class="badge badge-success">admin
-                                                                        Approved</span>
+                                                                    <span class="badge badge-success">Admin Approved</span>
                                                                 @elseif ($user->kyc->is_verified == 0)
-                                                                    <span class="badge badge-danger">admin
-                                                                        Rejected</span>
+                                                                    <span class="badge badge-danger">Admin Rejected</span>
                                                                 @elseif ($user->kyc->relationship_manager_verified == 1 && $user->kyc->field_manager_verified == 0)
-                                                                    <span class="badge badge-warning">Relation Manager
+                                                                    <span class="badge badge-warning">Relationship Manager
                                                                         Processing</span>
                                                                 @elseif ($user->kyc->field_manager_verified == 0)
                                                                     <span class="badge badge-warning">Field Manager
@@ -147,13 +157,13 @@
                                                         <td>
                                                             <form
                                                                 action="{{ route('user.kyc.CustomerKYCVerified', ['user' => $user->id]) }}"
-                                                                method="POST" id="kyc-form-{{ $user->id }}">
+                                                                method="POST" id="kyc-form-{{ $user->id }}"
+                                                                onsubmit="return validateForm({{ $user->id }})">
                                                                 @csrf
                                                                 <div class="form-group">
                                                                     <div class="custom-control custom-switch">
                                                                         <input type="hidden" name="is_verified"
                                                                             value="0">
-                                                                        <!-- Hidden input for unchecked state -->
                                                                         <input type="checkbox"
                                                                             class="custom-control-input kyc-switch"
                                                                             id="verified_{{ $user->id }}"
@@ -164,30 +174,22 @@
                                                                     </div>
                                                                 </div>
                                                                 <div class="loading-spinner"
-                                                                    id="spinner-{{ $user->id }}" style="display: none;">
-                                                                </div>
+                                                                    id="spinner-{{ $user->id }}"
+                                                                    style="display: none;"></div>
                                                             </form>
                                                         </td>
-
-
                                                         <td>
-                                                            <div class="form-group">
-                                                                <label for="reason">Reason</label>
-                                                                <textarea class="form-control" id="reason" name="reason">{{ $user->kyc->reason ?? '' }}</textarea>
-                                                            </div>
+                                                            <a class="btn-sm" data-toggle="modal"
+                                                                data-target="#reasonModal{{ $user->id }}">
+                                                                <i class="las la-edit" style="font-size: 24px;"></i>
+                                                            </a>
                                                         </td>
-
                                                         <td>
                                                             <a href="{{ route('admin.LoanDeatilsShow', ['id' => $user->id]) }}"
                                                                 class="btn btn-primary btn-sm">
                                                                 <i class="las la-eye" style="font-size: 24px;"></i>
                                                             </a>
                                                         </td>
-                                                        {{-- <td>
-                                                           
-                                                            <i class="las la-eye" style="font-size: 24px; color:green;"></i>
-                                                           
-                                                        </td> --}}
                                                     </tr>
                                                 @endforeach
                                             </tbody>
@@ -195,13 +197,61 @@
                                     </div>
                                 </div>
                             </div>
+                            @foreach ($users as $user)
+                                <div class="modal fade" id="reasonModal{{ $user->id }}" tabindex="-1"
+                                    role="dialog" aria-labelledby="reasonModalLabel{{ $user->id }}"
+                                    aria-hidden="true">
+                                    <div class="modal-dialog" role="document">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title" id="reasonModalLabel{{ $user->id }}">Edit
+                                                    Reason</h5>
+                                                <button type="button" class="close" data-dismiss="modal"
+                                                    aria-label="Close">
+                                                    <span aria-hidden="true">&times;</span>
+                                                </button>
+                                            </div>
+                                            <form action="{{ route('user.kyc.CustomerKYCReson', ['user' => $user->id]) }}"
+                                                method="POST">
+                                                @csrf
+                                                <div class="modal-body">
+                                                    <div class="form-group">
+                                                        <label for="reason">Reason</label>
+                                                        <textarea class="form-control" id="reason{{ $user->id }}" name="reason" rows="4">{{ $user->kyc->reason ?? '' }}</textarea>
+                                                    </div>
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-secondary"
+                                                        data-dismiss="modal">Close</button>
+                                                    <button type="submit" class="btn btn-primary">Save changes</button>
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                            @endforeach
                         </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
+    <script>
+        function validateForm(userId) {
+            var isChecked = document.getElementById('verified_' + userId).checked;
+            var reasonField = document.getElementById('reason' + userId);
+            if (!isChecked && reasonField && reasonField.value.trim() === '') {
+                alert('Please provide a reason for rejection.');
+                return false;
+            }
+            return true;
+        }
+    </script>
 @endsection
+
+
+
+
 
 <style>
     .loading-spinner {

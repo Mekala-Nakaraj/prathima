@@ -77,8 +77,18 @@
                     <div class="row">
                         <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12 col-12 layout-spacing">
                             @if (session('success'))
-                                <div class="alert alert-success mt-3">
+                                <div class="alert alert-success">
                                     {{ session('success') }}
+                                </div>
+                            @endif
+
+                            @if ($errors->any())
+                                <div class="alert alert-danger">
+                                    <ul>
+                                        @foreach ($errors->all() as $error)
+                                            <li>{{ $error }}</li>
+                                        @endforeach
+                                    </ul>
                                 </div>
                             @endif
                             <div class="widget widget-chart-one">
@@ -116,7 +126,6 @@
                                             <h6 class="text-muted">KYC Information</h6>
                                             <p><strong>PAN Number:</strong>
                                                 {{ $user->kyc ? $user->kyc->pan_number ?? 'NA' : '-' }}</p>
-                                            <p><strong>Loan Amount:</strong> {{ $user->loan_amount ?: 'NA' }}</p>
                                             <p><strong>Relationship Manager Verified:</strong>
                                                 @if ($user->kyc && $user->kyc->relationship_manager_verified)
                                                     <span class="text-success">Approved</span>
@@ -149,41 +158,11 @@
                                                 @method('PUT')
 
                                                 <h6 class="text-muted mt-4">Loan Approved</h6>
+                                                <p class="badge badge-warning"><strong>Loan Amount:</strong> {{ $user->kyc->loan_amount ?: 'NA' }}</p>
 
                                                 <div class="row">
                                                     <div class="col-md-6">
-                                                        <div class="form-group">
-                                                            <label for="interest_rate">Interest Rate</label>
-                                                            <input type="text" name="interest_rate" id="interest_rate"
-                                                                class="form-control mb-4 @error('interest_rate') is-invalid @enderror"
-                                                                value="{{ old('interest_rate', $user->loan->interest_rate ?? '') }}"
-                                                                placeholder="Interest Rate" required>
-                                                            @error('interest_rate')
-                                                                <div class="invalid-feedback">
-                                                                    {{ $message }}
-                                                                </div>
-                                                            @enderror
-                                                        </div>
-                                                    </div>
-
-                                                    <div class="col-md-6">
-                                                        <div class="form-group">
-                                                            <label for="approved_loan_amount">Approved Loan Amount</label>
-                                                            <input type="number" name="approved_loan_amount"
-                                                                id="approved_loan_amount"
-                                                                class="form-control mb-4 @error('approved_loan_amount') is-invalid @enderror"
-                                                                value="{{ old('approved_loan_amount', $user->loan->approved_loan_amount ?? '') }}"
-                                                                placeholder="Approved Loan Amount" required>
-                                                            @error('approved_loan_amount')
-                                                                <div class="invalid-feedback">
-                                                                    {{ $message }}
-                                                                </div>
-                                                            @enderror
-                                                        </div>
-                                                    </div>
-
-                                                    <div class="col-md-6">
-                                                        <div class="form-group">
+                                                        <div class="form-group ">
                                                             <label for="start_date">Start Date</label>
                                                             <input type="date" name="start_date" id="start_date"
                                                                 class="form-control mb-4 @error('start_date') is-invalid @enderror"
@@ -196,15 +175,147 @@
                                                             @enderror
                                                         </div>
                                                     </div>
+                                                    <div class="col-md-6">
+                                                        <div class="form-group">
+                                                            <label for="approved_loan_amount"
+                                                                style="color: green;">Approved Loan Amount</label>
+                                                            <input type="number" name="approved_loan_amount"
+                                                                id="approved_loan_amount"
+                                                                class="form-control mb-4 @error('approved_loan_amount') is-invalid @enderror"
+                                                                value="{{ old('approved_loan_amount', $user->loan->approved_loan_amount ?? '') }}"
+                                                                placeholder="Approved Loan Amount" required
+                                                                style="color: green;">
+                                                            @error('approved_loan_amount')
+                                                                <div class="invalid-feedback">
+                                                                    {{ $message }}
+                                                                </div>
+                                                            @enderror
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <div class="form-group">
+                                                            <label for="interest_rate">Interest Rate</label>
+                                                            <div id="interest_rate_container">
+                                                                @if (old('interest_rate'))
+                                                                    @foreach (old('interest_rate') as $index => $rate)
+                                                                        <input type="number" name="interest_rate[]"
+                                                                            class="form-control mb-4 @error('interest_rate.' . $index) is-invalid @enderror"
+                                                                            value="{{ $rate }}"
+                                                                            placeholder="Interest Rate" required>
+                                                                    @endforeach
+                                                                @elseif(isset($user->loan->interest_rate))
+                                                                    @foreach (json_decode($user->loan->interest_rate) as $index => $rate)
+                                                                        <input type="number" name="interest_rate[]"
+                                                                            class="form-control mb-4 @error('interest_rate.' . $index) is-invalid @enderror"
+                                                                            value="{{ $rate }}"
+                                                                            placeholder="Interest Rate" required>
+                                                                    @endforeach
+                                                                @else
+                                                                    <input type="number" name="interest_rate[]"
+                                                                        class="form-control mb-4 @error('interest_rate.0') is-invalid @enderror"
+                                                                        value="" placeholder="Interest Rate"
+                                                                        required>
+                                                                @endif
+                                                            </div>
+                                                            <button type="button" id="add_interest_rate"
+                                                                class="btn btn-primary">Add Another Interest Rate</button>
+                                                            @error('interest_rate.*')
+                                                                <div class="invalid-feedback">
+                                                                    {{ $message }}
+                                                                </div>
+                                                            @enderror
+                                                        </div>
+                                                    </div>
 
                                                     <div class="col-md-6">
                                                         <div class="form-group">
-                                                            <label for="due_date">Due Date</label>
-                                                            <input type="date" name="due_date" id="due_date"
-                                                                class="form-control mb-4 @error('due_date') is-invalid @enderror"
-                                                                value="{{ old('due_date', isset($user->loan->due_date) ? \Carbon\Carbon::parse($user->loan->due_date)->format('Y-m-d') : '') }}"
-                                                                placeholder="Due Date" required>
-                                                            @error('due_date')
+                                                            <label for="due_date">Due Dates</label>
+                                                            <div id="due_date_container">
+                                                                @if (old('due_date'))
+                                                                    @foreach (old('due_date') as $index => $date)
+                                                                        <div class="due-date-wrapper">
+                                                                            <select name="due_date[]"
+                                                                                class="form-control mb-4 @error('due_date.' . $index) is-invalid @enderror"
+                                                                                required>
+                                                                                <option value="" disabled>Select Due
+                                                                                    Date</option>
+                                                                                <option value="15"
+                                                                                    {{ $date == 15 ? 'selected' : '' }}>15
+                                                                                    days</option>
+                                                                                <option value="30"
+                                                                                    {{ $date == 30 ? 'selected' : '' }}>1
+                                                                                    month</option>
+                                                                                <option value="60"
+                                                                                    {{ $date == 60 ? 'selected' : '' }}>2
+                                                                                    months</option>
+                                                                                <option value="90"
+                                                                                    {{ $date == 90 ? 'selected' : '' }}>3
+                                                                                    months</option>
+                                                                                <option value="120"
+                                                                                    {{ $date == 120 ? 'selected' : '' }}>4
+                                                                                    months</option>
+                                                                                <option value="150"
+                                                                                    {{ $date == 150 ? 'selected' : '' }}>5
+                                                                                    months</option>
+                                                                                <option value="180"
+                                                                                    {{ $date == 180 ? 'selected' : '' }}>6
+                                                                                    months</option>
+                                                                            </select>
+                                                                        </div>
+                                                                    @endforeach
+                                                                @elseif(isset($user->loan->due_date))
+                                                                    @foreach (json_decode($user->loan->due_date) as $index => $date)
+                                                                        <div class="due-date-wrapper">
+                                                                            <select name="due_date[]"
+                                                                                class="form-control mb-4 @error('due_date.' . $index) is-invalid @enderror"
+                                                                                required>
+                                                                                <option value="" disabled>Select Due
+                                                                                    Date</option>
+                                                                                <option value="15"
+                                                                                    {{ $date == 15 ? 'selected' : '' }}>15
+                                                                                    days</option>
+                                                                                <option value="30"
+                                                                                    {{ $date == 30 ? 'selected' : '' }}>1
+                                                                                    month</option>
+                                                                                <option value="60"
+                                                                                    {{ $date == 60 ? 'selected' : '' }}>2
+                                                                                    months</option>
+                                                                                <option value="90"
+                                                                                    {{ $date == 90 ? 'selected' : '' }}>3
+                                                                                    months</option>
+                                                                                <option value="120"
+                                                                                    {{ $date == 120 ? 'selected' : '' }}>4
+                                                                                    months</option>
+                                                                                <option value="150"
+                                                                                    {{ $date == 150 ? 'selected' : '' }}>5
+                                                                                    months</option>
+                                                                                <option value="180"
+                                                                                    {{ $date == 180 ? 'selected' : '' }}>6
+                                                                                    months</option>
+                                                                            </select>
+                                                                        </div>
+                                                                    @endforeach
+                                                                @else
+                                                                    <div class="due-date-wrapper">
+                                                                        <select name="due_date[]"
+                                                                            class="form-control mb-4 @error('due_date.0') is-invalid @enderror"
+                                                                            required>
+                                                                            <option value="" disabled selected>Select
+                                                                                Due Date</option>
+                                                                            <option value="15">15 days</option>
+                                                                            <option value="30">1 month</option>
+                                                                            <option value="60">2 months</option>
+                                                                            <option value="90">3 months</option>
+                                                                            <option value="120">4 months</option>
+                                                                            <option value="150">5 months</option>
+                                                                            <option value="180">6 months</option>
+                                                                        </select>
+                                                                    </div>
+                                                                @endif
+                                                            </div>
+                                                            <button type="button" id="add_due_date"
+                                                                class="btn btn-primary">Add Another Due Date</button>
+                                                            @error('due_date.*')
                                                                 <div class="invalid-feedback">
                                                                     {{ $message }}
                                                                 </div>
@@ -221,6 +332,103 @@
                                                 </div>
                                                 <button type="submit" class="btn btn-primary mt-3">Update Loan</button>
                                             </form>
+
+                                            <script>
+                                                document.getElementById('add_interest_rate').addEventListener('click', function() {
+                                                    var container = document.getElementById('interest_rate_container');
+                                                    var newInputWrapper = document.createElement('div');
+                                                    newInputWrapper.className = 'input-group mb-4';
+                                                    var newInput = document.createElement('input');
+                                                    newInput.type = 'number';
+                                                    newInput.name = 'interest_rate[]';
+                                                    newInput.className = 'form-control';
+                                                    newInput.placeholder = 'Interest Rate';
+                                                    newInput.required = true;
+
+                                                    var cancelButton = document.createElement('button');
+                                                    cancelButton.type = 'button';
+                                                    cancelButton.className = 'btn btn-danger';
+                                                    cancelButton.innerText = 'Cancel';
+                                                    cancelButton.addEventListener('click', function() {
+                                                        container.removeChild(newInputWrapper);
+                                                    });
+
+                                                    newInputWrapper.appendChild(newInput);
+                                                    newInputWrapper.appendChild(cancelButton);
+                                                    container.appendChild(newInputWrapper);
+                                                });
+
+                                                document.getElementById('add_due_date').addEventListener('click', function() {
+                                                    var container = document.getElementById('due_date_container');
+                                                    var newSelectWrapper = document.createElement('div');
+                                                    newSelectWrapper.className = 'input-group mb-4';
+
+                                                    var newSelect = document.createElement('select');
+                                                    newSelect.name = 'due_date[]';
+                                                    newSelect.className = 'form-control';
+                                                    newSelect.required = true;
+
+                                                    var options = [{
+                                                            value: '',
+                                                            text: 'Select Due Date',
+                                                            disabled: true,
+                                                            selected: true
+                                                        },
+                                                        {
+                                                            value: '15',
+                                                            text: '15 days'
+                                                        },
+                                                        {
+                                                            value: '30',
+                                                            text: '1 month'
+                                                        },
+                                                        {
+                                                            value: '60',
+                                                            text: '2 months'
+                                                        },
+                                                        {
+                                                            value: '90',
+                                                            text: '3 months'
+                                                        },
+                                                        {
+                                                            value: '120',
+                                                            text: '4 months'
+                                                        },
+                                                        {
+                                                            value: '150',
+                                                            text: '5 months'
+                                                        },
+                                                        {
+                                                            value: '180',
+                                                            text: '6 months'
+                                                        },
+                                                    ];
+
+                                                    options.forEach(function(optionData) {
+                                                        var option = document.createElement('option');
+                                                        option.value = optionData.value;
+                                                        option.text = optionData.text;
+                                                        if (optionData.disabled) option.disabled = true;
+                                                        if (optionData.selected) option.selected = true;
+                                                        newSelect.appendChild(option);
+                                                    });
+
+                                                    var cancelButton = document.createElement('button');
+                                                    cancelButton.type = 'button';
+                                                    cancelButton.className = 'btn btn-danger';
+                                                    cancelButton.innerText = 'Cancel';
+                                                    cancelButton.addEventListener('click', function() {
+                                                        container.removeChild(newSelectWrapper);
+                                                    });
+
+                                                    newSelectWrapper.appendChild(newSelect);
+                                                    newSelectWrapper.appendChild(cancelButton);
+                                                    container.appendChild(newSelectWrapper);
+                                                });
+                                            </script>
+
+
+
                                         @endif
                                     </div>
                                 </div>

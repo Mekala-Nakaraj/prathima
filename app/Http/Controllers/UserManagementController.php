@@ -277,8 +277,7 @@ class UserManagementController extends Controller
     {
         $user = auth()->user();
         // $userKyc = auth()->userKyc();
-        return view('backend.pages.Manager.managercreate', compact('user'));
-       
+        return view('backend.pages.Manager.managercreate', compact('user'));  
     }
     public function ManagerCreateStore(Request $request)
     {
@@ -309,6 +308,11 @@ class UserManagementController extends Controller
 
         return redirect()->back()->with('success', 'Manager created successfully!');
     }
+    public function ManagerShow(Request $request)
+    {
+        $users = User::all(); // Fetch users from database or any other method
+        return view('backend.pages.Manager.managershow', compact('users'));  
+    }
     public function CustomerKYC()
     {
         $users = User::with('kyc')->get(); 
@@ -318,23 +322,40 @@ class UserManagementController extends Controller
     public function CustomerKYCVerified(Request $request, $userId)
     {
         $validatedData = $request->validate([
-            'is_verified' => 'required|boolean', 
+            'is_verified' => 'required|boolean',
+            'reason' => 'nullable|string|max:255',
         ]);
-    
+
         $userKyc = UserKyc::where('user_id', $userId)->firstOrFail();
-    
         $userKyc->is_verified = $validatedData['is_verified'];
-    
+
         if ($validatedData['is_verified'] == 1) {
             $userKyc->status = 'Verified';
-        } elseif ($validatedData['is_verified'] == 0) {
+            $userKyc->reason = null;
+        } else {
             $userKyc->status = 'Rejected';
+            $userKyc->reason = isset($validatedData['reason']) ? $validatedData['reason'] : null;
         }
-    
+
         $userKyc->save();
-    
+
         return redirect()->back()->with('success', 'KYC verification status updated successfully.');
     }
+
+    public function CustomerKYCReson(Request $request, $userId)
+    {
+        $validatedData = $request->validate([
+            'reason' => 'nullable|string|max:255',
+        ]);
+
+        $userKyc = UserKyc::where('user_id', $userId)->firstOrFail();
+        $userKyc->reason = $validatedData['reason'] ?? '';
+
+        $userKyc->save();
+
+        return redirect()->back()->with('success', 'Reason updated successfully.');
+    }
+
     public function CustomerLoan()
     {
         // $users = auth()->user();

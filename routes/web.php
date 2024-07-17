@@ -117,12 +117,14 @@ Route::controller(UserManagementController::class)->group(function () {
         Route::post('/admin/customer', 'CustomerManagementStore')->name('CustomerManagementStore');
         Route::get('/admin/customer-kyc', 'CustomerKYC')->name('CustomerKYC');
         Route::post('/admin/customer-kyc/update/{user}', 'CustomerKYCVerified')->name('user.kyc.CustomerKYCVerified');
+        Route::post('/admin/customer-kyc/{user}', 'CustomerKYCReson')->name('user.kyc.CustomerKYCReson');
 
         /* customer loan */
         Route::get('/admin/customer/loan-list', 'CustomerLoan')->name('CustomerLoan');
 
         //Manager
         Route::get('/admin/manager/manager-create', 'ManagerCreateShow')->name('ManagerCreateShow');
+        Route::get('/admin/manager/manager-list', 'ManagerShow')->name('ManagerShow');
         Route::post('/admin/manager/manager-create', 'ManagerCreateStore')->name('ManagerCreateStore');
         
     });

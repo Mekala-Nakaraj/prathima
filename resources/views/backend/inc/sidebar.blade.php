@@ -105,16 +105,16 @@
                         </div>
                     </a>
                 </li>
-                {{-- <li class="menu {{ request()->is('CustomerLoan*') ? 'active' : '' }}">
-                    <a href="{{ route('CustomerLoan') }}"
-                        data-active="{{ request()->is('CustomerLoan*') ? 'true' : 'false' }}" class="dropdown-toggle">
+                <li class="menu {{ request()->is('ManagerShow*') ? 'active' : '' }}">
+                    <a href="{{ route('ManagerShow') }}"
+                        data-active="{{ request()->is('ManagerShow*') ? 'true' : 'false' }}" class="dropdown-toggle">
                         <div class="">
                             <i class="las la-users"></i>
                             <span>Manager List</span>
                         </div>
                     </a>
                 </li>
-                <li class="menu dropdown {{ request()->is('CustomerManagement*') ? 'active' : '' }}">
+                {{-- <li class="menu dropdown {{ request()->is('CustomerManagement*') ? 'active' : '' }}">
                     <a href="#RelationSubMenu" data-toggle="collapse"
                         aria-expanded="{{ request()->is('CustomerManagement*') ? 'true' : 'false' }}"
                         class="dropdown-toggle">

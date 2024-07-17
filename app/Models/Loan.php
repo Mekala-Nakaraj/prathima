@@ -18,6 +18,11 @@ class Loan extends Model
         'agreement',
     ];
 
+    protected $casts = [
+        'due_date' => 'array',
+        'interest_rate' => 'array',
+    ];
+
     public function user()
     {
         return $this->belongsTo(User::class);

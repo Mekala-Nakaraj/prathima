@@ -6,6 +6,8 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\User;
+use App\Models\UsersLoan;
+
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
@@ -164,8 +166,17 @@ class LoginController extends Controller
 
     public function Dashboard()
     {
-        return view('backend.dashboard');
+        $loan = Usersloan::count();
+        $pendingLoansCount = Usersloan::where('payment_transaction', 'pending')->count();
+        $processing = Usersloan::where('payment_transaction', 'processing')->count();
+        $deposited = Usersloan::where('payment_transaction', 'deposit')->count();
+        $user = User::where('user_type', 'user')->count();
+
+
+        // Pass the count to the view
+        return view('backend.dashboard', ['user' => $user,'loan' => $loan,'pending_loan' => $pendingLoansCount, 'processing' => $processing,'deposit' => $deposited]);
     }
+    
 
     // public function sendOtp(Request $request)
     // {

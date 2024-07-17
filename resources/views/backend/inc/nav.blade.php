@@ -19,7 +19,7 @@
                     </div>
                 </form>
             </li>
-            <li class="nav-item dropdown megamenu-dropdown d-none d-lg-flex">
+            <!-- <li class="nav-item dropdown megamenu-dropdown d-none d-lg-flex">
                 <a href="javascript:void(0);" class="nav-link dropdown-toggle d-flex align-center text-primary"
                     data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     Mega Menu <i class="las la-angle-down font-11 ml-1"></i>
@@ -100,7 +100,7 @@
                         </div>
                     </div>
                 </div>
-            </li>
+            </li> -->
         </ul>
         <ul class="navbar-item flex-row ml-md-auto">
             <li class="nav-item dropdown fullscreen-dropdown d-none d-lg-flex">

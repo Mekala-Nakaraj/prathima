@@ -95,41 +95,48 @@
                             <div class="align-self-center col-lg-5">
                                 <div class="text-lg-center mt-4 mt-lg-0">
                                     <div class="row">
+                                        
                                         <div class="col-3">
                                             <div>
-                                                <p class="text-muted text-truncate mb-2">Projects</p>
-                                                <h5 class="mb-0">48</h5>
+                                                <p class="text-muted text-truncate mb-2">Loans</p>
+                                                <h5 class="mb-0">{{ $loan }}</h5>
                                             </div>
                                         </div>
                                         <div class="col-3">
                                             <div>
-                                                <p class="text-muted text-truncate mb-2">Team</p>
-                                                <h5 class="mb-0">40</h5>
+                                                <p class="text-muted text-truncate mb-2">Pending</p>
+                                                <h5 class="mb-0">{{ $pending_loan }}</h5>
                                             </div>
                                         </div>
                                         <div class="col-3">
                                             <div>
-                                                <p class="text-muted text-truncate mb-2">Clients</p>
-                                                <h5 class="mb-0">18</h5>
+                                                <p class="text-muted text-truncate mb-2">Processing</p>
+                                                <h5 class="mb-0">{{ $processing }}</h5>
                                             </div>
                                         </div>
                                         <div class="col-3">
+                                            <div>
+                                                <p class="text-muted text-truncate mb-2">Deposited</p>
+                                                <h5 class="mb-0">{{ $deposit }}</h5>
+                                            </div>
+                                        </div>
+                                        <!-- <div class="col-3">
                                             <div>
                                                 <p class="text-muted text-truncate mb-2">Sellers</p>
                                                 <h5 class="mb-0">98</h5>
                                             </div>
-                                        </div>
+                                        </div> -->
                                     </div>
                                 </div>
                             </div>
-                            <div class="d-none d-lg-flex col-lg-3 align-items-end justify-content-center flex-column">
+                            <!-- <div class="d-none d-lg-flex col-lg-3 align-items-end justify-content-center flex-column">
                                 <button class="btn btn-primary">
                                     Settings
                                 </button>
                                 <button class="btn btn-info mt-2">
                                     My Chat
                                 </button>
-                            </div>
+                            </div> -->
                         </div>
                     </div>
                 </div>
@@ -141,11 +148,12 @@
                         <div class="row">
                             <div class="col-md-7">
                                 <div class="text-white">
-                                    <h5 class="text-white">Pending Tasks !</h5>
-                                    <p class="blink_me text-white mt-1">Deadline Tomorrow</p>
+                                    <h5 class="text-white"> Dashboard !</h5>
+                                    <p class="blink_me text-white mt-1">Loans</p>
                                     <ul class="pl-3 mb-0">
-                                        <li class="py-1">Seller Payments</li>
-                                        <li class="py-1">Check Payouts</li>
+                                        <li class="py-1">Admin</li>
+                                        <li class="py-1">Admin</li>
+
                                     </ul>
                                 </div>
                             </div>
@@ -158,7 +166,7 @@
             </div>
             <div class="col-xl-8 col-lg-8 col-md-12 col-sm-12 col-12 layout-spacing">
                 <div class="row">
-                    <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 col-12">
+                    <!-- <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 col-12">
                         <div class="widget">
                             <div class="d-flex align-items-center mb-3">
                                 <div class="mr-3">
@@ -178,7 +186,7 @@
                                 </div>
                             </div>
                         </div>
-                    </div>
+                    </div> -->
                     <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 col-12">
                         <div class="widget">
                             <div class="d-flex align-items-center mb-3">
@@ -191,10 +199,10 @@
                             </div>
                             <div class="text-muted mt-3">
                                 <h5 class="mb-2">$200
-                                    <i class="las la-angle-down text-danger"></i>
+                                    <i class="las la-angle-up text-success-teal"></i>
                                 </h5>
                                 <div class="d-flex">
-                                    <span class="badge badge-danger font-size-12"> - 5.4% </span>
+                                    <!-- <span class="badge badge-danger font-size-12"> - 5.4% </span> -->
                                     <span class="ml-2 text-truncate">From last month</span>
                                 </div>
                             </div>
@@ -208,15 +216,15 @@
                                         <i class="las la-user"></i>
                                     </span>
                                 </div>
-                                <h5 class="font-size-14 mb-0">Customer</h5>
+                                <h5 class="font-size-14 mb-0">User</h5>
                             </div>
                             <div class="text-muted mt-3">
-                                <h5 class="mb-2">9,887
+                                <h5 class="mb-2">{{ $user }}
                                     <i class="las la-angle-up text-success-teal"></i>
                                 </h5>
                                 <div class="d-flex">
-                                    <span class="badge badge-success-teal font-size-12"> + 25% </span>
-                                    <span class="ml-2 text-truncate">From last month</span>
+                                    <!-- <span class="badge badge-success-teal font-size-12"> + 25% </span> -->
+                                    <span class="ml-2 text-truncate">user</span>
                                 </div>
                             </div>
                         </div>
@@ -224,7 +232,7 @@
                 </div>
             </div>
             <!-- 4 Columns Ends-->
-            <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 layout-spacing ">
+            <!-- <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 layout-spacing ">
                 <div class="widget widget-chart-one">
                     <div class="widget-heading">
                         <h5 class="">Weather Report</h5>
@@ -609,7 +617,7 @@
                         </div>
                     </div>
                 </div>
-            </div>
+            </div> -->
         </div>
     </div>
 @endsection

@@ -15,9 +15,6 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 
--- Dumping database structure for prathima
-CREATE DATABASE IF NOT EXISTS `prathima` /*!40100 DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci */ /*!80016 DEFAULT ENCRYPTION='N' */;
-USE `prathima`;
 
 -- Dumping structure for table prathima.failed_jobs
 CREATE TABLE IF NOT EXISTS `failed_jobs` (

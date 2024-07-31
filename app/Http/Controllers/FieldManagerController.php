@@ -11,7 +11,7 @@ class FieldManagerController extends Controller
 {
     public function FieldManagerShow()
     {
-        return view('backend.dashboard');
+        return view('backend.Manager.FieldManager.FieldManagerdashboard');
     }
     public function FiledManagerCustomerKycShow()
     {  

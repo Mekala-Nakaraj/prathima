@@ -90,6 +90,10 @@ Route::controller(SettingsController::class)->group(function () {
         Route::post('/admin/settings/mail-conf/update', 'EmailConfStore')->name('settings.EmailConfStore');
         Route::get('/admin/settings/sms-conf', 'SMSConfShow')->name('settings.SMSConfShow');
         Route::post('/admin/settings/sms-conf/update', 'SMSConfStore')->name('settings.SMSConfStore');
+
+        Route::get('/admin/settings/sandbox', 'Sandbox')->name('settings.sanbox');
+        Route::post('/admin/settings/sandbox-update', 'SandboxUpdate')->name('settings.sanbox.store');
+
     });   
 });
 

@@ -3,10 +3,11 @@
 namespace App\Services;
 
 use Illuminate\Support\Facades\Http;
+use App\Models\User;
 
 class VerifyPanCard 
 {
-    public function verifyPAN($panNumber, $phoneNumber)
+    public function verifyPAN($panNumber, $phoneNumber, $user = null)
     {   
         $url = "https://api.eko.in:25002/ekoicici/v1/pan/verify";
         $developerKey = '793db230ef4ac2eb691e3087f73fe749';
@@ -33,6 +34,10 @@ class VerifyPanCard
         // dd($responseBody);
 
         if ($response->successful() && $responseBody['status'] == 0) {
+            $user = User::where("id", $user)->first();
+            $user->pan_data = $responseBody;
+            $user->pan_verified = 1;
+            $user->save();
             return [
                 'status' => 'success',
                 'message' => 'PAN verified successfully.',
@@ -42,7 +47,7 @@ class VerifyPanCard
             return [
                 'status' => 'error',
                 'message' => 'PAN verification failed.',
-                // 'error' => $responseBody,
+                'error' => $responseBody,
             ];
         }
     }

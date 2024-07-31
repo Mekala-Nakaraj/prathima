@@ -191,4 +191,25 @@ class SettingsController extends Controller
         //     return redirect()->back()->with('error', 'Failed to send test SMS. Error: ' . $e->getMessage());
         // }
     }
+
+    public function Sandbox(){
+        $settings = Settings::all(); 
+        return view('backend.settings.sandbox', compact('settings'));
+    }
+
+    public function SandboxUpdate(Request $request)
+    {
+
+        $request->validate([
+            'sandbox_live_api_key' => 'required',
+            'sandbox_secret_key' => 'required',
+            'sandbox_version' => 'required',
+        ]);
+
+        foreach ($request->except('_token') as $key => $value) {
+            Settings::updateOrCreate(['key' => $key], ['value' => $value]);
+        }
+
+        return redirect()->back()->with('success', 'Sandbox configuration successfully.');
+    }
 }

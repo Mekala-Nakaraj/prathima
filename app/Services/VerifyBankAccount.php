@@ -3,10 +3,11 @@
 namespace App\Services;
 
 use Illuminate\Support\Facades\Http;
+use App\Models\User;
 
 class VerifyBankAccount 
 {
-    public function verifyBankDetails($accountNumber, $ifscCode, $phoneNumber)
+    public function verifyBankDetails($accountNumber, $ifscCode, $phoneNumber,$user = null)
     {
         $url = "https://api.eko.in:25002/ekoicici/v2/banks/ifsc:$ifscCode/accounts/$accountNumber";
         $developerKey = '793db230ef4ac2eb691e3087f73fe749';
@@ -38,6 +39,9 @@ class VerifyBankAccount
         // dd("API Response verifyBankDetails", $responseBody);
 
         if ($response->successful() && $responseBody['status'] == 0) {
+            $user = User::where("id", $user)->first();
+            $user->bank_verified = 1;
+            $user->save();
             return [
                 'status' => 'success',
                 'message' => 'Bank details verified successfully.',

@@ -123,7 +123,7 @@
                                                     <select class="form-control" id="loan_paid_date" name="loan_paid_date"
                                                         required>
                                                         <option value="">Select day of the month</option>
-                                                        @for ($i = 0; $i <= 30; $i++)
+                                                        @for ($i = 1; $i <= 30; $i++)
                                                             <option value="{{ $i }}"
                                                                 @if (old('loan_paid_date', $settings->where('key', 'loan_paid_date')->first()->value ?? '') == $i) selected @endif>
                                                                 {{ $i }}</option>

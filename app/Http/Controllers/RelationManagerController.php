@@ -10,7 +10,7 @@ class RelationManagerController extends Controller
 {
     public function RelationManagerShow()
     {
-        return view('backend.dashboard');
+        return view('backend.Manager.RelationManager.RelationManagerdashboard');
     }
     public function RelationManagerCustomerKycShow()
     {  
@@ -30,7 +30,7 @@ class RelationManagerController extends Controller
     
         $userKyc = UserKyc::where('user_id', $userId)->firstOrFail();
     
-        $userKyc->relationship_manager_verified = $validatedData['relationship_manager_verified'];
+    $userKyc->relationship_manager_verified = $validatedData['relationship_manager_verified'];
     
         if ($validatedData['relationship_manager_verified'] == 0 && isset($validatedData['reason'])) {
             $userKyc->reason = $validatedData['reason'];

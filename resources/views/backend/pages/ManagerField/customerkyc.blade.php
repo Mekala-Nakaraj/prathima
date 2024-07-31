@@ -58,7 +58,7 @@
         <div class="layout-top-spacing mb-2">
             <div class="col-md-12">
                 <div class="row">
-                    <div class="container p-0">
+                    <div class="container-fluid p-0">
                         <div class="row layout-top-spacing date-table-container">
                             <!-- Datatable with export options -->
                             <div class="col-xl-12 col-lg-12 col-sm-12 layout-spacing">
@@ -73,13 +73,11 @@
                                                     <th>Email</th>
                                                     <th>Phone</th>
                                                     <th>Loan Amount</th>
-                                                    <th>Relation Manager Verified</th>
-                                                    <th>Loan Approved</th>
+                                                    <th>Status</th>
+                                                    <th>KYC Verified</th>
                                                     <th>Reason</th>
-                                                    <th>Aadhar No</th>
-                                                    <th>Pan No</th>
-                                                    <th>Account No</th>
-                                                    <th>IFSC No</th>
+                                                    <th>Action</th>
+
                                                 </tr>
                                             </thead>
                                             <tbody>
@@ -90,12 +88,12 @@
                                                             <td>{{ $user->name }}</td>
                                                             <td>{{ $user->email }}</td>
                                                             <td>{{ $user->phone_number ?: 'NA' }}</td>
-                                                            <td>{{ $user->loan_amount ?: 'NA' }}</td>
+                                                            <td>{{ $user->kyc->loan_amount ?? 'NA' }}</td>
                                                             <td>
-                                                                @if ($user->kyc->field_manager_verified)
+                                                                @if ($user->kyc->field_manager_verified == 1)
                                                                     <span class="badge badge-success">Approved</span>
                                                                 @else
-                                                                    <span class="badge badge-danger">Rejected</span>
+                                                                    <span class="badge badge-warning">Processing</span>
                                                                 @endif
                                                             </td>
                                                             <td>
@@ -123,24 +121,59 @@
                                                                 </form>
                                                             </td>
                                                             <td>
-                                                                <div class="form-group">
-                                                                    <label for="reason_{{ $user->id }}">Reason</label>
-                                                                    <textarea class="form-control" id="reason_{{ $user->id }}" name="reason" rows="3" cols="50">{{ $user->kyc->reason ?? '' }}</textarea>
-                                                                </div>
+                                                                <a class="btn-sm" data-toggle="modal"
+                                                                    data-target="#reasonModal{{ $user->id }}">
+                                                                    <i class="las la-edit" style="font-size: 24px;"></i>
+                                                                </a>
                                                             </td>
-                                                            <td>{{ $user->kyc->aadhar_number ?? 'NA' }}</td>
-                                                            <td>{{ $user->kyc->pan_number ?? 'NA' }}</td>
-                                                            <td>{{ $user->kyc->account_number ?? 'NA' }}</td>
-                                                            <td>{{ $user->kyc->ifsc_code ?? 'NA' }}</td>
+                                                            <td>
+                                                                <a href="{{ route('admin.LoanDeatilsShow', ['id' => $user->id]) }}"
+                                                                    class="btn btn-primary btn-sm">
+                                                                    <i class="las la-eye" style="font-size: 24px;"></i>
+                                                                </a>
+                                                            </td>
                                                         </tr>
                                                     @endif
                                                 @endforeach
-
                                             </tbody>
                                         </table>
                                     </div>
                                 </div>
                             </div>
+                            @foreach ($users as $user)
+                                <div class="modal fade" id="reasonModal{{ $user->id }}" tabindex="-1" role="dialog"
+                                    aria-labelledby="reasonModalLabel{{ $user->id }}" aria-hidden="true">
+                                    <div class="modal-dialog" role="document">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title" id="reasonModalLabel{{ $user->id }}">
+                                                    Edit
+                                                    Reason</h5>
+                                                <button type="button" class="close" data-dismiss="modal"
+                                                    aria-label="Close">
+                                                    <span aria-hidden="true">&times;</span>
+                                                </button>
+                                            </div>
+                                            <form action="{{ route('user.kyc.CustomerKYCReson', ['user' => $user->id]) }}"
+                                                method="POST">
+                                                @csrf
+                                                <div class="modal-body">
+                                                    <div class="form-group">
+                                                        <label for="reason">Reason</label>
+                                                        <textarea class="form-control" id="reason{{ $user->id }}" name="reason" rows="4">{{ $user->kyc->reason ?? '' }}</textarea>
+                                                    </div>
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-secondary"
+                                                        data-dismiss="modal">Close</button>
+                                                    <button type="submit" class="btn btn-primary">Save
+                                                        changes</button>
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                            @endforeach
                         </div>
                     </div>
                 </div>

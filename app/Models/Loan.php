@@ -14,7 +14,7 @@ class Loan extends Model
         'interest_rate',
         'approved_loan_amount',
         'start_date',
-        'due_date',
+        'due_date_interest_rate',
         'agreement',
     ];
 

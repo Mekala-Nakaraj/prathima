@@ -59,7 +59,7 @@
         <div class="layout-top-spacing mb-2">
             <div class="col-md-12">
                 <div class="row">
-                    <div class="container p-0">
+                    <div class="container-fluid p-0">
                         @if (session('success'))
                             <div class="alert alert-success">
                                 {{ session('success') }}
@@ -75,13 +75,34 @@
                                 </ul>
                             </div>
                         @endif
+                        {{-- <div class="row mb-4">
+                            <div class="col-md-6">
+                                <div class="dataTables_filter">
+                                    <label for="searchBox">Search:</label>
+                                    <input type="search" id="searchBox" class="form-control form-control-sm" placeholder="Search...">
+                                </div>
+                            </div>
+                            <div class="col-md-6 text-right">
+                                <div class="dt-buttons btn-group">
+                                    <button class="btn btn-primary buttons-excel m-1" tabindex="0" aria-controls="export-dt" type="button" title="Export to Excel">
+                                        <i class="fas fa-file-excel"></i> Excel
+                                    </button>
+                                    <button class="btn btn-primary buttons-csv m-1" tabindex="0" aria-controls="export-dt" type="button" title="Export to CSV">
+                                        <i class="fas fa-file-csv"></i> CSV
+                                    </button>
+                                    <button class="btn btn-primary buttons-pdf m-1" tabindex="0" aria-controls="export-dt" type="button" title="Export to PDF">
+                                        <i class="fas fa-file-pdf"></i> PDF
+                                    </button>
+                                </div>
+                            </div>
+                        </div> --}}
 
-                        <div class="row layout-top-spacing date-table-container">
-                            <div class="col-xl-12 col-lg-12 col-sm-12 layout-spacing">
-                                <div class="widget-content widget-content-area br-6">
-                                    <div class="table-responsive mb-4">
-                                        <table id="export-dt" class="table table-hover" style="width:100%">
-                                            <thead>
+                            <div class="row layout-top-spacing date-table-container">
+                                <div class="col-xl-12 col-lg-12 col-sm-12 layout-spacing">
+                                    <div class="widget-content widget-content-area br-6">
+                                        <div class="table-responsive mb-4">
+                                            <table id="export-dt" class="table table-hover" style="width:100%">
+                                                <thead>
                                                 <tr>
                                                     <th>ID</th>
                                                     <th>Name</th>
@@ -94,143 +115,111 @@
                                                     <th>Reason</th>
                                                     <th>Action</th>
                                                 </tr>
-                                            </thead>
-                                            <tbody>
+                                                </thead>
+                                                <tbody>
                                                 @foreach ($users as $index => $user)
-                                                    <tr>
-                                                        <td>{{ $index + 1 }}</td>
-                                                        <td>{{ $user->name }}</td>
-                                                        <td>{{ $user->email }}</td>
-                                                        <td>{{ $user->kyc->loan_amount ?? 'NA' }}</td>
-                                                        <td>
-                                                            @if ($user->kyc)
+                                                    @if ($user->kyc)
+                                                        <tr>
+                                                            <td>{{ $index + 1 }}</td>
+                                                            <td>{{ $user->name }}</td>
+                                                            <td>{{ $user->email }}</td>
+                                                            <td>{{ $user->kyc->loan_amount ?? 'NA' }}</td>
+                                                            <td>
                                                                 @if ($user->kyc->relationship_manager_verified)
                                                                     <span class="badge badge-success">Approved</span>
                                                                 @else
                                                                     <span class="badge badge-danger">Rejected</span>
                                                                 @endif
-                                                            @else
-                                                                <span class="badge badge-warning">Processing...</span>
-                                                            @endif
-                                                        </td>
-                                                        <td>
-                                                            @if ($user->kyc)
+                                                            </td>
+                                                            <td>
                                                                 @if ($user->kyc->field_manager_verified)
                                                                     <span class="badge badge-success">Approved</span>
                                                                 @else
                                                                     <span class="badge badge-danger">Rejected</span>
                                                                 @endif
-                                                            @else
-                                                                <span class="badge badge-warning">Processing...</span>
-                                                            @endif
-                                                        </td>
-                                                        <td>
-                                                            @if ($user->kyc)
+                                                            </td>
+                                                            <td>
                                                                 @if ($user->kyc->relationship_manager_verified == 0)
-                                                                    <span class="badge badge-warning">Relationship Manager
-                                                                        Processing</span>
-                                                                @elseif ($user->kyc->relationship_manager_verified == 0)
-                                                                    <span class="badge badge-warning">Field Manager
-                                                                        Processing</span>
+                                                                    <span class="badge badge-warning">Relationship Manager Processing</span>
+                                                                @elseif ($user->kyc->field_manager_verified == 0)
+                                                                    <span class="badge badge-warning">Field Manager Processing</span>
                                                                 @elseif ($user->kyc->relationship_manager_verified == 1 && $user->kyc->field_manager_verified == 1)
                                                                     <span class="badge badge-success">Approved</span>
-                                                                @elseif (
-                                                                    $user->kyc->is_verified == 1 &&
-                                                                        $user->kyc->relationship_manager_verified == 1 &&
-                                                                        $user->kyc->field_manager_verified == 1)
+                                                                @elseif ($user->kyc->is_verified == 1 && $user->kyc->relationship_manager_verified == 1 && $user->kyc->field_manager_verified == 1)
                                                                     <span class="badge badge-success">Admin Approved</span>
                                                                 @elseif ($user->kyc->is_verified == 0)
                                                                     <span class="badge badge-danger">Admin Rejected</span>
                                                                 @elseif ($user->kyc->relationship_manager_verified == 1 && $user->kyc->field_manager_verified == 0)
-                                                                    <span class="badge badge-warning">Relationship Manager
-                                                                        Processing</span>
+                                                                    <span class="badge badge-warning">Relationship Manager Processing</span>
                                                                 @elseif ($user->kyc->field_manager_verified == 0)
-                                                                    <span class="badge badge-warning">Field Manager
-                                                                        Processing</span>
+                                                                    <span class="badge badge-warning">Field Manager Processing</span>
                                                                 @else
                                                                     <span class="badge badge-warning">Processing...</span>
                                                                 @endif
-                                                            @else
-                                                                <span class="badge badge-warning">Processing...</span>
-                                                            @endif
-                                                        </td>
-                                                        <td>
-                                                            <form
-                                                                action="{{ route('user.kyc.CustomerKYCVerified', ['user' => $user->id]) }}"
-                                                                method="POST" id="kyc-form-{{ $user->id }}"
-                                                                onsubmit="return validateForm({{ $user->id }})">
-                                                                @csrf
-                                                                <div class="form-group">
-                                                                    <div class="custom-control custom-switch">
-                                                                        <input type="hidden" name="is_verified"
-                                                                            value="0">
-                                                                        <input type="checkbox"
-                                                                            class="custom-control-input kyc-switch"
-                                                                            id="verified_{{ $user->id }}"
-                                                                            name="is_verified" value="1"
-                                                                            {{ $user->kyc && $user->kyc->is_verified ? 'checked' : '' }}>
-                                                                        <label class="custom-control-label"
-                                                                            for="verified_{{ $user->id }}">Verified</label>
+                                                            </td>
+                                                            <td>
+                                                                <form action="{{ route('user.kyc.CustomerKYCVerified', ['user' => $user->id]) }}" method="POST" id="kyc-form-{{ $user->id }}" onsubmit="return validateForm({{ $user->id }})">
+                                                                    @csrf
+                                                                    <div class="form-group">
+                                                                        <div class="custom-control custom-switch">
+                                                                            <input type="hidden" name="is_verified" value="0">
+                                                                            <input type="checkbox" class="custom-control-input kyc-switch" id="verified_{{ $user->id }}" name="is_verified" value="1" {{ $user->kyc && $user->kyc->is_verified ? 'checked' : '' }}>
+                                                                            <label class="custom-control-label" for="verified_{{ $user->id }}">Verified</label>
+                                                                        </div>
                                                                     </div>
-                                                                </div>
-                                                                <div class="loading-spinner"
-                                                                    id="spinner-{{ $user->id }}"
-                                                                    style="display: none;"></div>
-                                                            </form>
-                                                        </td>
-                                                        <td>
-                                                            <a class="btn-sm" data-toggle="modal"
-                                                                data-target="#reasonModal{{ $user->id }}">
-                                                                <i class="las la-edit" style="font-size: 24px;"></i>
-                                                            </a>
-                                                        </td>
-                                                        <td>
-                                                            <a href="{{ route('admin.LoanDeatilsShow', ['id' => $user->id]) }}"
-                                                                class="btn btn-primary btn-sm">
-                                                                <i class="las la-eye" style="font-size: 24px;"></i>
-                                                            </a>
-                                                        </td>
-                                                    </tr>
+                                                                    <div class="loading-spinner" id="spinner-{{ $user->id }}" style="display: none;"></div>
+                                                                </form>
+                                                            </td>
+                                                            <td>
+                                                                <a class="btn-sm" data-toggle="modal" data-target="#reasonModal{{ $user->id }}">
+                                                                    <i class="las la-edit" style="font-size: 24px;"></i>
+                                                                </a>
+                                                            </td>
+                                                            <td>
+                                                                <a href="{{ route('admin.LoanDeatilsShow', ['id' => $user->id]) }}" class="btn btn-primary btn-sm">
+                                                                    <i class="las la-eye" style="font-size: 24px;"></i>
+                                                                </a>
+                                                            </td>
+                                                        </tr>
+                                                    @endif
                                                 @endforeach
-                                            </tbody>
-                                        </table>
-                                    </div>
-                                </div>
-                            </div>
-                            @foreach ($users as $user)
-                                <div class="modal fade" id="reasonModal{{ $user->id }}" tabindex="-1"
-                                    role="dialog" aria-labelledby="reasonModalLabel{{ $user->id }}"
-                                    aria-hidden="true">
-                                    <div class="modal-dialog" role="document">
-                                        <div class="modal-content">
-                                            <div class="modal-header">
-                                                <h5 class="modal-title" id="reasonModalLabel{{ $user->id }}">Edit
-                                                    Reason</h5>
-                                                <button type="button" class="close" data-dismiss="modal"
-                                                    aria-label="Close">
-                                                    <span aria-hidden="true">&times;</span>
-                                                </button>
-                                            </div>
-                                            <form action="{{ route('user.kyc.CustomerKYCReson', ['user' => $user->id]) }}"
-                                                method="POST">
-                                                @csrf
-                                                <div class="modal-body">
-                                                    <div class="form-group">
-                                                        <label for="reason">Reason</label>
-                                                        <textarea class="form-control" id="reason{{ $user->id }}" name="reason" rows="4">{{ $user->kyc->reason ?? '' }}</textarea>
-                                                    </div>
-                                                </div>
-                                                <div class="modal-footer">
-                                                    <button type="button" class="btn btn-secondary"
-                                                        data-dismiss="modal">Close</button>
-                                                    <button type="submit" class="btn btn-primary">Save changes</button>
-                                                </div>
-                                            </form>
+                                                </tbody>
+                                            </table>
                                         </div>
                                     </div>
                                 </div>
-                            @endforeach
-                        </div>
+                                @foreach ($users as $user)
+                                    @if ($user->kyc)
+                                        <div class="modal fade" id="reasonModal{{ $user->id }}" tabindex="-1" role="dialog" aria-labelledby="reasonModalLabel{{ $user->id }}" aria-hidden="true">
+                                            <div class="modal-dialog" role="document">
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <h5 class="modal-title" id="reasonModalLabel{{ $user->id }}">Edit Reason</h5>
+                                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                            <span aria-hidden="true">&times;</span>
+                                                        </button>
+                                                    </div>
+                                                    <form action="{{ route('user.kyc.CustomerKYCReson', ['user' => $user->id]) }}" method="POST">
+                                                        @csrf
+                                                        <div class="modal-body">
+                                                            <div class="form-group">
+                                                                <label for="reason">Reason</label>
+                                                                <textarea class="form-control" id="reason{{ $user->id }}" name="reason" rows="4">{{ $user->kyc->reason ?? '' }}</textarea>
+                                                            </div>
+                                                        </div>
+                                                        <div class="modal-footer">
+                                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                                            <button type="submit" class="btn btn-primary">Save changes</button>
+                                                        </div>
+                                                    </form>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    @endif
+                                @endforeach
+                            </div>
+
+
                     </div>
                 </div>
             </div>

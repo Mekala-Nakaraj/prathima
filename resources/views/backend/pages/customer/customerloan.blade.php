@@ -61,9 +61,9 @@
                     <th>ID</th>
                     <th>Loan ID</th>
                     <th>Name</th>
-                    <th>Phone</th>
                     <th>Loan Amount</th>
-                    <th>Interest Rate</th>
+                    {{-- <th>Interest Rate</th>
+                    <th>Due Date</th> --}}
                     <th>Agreed Status</th>
                     <th>Agreed Date</th>
                     <th>Payment Status</th>
@@ -72,49 +72,72 @@
             </thead>
             <tbody>
                 @foreach ($usersLoans as $index => $userLoan)
-                    <tr>
-                        <td>{{ $index + 1 }}</td>
-                        {{-- <td>{{ $userLoan->loan_id ?: 'NA' }}</td> --}}
-                        <td>{{ $userLoan->loan ? $userLoan->loan->loan_id : 'NA' }}</td>
-                        <td>{{ $userLoan->loan ? $userLoan->user->name : 'NA' }}</td>
-                        <td>{{ $userLoan->loan ? $userLoan->user->email : 'NA' }}</td>
-                        <td>{{ $userLoan->loan ? $userLoan->loan->approved_loan_amount : 'NA' }}</td>
-                        <td>{{ $userLoan->loan ? $userLoan->loan->interest_rate : 'NA' }}</td>
-                        <td>
-                            @if ($userLoan->agreed)
-                                <span class="badge badge-success">Agreed</span>
-                            @else
-                                <span class="badge badge-danger">Not Agreed</span>
-                            @endif
-                        </td>
-                        <td>
-                            @if ($userLoan->agreed_date)
-                                <span
-                                    style="color: #336699;">{{ \Carbon\Carbon::parse($userLoan->agreed_date)->format('Y-m-d h:i:s A') }}</span>
-                            @else
-                                <span style="color: #999999;">NA</span>
-                            @endif
-                        </td>
-                        <td>
-                            @if ($userLoan->payment_transaction)
-                                @if ($userLoan->payment_transaction === 'pending')
-                                    <span class="badge badge-warning">Pending</span>
-                                @elseif ($userLoan->payment_transaction === 'processing')
-                                    <span class="badge badge-info">Processing</span>
-                                @elseif ($userLoan->payment_transaction === 'deposit')
-                                    <span class="badge badge-success">Deposited</span>
+                    @if (
+                        $userLoan->userKyc &&
+                            $userLoan->userKyc->field_manager_verified == 1 &&
+                            $userLoan->userKyc->relationship_manager_verified == 1 &&
+                            $userLoan->userKyc->is_verified == 1)
+                        <tr>
+                            <td>{{ $index + 1 }}</td>
+                            <td>{{ $userLoan->loan ? $userLoan->loan->loan_id : 'NA' }}</td>
+                            <td>{{ $userLoan->user ? $userLoan->user->name : 'NA' }}</td>
+                            <td>{{ $userLoan->loan ? $userLoan->loan->approved_loan_amount : 'NA' }}</td>
+                            {{-- <td>
+                                @if ($userLoan->loan)
+                                    @php
+                                        $dueDateInterestRate = json_decode($userLoan->loan->due_date_interest_rate, true);
+                                    @endphp
+                                    {{ $dueDateInterestRate[0]['interest_rate'] ?? 'NA' }}
+                                @else
+                                    NA
                                 @endif
-                            @else
-                                <span class="badge badge-secondary">No Loan</span>
-                            @endif
-                        </td>
-                        <td>
-                            <a href="{{ route('admin.ProfileDeatilsShow', ['id' => $userLoan->id]) }}"
-                                class="btn btn-primary btn-sm">
-                                <i class="las la-eye" style="font-size: 24px;"></i>
-                            </a>
-                        </td>
-                    </tr>
+                            </td>
+                            <td>
+                                @if ($userLoan->loan)
+                                    @php
+                                        $dueDateInterestRate = json_decode($userLoan->loan->due_date_interest_rate, true);
+                                    @endphp
+                                    {{ $dueDateInterestRate[0]['due_date'] ?? 'NA' }}
+                                @else
+                                    NA
+                                @endif
+                            </td> --}}
+                            <td>
+                                @if ($userLoan->agreed)
+                                    <span class="badge badge-success">Agreed</span>
+                                @else
+                                    <span class="badge badge-danger">Not Agreed</span>
+                                @endif
+                            </td>
+                            <td>
+                                @if ($userLoan->agreed_date)
+                                    <span
+                                        style="color: #336699;">{{ \Carbon\Carbon::parse($userLoan->agreed_date)->format('Y-m-d h:i:s A') }}</span>
+                                @else
+                                    <span style="color: #999999;">NA</span>
+                                @endif
+                            </td>
+                            <td>
+                                @if ($userLoan->payment_transaction)
+                                    @if ($userLoan->payment_transaction === 'pending')
+                                        <span class="badge badge-warning">Pending</span>
+                                    @elseif ($userLoan->payment_transaction === 'processing')
+                                        <span class="badge badge-info">Processing</span>
+                                    @elseif ($userLoan->payment_transaction === 'deposit')
+                                        <span class="badge badge-success">Deposited</span>
+                                    @endif
+                                @else
+                                    <span class="badge badge-secondary">No Loan</span>
+                                @endif
+                            </td>
+                            <td>
+                                <a href="{{ route('admin.ProfileDeatilsShow', ['id' => $userLoan->id]) }}"
+                                    class="btn btn-primary btn-sm">
+                                    <i class="las la-eye" style="font-size: 24px;"></i>
+                                </a>
+                            </td>
+                        </tr>
+                    @endif
                 @endforeach
             </tbody>
         </table>

@@ -93,26 +93,25 @@
                                                     font-size: 10rem;
                                                 }
                                             </style>
-                                            <i class="las la-user user-profile-icon font-20 img-thumbnail rounded-circle"></i>
+                                            <i
+                                                class="las la-user user-profile-icon font-20 img-thumbnail rounded-circle"></i>
                                         </div>
                                         <h6 class="text-muted text-start">Personal Information</h6>
                                         <p class="text-start"><strong>Full Name:</strong> {{ $userLoan->user->name }}</p>
                                         <p class="text-start"><strong>Email:</strong> {{ $userLoan->user->email }}</p>
-                                        <p class="text-start"><strong>Phone Number:</strong> {{ $userLoan->user->phone_number }}</p>
-                                        <p class="text-start"><strong>Pincode:</strong> {{ $userLoan->user->pincode }}</p>
-                                        <p class="text-start"><strong>City:</strong> {{ $userLoan->user->city }}</p>
-                                        <p class="text-start"><strong>State:</strong> {{ $userLoan->user->state }}</p>
-                                        <p class="text-start"><strong>Country:</strong> {{ $userLoan->user->country }}</p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-lg-6 col-12">
-                            <div class="widget widget-chart-one">
-                                <div class="widget-content">
-                                    <div class="agent-info text-center">
+                                        <p class="text-start"><strong>Phone Number:</strong>
+                                            {{ $userLoan->user->phone_number }}</p>
                                         <h6 class="text-muted text-start">KYC Information</h6>
-                                        <p class="text-start"><strong>PAN Number:</strong> {{ $userLoan->userKyc->pan_number ?? 'NA' }}</p>
+                                        @if ($userLoan->userKyc && $userLoan->userKyc->reason)
+                                            <p class="text-start badge badge-danger">
+                                                <strong>
+                                                    Reject Reason:
+                                                </strong>
+                                            </p>
+                                            <p class="text-start text-primary">
+                                                {{ $userLoan->userKyc->reason ?? '-' }}
+                                            </p>
+                                        @endif
                                         <p class="text-start"><strong>Relationship Manager Verified:</strong>
                                             @if ($userLoan->userKyc)
                                                 @if ($userLoan->userKyc->relationship_manager_verified == 1)
@@ -152,20 +151,135 @@
                                                 <span class="badge badge-warning">Processing...</span>
                                             @endif
                                         </p>
-                                        <p class="text-start"><strong>KYC Reject Reason:</strong> {{ $userLoan->userKyc->reason ?? '-' }}</p>
                                     </div>
                                 </div>
                             </div>
+                        </div>
+                        <div class="col-lg-6 col-12">
                             <div class="widget widget-chart-one">
                                 <div class="widget-content">
                                     <div class="agent-info text-center">
-                                        <h6 class="text-muted text-start">Loan Details</h6>
-                                        <p class="text-start"><strong>Interest Rate:</strong> <span class="badge badge-success">{{ $userLoan->loan->interest_rate ?? 'NA' }}%</span> </p>
-                                        <p class="text-start badge badge-warning"><strong>Inital Loan Amount:</strong> <span class="">{{ $userLoan->userKyc->loan_amount ?? 'NA' }}</span> </p>
-                                        <p class="text-start"><strong>Approved Loan Amount:</strong> <span class="badge badge-success">{{ $userLoan->loan->approved_loan_amount ?? 'NA' }}</span> </p>
-                                        <p class="text-start badge badge-warning"><strong>Start Date:</strong>  <span>{{ $userLoan->loan->start_date ?? 'NA' }}</span></p>
-                                        <p class="text-start badge badge-danger"><strong >Due Date:</strong> <span>{{ $userLoan->loan->due_date ?? 'NA' }}</span> </p>
-                                        {{-- <p class="text-start"><strong>Agreement:</strong> {{ $userLoan->loan->agreement ?? 'NA' }}</p> --}}
+                                        <h6 class="text-muted text-start">Bank Information</h6>
+                                        <p class="text-start">
+                                            <strong>
+                                                Account Holder Name:
+                                            </strong>
+                                            {{ $userLoan->userKyc->account_holder_name ?? 'NA' }}
+                                        </p>
+                                        <p class="text-start">
+                                            <strong>
+                                                Bank Name:
+                                            </strong>
+                                            {{ $userLoan->userKyc->bank_name ?? 'NA' }}
+                                        </p>
+                                        <p class="text-start">
+                                            <strong>
+                                                Account Number:
+                                            </strong>
+                                            {{ $userLoan->userKyc->account_number ?? 'NA' }}
+                                        </p>
+                                        <p class="text-start">
+                                            <strong>
+                                                IFSC Code:
+                                            </strong>
+                                            {{ $userLoan->userKyc->ifsc_code ?? 'NA' }}
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                            {{--  --}}
+                            <div class="widget widget-chart-one">
+                                <div class="widget-content">
+                                    <div class="agent-info text-center">
+                                        <h2 class="text-muted text-start">Loan Details</h1>
+                                            <p class="text-start"><strong class="text-primary">Loan Amount:
+                                                    ₹{{ $principal ?? 'NA' }}</strong></p>
+                                            <p class="text-start"><strong class="text-primary">Total Interest:
+                                                    ₹{{ $total_interest ?? 'NA' }}</strong></p>
+                                            <p class="text-start"><strong class="text-primary">Total Amount (Loan +
+                                                    Interest): ₹{{ $total_repayment ?? 'NA' }}</strong></p>
+                                            <p class="text-start">
+                                                <strong class="text-primary">
+                                                    Loan Duration:
+                                                    @if ($loan_duration < 30)
+                                                        {{ $loan_duration }} days
+                                                    @else
+                                                        {{ round($loan_duration / 30) }}
+                                                        month{{ round($loan_duration / 30) > 1 ? 's' : '' }}
+                                                    @endif
+                                                </strong>
+                                            </p>
+                                            <p class="text-start"><strong class="text-primary">Loan days:
+                                                    {{ $loan_duration ?? 'NA' }} days </strong></p>
+                                            <p class="text-start"><strong class="text-primary">EMI:
+                                                    ₹{{ $emi ?? 'NA' }}</strong></p>
+                                            <p class="text-start"><strong class="text-primary badge badge-success">Profit:
+                                                    ₹{{ $profit ?? 'NA' }}</strong></p>
+
+                                            <button type="button" class="btn btn-primary" data-toggle="modal"
+                                                data-target="#emiModal">
+                                                View EMI Details
+                                            </button>
+                                            <button type="button" class="btn btn-success" data-toggle="modal"
+                                                data-target="#emiModal">
+                                                Pay Now
+                                            </button>
+                                            {{-- MOdel --}}
+                                            <div class="modal fade" id="emiModal" tabindex="-1" role="dialog"
+                                                aria-labelledby="emiModalLabel" aria-hidden="true">
+                                                <div class="modal-dialog modal-lg" role="document">
+                                                    <div class="modal-content">
+                                                        <div class="modal-header">
+                                                            <h5 class="modal-title" id="emiModalLabel">EMI Details</h5>
+                                                            <button type="button" class="close" data-dismiss="modal"
+                                                                aria-label="Close">
+                                                                <span aria-hidden="true">&times;</span>
+                                                            </button>
+                                                        </div>
+                                                        <div class="modal-body">
+                                                            <table class="table">
+                                                                <thead>
+                                                                    <tr>
+                                                                        <th>Due Date</th>
+                                                                        <th>EMI</th>
+                                                                        <th>Principal</th>
+                                                                        <th>Interest</th>
+                                                                        <th>Outstanding Principal</th>
+                                                                    </tr>
+                                                                </thead>
+                                                                <tbody>
+                                                                    @foreach ($emi_details as $detail)
+                                                                        <tr>
+                                                                            <td>{{ $detail['due_date'] }}</td>
+                                                                            <td>₹{{ number_format($detail['emi'], 2) ?? 'NA' }}
+                                                                            </td>
+                                                                            <td>₹{{ number_format($detail['principal'], 2) ?? 'NA' }}
+                                                                            </td>
+                                                                            <td>₹{{ number_format($detail['interest'], 2) ?? 'NA' }}
+                                                                            </td>
+                                                                            <td>₹{{ number_format($detail['outstanding_principal'], 2) ?? 'NA' }}
+                                                                            </td>
+                                                                        </tr>
+                                                                    @endforeach
+                                                                </tbody>
+                                                            </table>
+                                                        </div>
+                                                        <style>
+                                                            .table tbody tr:nth-child(even) {
+                                                                background-color: #f2f2f2;
+                                                            }
+
+                                                            .table tbody tr.current-month {
+                                                                background-color: #d4edda;
+                                                            }
+                                                        </style>
+                                                        <div class="modal-footer">
+                                                            <button type="button" class="btn btn-primary"
+                                                                data-dismiss="modal">Close</button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
                                     </div>
                                 </div>
                             </div>
@@ -174,6 +288,7 @@
                 </div>
             </div>
         </div>
+    </div>
     </div>
 @endsection
 

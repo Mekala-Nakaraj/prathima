@@ -17,6 +17,8 @@ class User extends Authenticatable
      *
      * @var array<int, string>
      */
+    protected $table = 'users'; // Ensure this matches your actual table name
+
     protected $fillable = [
         'name',
         'email',
@@ -36,6 +38,10 @@ class User extends Authenticatable
         'gas_bill_number',
         'salary_slip_number',
         'password',
+        'pan_verified',
+        'bank_verified',
+        'aadhaar_verified',
+        'company_email'
     ];
 
     /**
@@ -56,6 +62,8 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
+        'pan_data' => 'json',
+        'aadhaar_data' => 'json'
     ];
     // public function findForPassport($username)
     // {

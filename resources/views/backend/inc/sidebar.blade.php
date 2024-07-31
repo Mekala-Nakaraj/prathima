@@ -52,48 +52,6 @@
                         </div>
                     </a>
                 </li>
-                <li class="menu-title">Settings</li>
-                <li class="menu {{ request()->is('settings.PaymentConf*') ? 'active' : '' }}">
-                    <a href="{{ route('settings.PaymentConf') }}"
-                        data-active="{{ request()->is('settings.PaymentConf*') ? 'true' : 'false' }}"
-                        class="dropdown-toggle">
-                        <div class="">
-                            <i class="las la-money-check"></i>
-                            <span>Payment Setting</span>
-                        </div>
-                    </a>
-                </li>
-
-                <li class="menu {{ request()->is('settings.InitialLoanConfShow*') ? 'active' : '' }}">
-                    <a href="{{ route('settings.InitialLoanConfShow') }}"
-                        data-active="{{ request()->is('settings.InitialLoanConfShow*') ? 'true' : 'false' }}"
-                        class="dropdown-toggle">
-                        <div class="">
-                            <i class="las la-money-check"></i>
-                            <span>Loan Setting</span>
-                        </div>
-                    </a>
-                </li>
-                <li class="menu {{ request()->is('settings.EmailConfShow*') ? 'active' : '' }}">
-                    <a href="{{ route('settings.EmailConfShow') }}"
-                        data-active="{{ request()->is('settings.EmailConfShow*') ? 'true' : 'false' }}"
-                        class="dropdown-toggle">
-                        <div class="">
-                            <i class="las la-money-check"></i>
-                            <span>Maill Conf</span>
-                        </div>
-                    </a>
-                </li>
-                <li class="menu {{ request()->is('settings.SMSConfShow*') ? 'active' : '' }}">
-                    <a href="{{ route('settings.SMSConfShow') }}"
-                        data-active="{{ request()->is('settings.SMSConfShow*') ? 'true' : 'false' }}"
-                        class="dropdown-toggle">
-                        <div class="">
-                            <i class="las la-money-check"></i>
-                            <span>SMS Conf</span>
-                        </div>
-                    </a>
-                </li>
                 <li class="menu-title">Manager Management</li>
                 <li class="menu {{ request()->is('ManagerCreateShow*') ? 'active' : '' }}">
                     <a href="{{ route('ManagerCreateShow') }}"
@@ -174,6 +132,58 @@
                         </div>
                     </a>
                 </li> --}}
+                <li class="menu-title">Settings</li>
+                <li class="menu {{ request()->is('settings.PaymentConf*') ? 'active' : '' }}">
+                    <a href="{{ route('settings.PaymentConf') }}"
+                        data-active="{{ request()->is('settings.PaymentConf*') ? 'true' : 'false' }}"
+                        class="dropdown-toggle">
+                        <div class="">
+                            <i class="las la-cog"></i>
+                            <span>Payment Setting</span>
+                        </div>
+                    </a>
+                </li>
+
+                <li class="menu {{ request()->is('settings.InitialLoanConfShow*') ? 'active' : '' }}">
+                    <a href="{{ route('settings.InitialLoanConfShow') }}"
+                        data-active="{{ request()->is('settings.InitialLoanConfShow*') ? 'true' : 'false' }}"
+                        class="dropdown-toggle">
+                        <div class="">
+                            <i class="las la-cog"></i>
+                            <span>Loan Setting</span>
+                        </div>
+                    </a>
+                </li>
+                <li class="menu {{ request()->is('settings.EmailConfShow*') ? 'active' : '' }}">
+                    <a href="{{ route('settings.EmailConfShow') }}"
+                        data-active="{{ request()->is('settings.EmailConfShow*') ? 'true' : 'false' }}"
+                        class="dropdown-toggle">
+                        <div class="">
+                            <i class="las la-envelope"></i>
+                            <span>Maill Conf</span>
+                        </div>
+                    </a>
+                </li>
+                <li class="menu {{ request()->is('settings.SMSConfShow*') ? 'active' : '' }}">
+                    <a href="{{ route('settings.SMSConfShow') }}"
+                        data-active="{{ request()->is('settings.SMSConfShow*') ? 'true' : 'false' }}"
+                        {{-- data-active="{{ is_active_pattern('settings.SMSConfShow*', 'true') }}" --}} class="dropdown-toggle">
+                        <div class="">
+                            <i class="las la-sms"></i>
+                            <span>SMS Conf</span>
+                        </div>
+                    </a>
+                </li>
+                <li class="menu {{ request()->is('settings.sanbox*') ? 'active' : '' }}">
+                    <a href="{{ route('settings.sanbox') }}"
+                        data-active="{{ request()->is('settings.sanbox*') ? 'true' : 'false' }}"
+                        {{-- data-active="{{ is_active_pattern('settings.SMSConfShow*', 'true') }}" --}} class="dropdown-toggle">
+                        <div class="">
+                            <i class="las la-cog"></i>
+                            <span>Sandbox</span>
+                        </div>
+                    </a>
+                </li>
             @endif
             {{-- relation_manager --}}
             @if (Auth::user()->user_type == 'relation_manager')
@@ -206,3 +216,38 @@
         </ul>
     </nav>
 </div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+    // Get current URL path
+    const currentPath = window.location.pathname;
+
+    // Define route to element ID mapping
+    const routeToIdMapping = {
+        '/dashboard': 'menu-dashboard',
+        '/CustomerManagement': 'menu-CustomerManagement',
+        '/CustomerKYC': 'menu-CustomerKYC',
+        '/CustomerLoan': 'menu-CustomerLoan',
+        '/ManagerCreateShow': 'menu-ManagerCreateShow',
+        '/ManagerShow': 'menu-ManagerShow',
+        '/settings.PaymentConf': 'menu-settings-PaymentConf',
+        '/settings.InitialLoanConfShow': 'menu-settings-InitialLoanConfShow',
+        '/settings.EmailConfShow': 'menu-settings-EmailConfShow',
+        '/settings.SMSConfShow': 'menu-settings-SMSConfShow',
+        '/Relation.RelationManagerCustomerKycShow': 'menu-RelationManagerCustomerKycShow',
+        '/field.FiledManagerCustomerKycShow': 'menu-FiledManagerCustomerKycShow'
+    };
+
+    // Remove active class from all menu items
+    document.querySelectorAll('.menu').forEach(function (menuItem) {
+        menuItem.classList.remove('active');
+    });
+
+    // Add active class to the current menu item
+    const currentMenuItemId = routeToIdMapping[currentPath];
+    if (currentMenuItemId) {
+        document.getElementById(currentMenuItemId).classList.add('active');
+    }
+});
+
+</script>
